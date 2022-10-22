@@ -14,14 +14,15 @@ class Map {
         else {
             this.x = 0;
         }
+        this.draw();
+    }
 
-        console.log(this.x);
-        
+    draw() {
         image(this.img, this.x, this.y, this.width, this.height);
         image(this.img, this.x + this.width, this.y, this.width, this.height);
     }
 
-    resized(width, height) {
+    resize(width, height) {
         this.width = width;
         this.height = height;
         resizeCanvas(width, height);

@@ -1,23 +1,46 @@
+let widthRatio = 10
+let offset = 200
+
 class Obstaculo {
-    constructor (x, y, width, height, img) {
+    constructor (x, y, size, orientation, index, img) {
         this.x = x;
         this.y = y;
-        this.width = width;
-        this.height = height;
+        this.width = windowWidth / widthRatio;
+        this.height = windowHeight;
         this.img = img;
+        this.size = size;
+        this.orientation = orientation;
+        this.index = index
     }
 
-    // Method
     moveX(speed) {
         if (-this.x < windowWidth) {
             this.x -= speed;
         }
         else {
+            this.size = random(windowHeight / 3.5, windowHeight / 2.5);
             this.x = windowWidth;
-            this.y = windowHeight -  (windowHeight / random(1.5, 3));
-
         }
-        
+
+        if (this.orientation == "down" ) {
+
+            this.y = windowHeight - this.size;
+        }
+        else {
+            this.y = - (windowHeight - this.size);
+        }
+
+    
+        this.draw();
+    }
+
+    draw() {
         image(this.img, this.x, this.y, this.width, this.height);
+    }
+
+    resize(width, height) {
+        this.x = this.index * (windowWidth / (nbOfPipes / 2));
+        this.width = width / widthRatio;
+        this.height = height;
     }
 }
