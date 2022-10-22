@@ -65,7 +65,7 @@ function setup() {
 }
 
 function draw() {
-  background(50);
+  background(0, 255, 255);
 
   if (gameStatus == "play") {
     mapBg.moveX(speed / 10);
