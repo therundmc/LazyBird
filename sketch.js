@@ -18,6 +18,9 @@ let song;
 
 let jumpRep = 0;
 
+let score = 0;
+let frameCounter = 0;
+
 let last = new Date().getTime();
 
 
@@ -58,14 +61,13 @@ function setup() {
   anim[5] = loadImage('assets/lazy_dead.png');
   lazy = new Lazy(windowWidth / 4, windowHeight / 2, 100, 100, anim);
 
-
+  score = 0;
 }
 
 function draw() {
   background(50);
 
   if (gameStatus == "play") {
-
     mapBg.moveX(speed / 10);
     map.moveX(speed);
     mapSun.moveX(speed / 50);
@@ -87,6 +89,7 @@ function draw() {
     }
 
     collision();
+    printScore();
   }
 
   else if (gameStatus == "pause") {
@@ -102,6 +105,18 @@ function draw() {
     lazy.die();
     noLoop(); 
   }
+}
+
+function printScore() {
+  frameCounter++;
+  if (frameCounter > 150) {
+    score++;
+    frameCounter = 0;
+  }
+
+  textSize(64);
+  fill(0,0,0)
+  text(score, 50, 50);
 }
 
 function fixeSizeWindow(width, height){
