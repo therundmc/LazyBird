@@ -27,6 +27,12 @@ class Lazy {
         this.draw();
     }
 
+    die() {
+        textSize(64);
+        fill(255,0,0)
+        text('YOU DIE', windowWidth/2, windowHeight/2);
+    }
+
     draw() {
         image(this.img, this.x, this.y, this.width, this.height);
     }

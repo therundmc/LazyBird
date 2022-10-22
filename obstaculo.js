@@ -2,13 +2,13 @@ let widthRatio = 10
 let offset = 200
 
 class Obstaculo {
-    constructor (x, y, size, orientation, index, img) {
+    constructor (x, y, orientation, index, img) {
         this.x = x;
         this.y = y;
         this.width = windowWidth / widthRatio;
         this.height = windowHeight;
         this.img = img;
-        this.size = size;
+        this.size = random(windowHeight / 3.5, windowHeight / 2.5);
         this.orientation = orientation;
         this.index = index
     }
