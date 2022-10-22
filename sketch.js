@@ -1,14 +1,26 @@
 
-const speed = 10;
+const speed = 5;
 const nbOfPipes = 8;
 const cframeRate = 60;
+const fixSize = "No";
+const noOfJmpRep = 15;
+
+const customWidth = 800;
+const customHeight = 600;
 
 let offsetBetweenPipes = 0;
 let gameStatus = "pause";
 
 let pipes = [];
 
+let jumpRep = 0;
+
+
 function setup() {
+  if (fixSize == "Yes") {
+    fixeSizeWindow(customWidth, customWidth);
+  }
+
   createCanvas(windowWidth, windowHeight);
 
   stroke(255); // Set line drawing color to white
@@ -26,6 +38,9 @@ function setup() {
     pipes[i] = new Obstaculo(windowWidth + i * offsetBetweenPipes, windowHeight - windowHeight / 2, 2, "down", i, loadImage('assets/pipe_down.png'));
     pipes[i + 1]= new Obstaculo(windowWidth + i * offsetBetweenPipes, 0, 2, "up", i, loadImage('assets/pipe_up.png'));
   }
+
+  // Lazy
+  lazy = new Lazy(windowWidth / 4, windowHeight / 2, 100, 100, loadImage('assets/lazy.png'));
 }
 
 function draw() {
@@ -39,6 +54,25 @@ function draw() {
   for (i=0; i < nbOfPipes; i++) {  
      pipes[i].moveX(speed);
   }
+
+  if (lazy.jumpDetected != 0 && jumpRep < noOfJmpRep) { // TODO refactor jumpRep into lazy class
+    jumpRep++;
+    lazy.jumpY();
+  }
+  else if (jumpRep >= noOfJmpRep){
+    lazy.moveY();
+    lazy.antiGravity = 0;
+    lazy.jumpDetected = 0;
+    jumpRep = 0;
+  }
+  else {
+    lazy.moveY();
+  }
+}
+
+function fixeSizeWindow(width, height){
+  windowWidth = width;
+  windowHeight = height;
 }
 
 function mousePressed(){
@@ -54,11 +88,25 @@ function mousePressed(){
 }
 
 function windowResized() {
-  mapSun.resize(windowWidth, windowHeight / 3);
-  mapBg.resize(windowWidth, windowHeight - windowHeight / 20);
-  map.resize(windowWidth, windowHeight);
+  if (fixSize == "Yes") {
+    fixeSizeWindow(customWidth, customWidth);
+  }
+  else {
+    mapSun.resize(windowWidth, windowHeight / 3);
+    mapBg.resize(windowWidth, windowHeight - windowHeight / 20);
+    map.resize(windowWidth, windowHeight);
+  
+    for (i=0; i < nbOfPipes; i++) {  
+      pipes[i].resize(windowWidth, windowHeight);
+    }
+  }
+}
 
-  for (i=0; i < nbOfPipes; i++) {  
-    pipes[i].resize(windowWidth, windowHeight);
- }
+function keyPressed() {
+  if (keyCode === UP_ARROW) {
+    if (lazy.jumpDetected != 1)
+    {
+      lazy.jumpDetected = 1;
+    }
+  }
 }
