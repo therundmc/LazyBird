@@ -12,6 +12,7 @@ let offsetBetweenPipes = 0;
 let gameStatus = "pause";
 
 let pipes = [];
+let song;
 
 let jumpRep = 0;
 
@@ -28,6 +29,9 @@ function setup() {
   frameRate(cframeRate);
   noLoop(); 
 
+  // sound
+  song = loadSound('assets/lazyBird.mp3');
+
   // Background
   mapSun = new Map(0, 0, windowWidth, windowHeight / 3, loadImage('assets/sun.png'));
   mapBg = new Map(0, 0, windowWidth, windowHeight - windowHeight / 20, loadImage('assets/bkg.png'));
@@ -42,6 +46,7 @@ function setup() {
 
   // Lazy
   lazy = new Lazy(windowWidth / 4, windowHeight / 2, 100, 100, loadImage('assets/lazy.png'));
+
 }
 
 function draw() {
@@ -116,8 +121,8 @@ function mousePressed(){
     gameStatus = "pause"
   }
   else {
-    setup();
     gameStatus = "play"
+    setup();
     loop();
   }
 
