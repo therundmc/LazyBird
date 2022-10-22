@@ -1,6 +1,6 @@
 
 const speed = 5;
-const nbOfPipes = 2;
+const nbOfPipes = 8;
 const cframeRate = 60;
 const fixSize = "No";
 const noOfJmpRep = 15;
