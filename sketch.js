@@ -12,8 +12,11 @@ let offsetBetweenPipes = 0;
 let gameStatus = "pause";
 
 let pipes = [];
+let anim = [];
 
 let jumpRep = 0;
+
+let last = new Date().getTime();
 
 
 function setup() {
@@ -41,7 +44,13 @@ function setup() {
   }
 
   // Lazy
-  lazy = new Lazy(windowWidth / 4, windowHeight / 2, 100, 100, loadImage('assets/lazy.png'));
+  anim.push(loadImage('assets/lazy1.png'));
+  anim[1] = loadImage('assets/lazy2.png');
+  anim[2] = loadImage('assets/lazy3.png');
+  anim[3] = loadImage('assets/lazy4.png');
+  anim[4] = loadImage('assets/lazy5.png');
+  anim[5] = loadImage('assets/lazy_dead.png');
+  lazy = new Lazy(windowWidth / 4, windowHeight / 2, 100, 100, anim);
 }
 
 function draw() {
