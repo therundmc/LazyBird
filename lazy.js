@@ -1,4 +1,5 @@
 const gravityDefault = 1;
+const anitgravityDefault = 1;
 
 class Lazy {
     constructor (x, y, width, height, img) {
@@ -8,13 +9,15 @@ class Lazy {
         this.height = height;
         this.img = img;
         this.deccel = 0.2;
-        this.accel = 1;
+        this.accel = 2;
         this.gravity = gravityDefault;
-        this.antiGravity = 1;
+        this.antiGravity = anitgravityDefault;
         this.jumpDetected = 0;
     }
 
     moveY() {
+        this.antiGravity = anitgravityDefault;
+        this.jumpDetected = 0;
         this.gravity +=  this.deccel;
         this.y += this.gravity;
         this.draw();
@@ -40,6 +43,5 @@ class Lazy {
     resize(width, height) {
         this.width = width;
         this.height = height;
-        resizeCanvas(width, height);
     }
 }

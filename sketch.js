@@ -1,6 +1,6 @@
 
 const speed = 5;
-const nbOfPipes = 8;
+const nbOfPipes = 2;
 const cframeRate = 60;
 const fixSize = "No";
 const noOfJmpRep = 15;
@@ -47,37 +47,44 @@ function setup() {
 function draw() {
   background(50);
 
+  if (gameStatus == "play") {
 
+    mapBg.moveX(speed / 10);
+    map.moveX(speed);
+    mapSun.moveX(speed / 50);
+  
+    for (i=0; i < nbOfPipes; i++) {  
+       pipes[i].moveX(speed);
+    }
+  
+    if (lazy.jumpDetected != 0 && jumpRep < noOfJmpRep) { // TODO refactor jumpRep into lazy class
+      jumpRep++;
+      lazy.jumpY();
+    }
+    else if (jumpRep >= noOfJmpRep){
+      lazy.moveY();
+      jumpRep = 0;
+    }
+    else {
+      lazy.moveY();
+    }
 
-  mapBg.moveX(speed / 10);
-  map.moveX(speed);
-
-  mapSun.moveX(speed / 50);
-
-  for (i=0; i < nbOfPipes; i++) {  
-     pipes[i].moveX(speed);
+    collision();
   }
 
-  if (lazy.jumpDetected != 0 && jumpRep < noOfJmpRep) { // TODO refactor jumpRep into lazy class
-    jumpRep++;
-    lazy.jumpY();
-  }
-  else if (jumpRep >= noOfJmpRep){
-    lazy.moveY();
-    lazy.antiGravity = 0;
-    lazy.jumpDetected = 0;
-    jumpRep = 0;
-  }
-  else {
-    lazy.moveY();
+  else if (gameStatus == "pause") {
+    mapBg.draw(speed / 10);
+    map.draw(speed);
+    mapSun.draw(speed / 50);
+    textSize(64);
+    fill(255,255,255)
+    text('PAUSE', windowWidth/2, windowHeight/2);
   }
 
   if (gameStatus == "gameOver") {
     lazy.die();
     noLoop(); 
   }
-
-  collision();
 }
 
 function fixeSizeWindow(width, height){
@@ -86,21 +93,11 @@ function fixeSizeWindow(width, height){
 }
 
 function collision(){
-  var topLazy = lazy.x-lazy.height/2;
-  var bottomLazy = lazy.y+lazy.height/2;
-  var rightLazy = lazy.x+lazy.width/2;
-  var leftLazy = lazy.x-lazy.width/2;
-
-  var topPipe = pipes[0].x-pipes[0].height/2;
-  var bottomPipe = pipes[0].y+pipes[0].height/2;
-  var rightPipe = pipes[0].x+pipes[0].width/2;
-  var leftPipe = pipes[0].x-pipes[0].width/2;
-
-  console.log(abs(lazy.x - pipes[0].x))
-
   for (i=0; i < nbOfPipes; i+=2) {
-    if ((abs(lazy.x - pipes[i].x)) < pipes[i].width) {
-      if ((lazy.y < pipes[i].y && lazy.y > pipes[i+1].y + pipes[i+1].height)) {
+    console.log((abs(lazy.x - pipes[i].x)),  pipes[i].width)
+
+    if ((abs(lazy.x - pipes[i].x)) < lazy.width) {
+      if (((lazy.y + lazy.height) < pipes[i].y && lazy.y > pipes[i+1].y + pipes[i+1].height)) {
         console.log("GOOOOD");
       }
       else {
@@ -108,7 +105,6 @@ function collision(){
       }
     }
   }
-
 }
 
 function mousePressed(){
@@ -118,7 +114,6 @@ function mousePressed(){
   }
   else if (gameStatus == "play") {
     gameStatus = "pause"
-    noLoop(); 
   }
   else {
     setup();
