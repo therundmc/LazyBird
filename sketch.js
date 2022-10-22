@@ -59,7 +59,7 @@ function setup() {
   anim[3] = loadImage('assets/lazy4.png');
   anim[4] = loadImage('assets/lazy5.png');
   anim[5] = loadImage('assets/lazy_dead.png');
-  lazy = new Lazy(windowWidth / 4, windowHeight / 2, 100, 100, anim);
+  lazy = new Lazy(windowWidth / 4, windowHeight / 2, windowHeight / 10, windowHeight / 10, anim);
 
   score = 0;
 }
@@ -167,6 +167,7 @@ function windowResized() {
     for (i=0; i < nbOfPipes; i++) {  
       pipes[i].resize(windowWidth, windowHeight);
     }
+    lazy.resize(windowHeight / 10, windowHeight / 10);
   }
 }
 
