@@ -14,11 +14,9 @@ class Obstaculo {
         }
         else {
             this.x = windowWidth;
-            this.y = windowHeight -  (windowHeight / random(1, 3));
+            this.y = windowHeight -  (windowHeight / random(1.5, 3));
 
         }
-
-        console.log(this.x);
         
         image(this.img, this.x, this.y, this.width, this.height);
     }
