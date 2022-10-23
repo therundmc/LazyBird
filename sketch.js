@@ -63,7 +63,7 @@ function setup() {
   // bkg Lazy
   lazy2 = new Lazy(windowWidth, windowHeight / 4, windowHeight / 20, windowHeight / 20, anim);
   lazy3 = new Lazy(windowWidth + windowWidth/4, windowHeight / 10, windowHeight / 20, windowHeight / 20, anim);
-  lazy4 = new Lazy(windowWidth + windowWidth/2, windowHeight / 3.5, windowHeight / 20, windowHeight / 20, anim);
+  lazy4 = new Lazy(windowWidth - windowWidth/2, windowHeight / 15, windowHeight / 20, windowHeight / 20, anim);
 
   score = 0;
 }
@@ -76,10 +76,10 @@ function draw() {
     map.moveX(speed);
     mapSun.moveX(speed / 50);
 
-    lazy2.moveX(speed/12);
-    lazy3.moveX(speed/10);
-    lazy4.moveX(speed/15);
-  
+    lazy2.moveX(speed/20);
+    //lazy3.moveX(speed/10);
+    lazy4.moveX(speed/30);
+
     for (i=0; i < nbOfPipes; i++) {  
        pipes[i].moveX(speed);
     }
