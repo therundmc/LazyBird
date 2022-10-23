@@ -30,6 +30,8 @@ let titre;
 
 let intro = true;
 
+let connect = false;
+
 function preload() {
     // sound
     song = loadSound('assets/lazyBird.mp3');
@@ -78,6 +80,9 @@ function setup() {
   lazy2 = new Lazy(windowWidth/4, windowHeight / 4, windowHeight / 19, windowHeight / 19, anim);
   lazy3 = new Lazy(-windowWidth/4, windowHeight / 10, windowHeight / 16, windowHeight / 16, anim);
   lazy4 = new Lazy( windowWidth/2, windowHeight / 15, windowHeight / 14, windowHeight / 14, anim);
+
+  // BLE
+  device = new Ble();
 
   score = 0;
 }
@@ -254,6 +259,21 @@ function windowResized() {
     }
     lazy.resize(windowHeight / 10, windowHeight / 10);
   }
+}
+
+function mousePressed() {
+  if (!connect) {
+    device.connect()
+    .then(() => device.startNotificationsHeartRateMeasurement().then(dummy))
+    .catch(error => {
+      console.log(error);
+    });
+    connect = true;
+  }
+}
+
+function dummy(){
+  return;
 }
 
 function keyPressed() {
