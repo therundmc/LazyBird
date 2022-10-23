@@ -24,6 +24,7 @@ let frameCounter = 0;
 let last = new Date().getTime();
 
 
+
 function setup() {
   if (fixSize == "Yes") {
     fixeSizeWindow(customWidth, customWidth);
@@ -34,7 +35,8 @@ function setup() {
 
   stroke(255); // Set line drawing color to white
   frameRate(cframeRate);
-  noLoop(); 
+
+  //noLoop(); 
 
   // sound
   song = loadSound('assets/lazyBird.mp3');
@@ -61,9 +63,9 @@ function setup() {
   lazy = new Lazy(windowWidth / 4, windowHeight / 2, windowHeight / 10, windowHeight / 10, anim);
 
   // bkg Lazy
-  lazy2 = new Lazy(windowWidth, windowHeight / 4, windowHeight / 20, windowHeight / 20, anim);
-  lazy3 = new Lazy(windowWidth + windowWidth/4, windowHeight / 10, windowHeight / 20, windowHeight / 20, anim);
-  lazy4 = new Lazy(windowWidth - windowWidth/2, windowHeight / 15, windowHeight / 20, windowHeight / 20, anim);
+  lazy2 = new Lazy(windowWidth/4, windowHeight / 4, windowHeight / 25, windowHeight / 25, anim);
+  lazy3 = new Lazy(-windowWidth/4, windowHeight / 10, windowHeight / 20, windowHeight / 20, anim);
+  lazy4 = new Lazy( windowWidth/2, windowHeight / 15, windowHeight / 17, windowHeight / 17, anim);
 
   score = 0;
 }
@@ -71,78 +73,88 @@ function setup() {
 function draw() {
   background(0, 255, 255);
 
-  if (gameStatus == "play") {
-    mapBg.moveX(speed / 10);
-    map.moveX(speed);
-    mapSun.moveX(speed / 50);
+  switch (gameStatus) {
+    case 'play':
+      drawBg(speed);
+      drawBgLazy(speed);
+      drawPipes(speed);
+      drawLazy(speed);
+      handleCollision();
+      break;
 
-    lazy2.moveX(speed/20);
-    //lazy3.moveX(speed/10);
-    lazy4.moveX(speed/30);
+    case 'pause':
+      drawBg(0);
+      drawBgLazy(-speed);
+      drawPauseScreen();
+      break;
 
-    for (i=0; i < nbOfPipes; i++) {  
-       pipes[i].moveX(speed);
-    }
-  
-    if (lazy.jumpDetected != 0 && jumpRep < noOfJmpRep) { // TODO refactor jumpRep into lazy class
-      jumpRep++;
-      lazy.jumpY();
-    }
-    else if (jumpRep >= noOfJmpRep){
-      lazy.moveY();
-      jumpRep = 0;
-    }
-    else {
-      lazy.moveY();
-    }
-
-    collision();
-    printScore();
+    case 'gameOver':
+      drawBg(0);
+      drawPipes(0);
+      drawBgLazy(-speed)
+      lazy.die();
+      drawGamOverScreen();
+      break;
+      
+    default:
+      console.log(`Sorry, we are out of ${expr}.`);
   }
 
-  else if (gameStatus == "pause") {
-    mapBg.draw();
-    map.draw();
-    mapSun.draw();
-
-    for (i=0; i < nbOfPipes; i++) {  
-      pipes[i].draw();
-    }
-    textSize(64);
-    fill(255,255,255)
-    text('PAUSE', windowWidth/2, windowHeight/2);
-  }
-
-  if (gameStatus == "gameOver") {
-    mapBg.draw();
-    map.draw();
-    mapSun.draw();
-
-    for (i=0; i < nbOfPipes; i++) {  
-      pipes[i].draw();
-    }
-    lazy.die();
-  }
+  printScore(gameStatus);
 }
 
-function printScore() {
-  frameCounter++;
-  if (frameCounter > 150) {
-    score++;
-    frameCounter = 0;
+function drawBg(speed) {
+  mapBg.moveX(speed / 10);
+  map.moveX(speed);
+  mapSun.moveX(speed / 50);
+}
+
+function drawPipes(speed) {
+  for (i=0; i < nbOfPipes; i++) {  
+    pipes[i].moveX(speed);
+ }
+}
+
+function drawBgLazy(speed) {
+  lazy2.moveX(speed/25);
+  lazy3.moveX(speed/20);
+  lazy4.moveX(speed/17);
+}
+
+function drawLazy(speed) {
+  if (lazy.jumpDetected != 0 && jumpRep < noOfJmpRep) { // TODO refactor jumpRep into lazy class
+    jumpRep++;
+    lazy.jumpY();
   }
-
-  textSize(128);
-  fill(0,0,0)
-  text(score, 75, 100);
+  else if (jumpRep >= noOfJmpRep){
+    lazy.moveY();
+    jumpRep = 0;
+  }
+  else {
+    lazy.moveY();
+  } 
 }
 
-function fixeSizeWindow(width, height){
-  windowWidth = width;
-  windowHeight = height;
+function drawPauseScreen() {
+  textSize(64);
+  fill(255,255,255)
+  text('PLAY', windowWidth/2, windowHeight/2);
+  textSize(32);
+  fill(255,255,255)
+  text('PRESS UP TO JUMP', windowWidth/2, windowHeight/2 + windowHeight/10);
 }
 
-function collision(){
+function drawGamOverScreen() {
+  textSize(64);
+  fill(255,0,0)
+  text('GAME OVER', windowWidth/2, windowHeight/2);
+
+  textSize(32);
+  fill(255,255,255)
+  text('PRESS UP TO RESTART', windowWidth/2, windowHeight/2 + windowHeight/10);
+}
+
+function handleCollision(){
   for (i=0; i < nbOfPipes; i+=2) {
     console.log((abs(lazy.x - pipes[i].x)),  pipes[i].width)
 
@@ -157,21 +169,27 @@ function collision(){
   }
 }
 
-function mousePressed(){
-  if (gameStatus == "pause") {
-    gameStatus = "play"
-    loop();
+function printScore(gameStatus) {
+  if (gameStatus == "play") {
+    frameCounter++;
+    if (frameCounter > 150) {
+      score++;
+      frameCounter = 0;
+    }
   }
-  else if (gameStatus == "play") {
-    gameStatus = "pause"
+  if (gameStatus != "pause") {
+    textSize(128);
+    fill(0,0,0)
+    text(score, 75, 100);
   }
-  else {
-    gameStatus = "play"
-    setup();
-    loop();
-  }
-
 }
+
+function fixeSizeWindow(width, height){
+  windowWidth = width;
+  windowHeight = height;
+}
+
+
 
 function windowResized() {
   if (fixSize == "Yes") {
@@ -191,9 +209,16 @@ function windowResized() {
 
 function keyPressed() {
   if (keyCode === UP_ARROW) {
-    if (lazy.jumpDetected != 1)
+    if (lazy.jumpDetected != 1 && gameStatus == "play")
     {
       lazy.jumpDetected = 1;
+    }
+    else if (gameStatus == "pause") {
+      gameStatus = "play"
+    }
+    else if (gameStatus == "gameOver") {
+      gameStatus = "play"
+      setup();
     }
   }
 }

@@ -28,12 +28,16 @@ class Lazy {
     }
 
     moveX(speed) {
-        if (-this.x < this.width) {
-            this.x -= speed;
+        if (this.x > windowWidth + windowWidth / 8) {
+            this.x = - windowWidth / 8;
+            this.y = random(windowHeight/10, windowHeight/4);
         }
-        else {
+        else if (this.x < 0 - windowWidth / 4) {
             this.x = windowWidth;
             this.y = random(windowHeight/10, windowHeight/4);
+        }
+        else {
+            this.x -= speed;
         }
         this.draw();
     }
@@ -46,9 +50,6 @@ class Lazy {
     }
 
     die() {
-        textSize(128);
-        fill(255,0,0)
-        text('GAME OVER', windowWidth/2, windowHeight/2);
 		image(this.img[5], this.x, this.y, this.width, this.height);
     }
 
