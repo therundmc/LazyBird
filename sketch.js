@@ -23,6 +23,8 @@ let frameCounter = 0;
 
 let last = new Date().getTime();
 
+let titre;
+
 
 
 function setup() {
@@ -52,6 +54,9 @@ function setup() {
     pipes[i] = new Obstaculo(windowWidth + i * offsetBetweenPipes, windowHeight - windowHeight / 2, "down", i, loadImage('assets/pipe_down.png'));
     pipes[i + 1]= new Obstaculo(windowWidth + i * offsetBetweenPipes, 0, "up", i, loadImage('assets/pipe_up.png'));
   }
+  
+  // Titre
+  titre = loadImage('assets/titre.png');
 
   // Lazy
   anim.push(loadImage('assets/lazy1.png'));
@@ -142,6 +147,8 @@ function drawPauseScreen() {
   textSize(32);
   fill(255,255,255)
   text('PRESS UP TO JUMP', windowWidth/2, windowHeight/2 + windowHeight/10);
+  
+  image(titre, windowWidth/2 - 200, windowHeight/2 - 150, 0, 0);
 }
 
 function drawGamOverScreen() {
@@ -152,6 +159,8 @@ function drawGamOverScreen() {
   textSize(32);
   fill(255,255,255)
   text('PRESS UP TO RESTART', windowWidth/2, windowHeight/2 + windowHeight/10);
+  
+  image(titre, windowWidth/2 - 200, windowHeight/2 - 150, 0, 0);
 }
 
 function handleCollision(){
