@@ -32,9 +32,9 @@ class Lazy {
     }
 
     die() {
-        textSize(64);
+        textSize(128);
         fill(255,0,0)
-        text('YOU DIE', windowWidth/2, windowHeight/2);
+        text('GAME OVER', windowWidth/2, windowHeight/2);
 		image(this.img[5], this.x, this.y, this.width, this.height);
     }
 

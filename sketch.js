@@ -93,17 +93,27 @@ function draw() {
   }
 
   else if (gameStatus == "pause") {
-    mapBg.draw(speed / 10);
-    map.draw(speed);
-    mapSun.draw(speed / 50);
+    mapBg.draw();
+    map.draw();
+    mapSun.draw();
+
+    for (i=0; i < nbOfPipes; i++) {  
+      pipes[i].draw();
+    }
     textSize(64);
     fill(255,255,255)
     text('PAUSE', windowWidth/2, windowHeight/2);
   }
 
   if (gameStatus == "gameOver") {
+    mapBg.draw();
+    map.draw();
+    mapSun.draw();
+
+    for (i=0; i < nbOfPipes; i++) {  
+      pipes[i].draw();
+    }
     lazy.die();
-    noLoop(); 
   }
 }
 
@@ -114,9 +124,9 @@ function printScore() {
     frameCounter = 0;
   }
 
-  textSize(64);
+  textSize(128);
   fill(0,0,0)
-  text(score, 50, 50);
+  text(score, 75, 100);
 }
 
 function fixeSizeWindow(width, height){
