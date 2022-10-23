@@ -28,10 +28,11 @@ let last = new Date().getTime();
 
 let titre;
 
+let intro = true;
+
 function preload() {
     // sound
-    //song = loadSound('assets/lazyBird.mp3');
-    song = loadSound('assets/reggae.mp3');
+    song = loadSound('assets/lazyBird.mp3');
     flap = loadSound('assets/wing_flap.mp3');
     ocean = loadSound('assets/ocean.mp3');
     impact = loadSound('assets/impact.mp3');
@@ -48,10 +49,6 @@ function setup() {
 
   stroke(255); // Set line drawing color to white
   frameRate(cframeRate);
-
-  //noLoop(); 
-
-
 
   // Background
   mapSun = new Map(0, 0, windowWidth, windowHeight / 3, loadImage('assets/sun.png'));
@@ -78,9 +75,9 @@ function setup() {
   lazy = new Lazy(windowWidth / 4, windowHeight / 2, windowHeight / 10, windowHeight / 10, anim);
 
   // bkg Lazy
-  lazy2 = new Lazy(windowWidth/4, windowHeight / 4, windowHeight / 25, windowHeight / 25, anim);
-  lazy3 = new Lazy(-windowWidth/4, windowHeight / 10, windowHeight / 20, windowHeight / 20, anim);
-  lazy4 = new Lazy( windowWidth/2, windowHeight / 15, windowHeight / 17, windowHeight / 17, anim);
+  lazy2 = new Lazy(windowWidth/4, windowHeight / 4, windowHeight / 19, windowHeight / 19, anim);
+  lazy3 = new Lazy(-windowWidth/4, windowHeight / 10, windowHeight / 16, windowHeight / 16, anim);
+  lazy4 = new Lazy( windowWidth/2, windowHeight / 15, windowHeight / 14, windowHeight / 14, anim);
 
   score = 0;
 }
@@ -95,14 +92,12 @@ function draw() {
       drawPipes(speed);
       drawLazy(speed);
       handleCollision();
-      handleSound();
       break;
 
     case 'pause':
       drawBg(0);
       drawBgLazy(-speed);
       drawPauseScreen();
-      handleSound();
       break;
 
     case 'gameOver':
@@ -117,6 +112,7 @@ function draw() {
       console.log(`Sorry, we are out of ${expr}.`);
   }
 
+  handleSound();
   printScore(gameStatus);
 }
 

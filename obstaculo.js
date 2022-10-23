@@ -1,4 +1,4 @@
-let widthRatio = 10
+let widthRatio = 14
 let offset = 200
 
 class Obstaculo {

@@ -9,7 +9,7 @@ class Lazy {
         this.height = height;
         this.img = img;
         this.deccel = 0.2;
-        this.accel = 1 * windowHeight  / 1400;
+        this.accel = 1 * windowHeight  / 1200;
         this.gravity = gravityDefault;
         this.antiGravity = anitgravityDefault;
         this.jumpDetected = 0;
