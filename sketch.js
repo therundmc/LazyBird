@@ -96,7 +96,7 @@ function draw() {
       lazy.moveY();
     }
 
-    //collision();
+    collision();
     printScore();
   }
 
