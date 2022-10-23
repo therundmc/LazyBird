@@ -52,7 +52,6 @@ function setup() {
   }
 
   // Lazy
-
   anim.push(loadImage('assets/lazy1.png'));
   anim[1] = loadImage('assets/lazy2.png');
   anim[2] = loadImage('assets/lazy3.png');
@@ -60,6 +59,11 @@ function setup() {
   anim[4] = loadImage('assets/lazy5.png');
   anim[5] = loadImage('assets/lazy_dead.png');
   lazy = new Lazy(windowWidth / 4, windowHeight / 2, windowHeight / 10, windowHeight / 10, anim);
+
+  // bkg Lazy
+  lazy2 = new Lazy(windowWidth, windowHeight / 4, windowHeight / 20, windowHeight / 20, anim);
+  lazy3 = new Lazy(windowWidth + windowWidth/4, windowHeight / 10, windowHeight / 20, windowHeight / 20, anim);
+  lazy4 = new Lazy(windowWidth + windowWidth/2, windowHeight / 3.5, windowHeight / 20, windowHeight / 20, anim);
 
   score = 0;
 }
@@ -71,6 +75,10 @@ function draw() {
     mapBg.moveX(speed / 10);
     map.moveX(speed);
     mapSun.moveX(speed / 50);
+
+    lazy2.moveX(speed/12);
+    lazy3.moveX(speed/10);
+    lazy4.moveX(speed/15);
   
     for (i=0; i < nbOfPipes; i++) {  
        pipes[i].moveX(speed);
@@ -88,7 +96,7 @@ function draw() {
       lazy.moveY();
     }
 
-    collision();
+    //collision();
     printScore();
   }
 

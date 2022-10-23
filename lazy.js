@@ -14,6 +14,9 @@ class Lazy {
         this.antiGravity = anitgravityDefault;
         this.jumpDetected = 0;
 		this.animFrame = 0;
+        this.delta = 0;
+        this.now = 0;
+        this.last = 0;
     }
 
     moveY() {
@@ -21,6 +24,17 @@ class Lazy {
         this.jumpDetected = 0;
         this.gravity +=  this.deccel;
         this.y += this.gravity;
+        this.draw();
+    }
+
+    moveX(speed) {
+        if (-this.x < this.width) {
+            this.x -= speed;
+        }
+        else {
+            this.x = windowWidth;
+            this.y = random(windowHeight/10, windowHeight/4);
+        }
         this.draw();
     }
 
@@ -40,15 +54,14 @@ class Lazy {
 
     draw() {
          image(this.img[this.animFrame], this.x, this.y, this.width, this.height);
-		const now = new Date().getTime(),
-           delta = now - last;
+		 this.now = new Date().getTime()
+           this.delta = this.now - this.last;
 
-
-     if (delta >= 100) {
+     if (this.delta >= 100) {
 		 this.animFrame++;
 		if(this.animFrame > 4)
 			this.animFrame = 0;
-       last = now;
+        this.last = this.now;
     }
 	}
 
