@@ -95,8 +95,8 @@ function draw() {
 
     case 'gameOver':
       drawBg(0);
+      drawBgLazy(-speed);
       drawPipes(0);
-      drawBgLazy(-speed)
       lazy.die();
       drawGamOverScreen();
       break;
