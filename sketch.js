@@ -15,6 +15,9 @@ let pipes = [];
 let anim = [];
 
 let song;
+let flap;
+let ocean;
+let impact;
 
 let jumpRep = 0;
 
@@ -25,6 +28,14 @@ let last = new Date().getTime();
 
 let titre;
 
+function preload() {
+    // sound
+    //song = loadSound('assets/lazyBird.mp3');
+    song = loadSound('assets/reggae.mp3');
+    flap = loadSound('assets/wing_flap.mp3');
+    ocean = loadSound('assets/ocean.mp3');
+    impact = loadSound('assets/impact.mp3');
+}
 
 
 function setup() {
@@ -40,8 +51,7 @@ function setup() {
 
   //noLoop(); 
 
-  // sound
-  song = loadSound('assets/lazyBird.mp3');
+
 
   // Background
   mapSun = new Map(0, 0, windowWidth, windowHeight / 3, loadImage('assets/sun.png'));
@@ -85,12 +95,14 @@ function draw() {
       drawPipes(speed);
       drawLazy(speed);
       handleCollision();
+      handleSound();
       break;
 
     case 'pause':
       drawBg(0);
       drawBgLazy(-speed);
       drawPauseScreen();
+      handleSound();
       break;
 
     case 'gameOver':
@@ -141,12 +153,10 @@ function drawLazy(speed) {
 }
 
 function drawPauseScreen() {
-  textSize(64);
-  fill(255,255,255)
-  text('PLAY', windowWidth/2, windowHeight/2);
+
   textSize(32);
   fill(255,255,255)
-  text('PRESS UP TO JUMP', windowWidth/2, windowHeight/2 + windowHeight/10);
+  text('PRESS UP TO JUMP', windowWidth/2, windowHeight/2);
   
   image(titre, windowWidth/2 - 200, windowHeight/2 - 150, 0, 0);
 }
@@ -160,7 +170,7 @@ function drawGamOverScreen() {
   fill(255,255,255)
   text('PRESS UP TO RESTART', windowWidth/2, windowHeight/2 + windowHeight/10);
   
-  image(titre, windowWidth/2 - 200, windowHeight/2 - 150, 0, 0);
+  //image(titre, windowWidth/2 - 200, windowHeight/2 - 150, 0, 0);
 }
 
 function handleCollision(){
@@ -172,10 +182,44 @@ function handleCollision(){
         console.log("GOOOOD");
       }
       else {
+        impact.play();
         gameStatus = "gameOver"
       }
     }
   }
+}
+
+function handleSound() {
+  switch (gameStatus) {
+    case 'play':
+      if (!song.isPlaying()) {
+        song.setVolume(0.3);
+        //song.play();
+      }
+      if (!ocean.isPlaying()) {
+        ocean.setVolume(0.5);
+        ocean.play();
+      }
+      break;
+
+    case 'pause':
+      if (!ocean.isPlaying()) {
+        ocean.setVolume(0.5);
+        ocean.play();
+      }
+      break;
+
+    case 'gameOver':
+      if (!ocean.isPlaying()) {
+        ocean.setVolume(0.5);
+        ocean.play();
+      }
+      break;
+      
+    default:
+      console.log(`Sorry, we are out of ${expr}.`);
+  }
+
 }
 
 function printScore(gameStatus) {
@@ -220,6 +264,7 @@ function keyPressed() {
   if (keyCode === UP_ARROW) {
     if (lazy.jumpDetected != 1 && gameStatus == "play")
     {
+      flap.play();
       lazy.jumpDetected = 1;
     }
     else if (gameStatus == "pause") {
