@@ -72,6 +72,10 @@ const BKG_LIST = {
  let soundList = [];
  let imgList = [];
  let animLazy = [];
+ let animBuddy = [];
+ let animCrazy = [];
+ let animBaddy = [];
+ let animOldy = [];
 
  let pipesList = [];
  let mapList = [];

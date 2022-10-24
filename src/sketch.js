@@ -25,6 +25,34 @@ function preload() {
   animLazy[3] = loadImage('assets/lazy4.png');
   animLazy[4] = loadImage('assets/lazy5.png');
   animLazy[5] = loadImage('assets/lazy_dead.png');
+  
+  animBuddy.push(loadImage('assets/buddy1.png'));
+  animBuddy[1] = loadImage('assets/buddy2.png');
+  animBuddy[2] = loadImage('assets/buddy3.png');
+  animBuddy[3] = loadImage('assets/buddy4.png');
+  animBuddy[4] = loadImage('assets/buddy5.png');
+  animBuddy[5] = loadImage('assets/buddy_dead.png');
+  
+  animBaddy.push(loadImage('assets/baddy1.png'));
+  animBaddy[1] = loadImage('assets/baddy2.png');
+  animBaddy[2] = loadImage('assets/baddy3.png');
+  animBaddy[3] = loadImage('assets/baddy4.png');
+  animBaddy[4] = loadImage('assets/baddy5.png');
+  animBaddy[5] = loadImage('assets/baddy_dead.png');
+  
+  animCrazy.push(loadImage('assets/crazy1.png'));
+  animCrazy[1] = loadImage('assets/crazy2.png');
+  animCrazy[2] = loadImage('assets/crazy3.png');
+  animCrazy[3] = loadImage('assets/crazy4.png');
+  animCrazy[4] = loadImage('assets/crazy5.png');
+  animCrazy[5] = loadImage('assets/crazy_dead.png');
+  
+  animOldy.push(loadImage('assets/oldy1.png'));
+  animOldy[1] = loadImage('assets/oldy2.png');
+  animOldy[2] = loadImage('assets/oldy3.png');
+  animOldy[3] = loadImage('assets/oldy4.png');
+  animOldy[4] = loadImage('assets/oldy5.png');
+  animOldy[5] = loadImage('assets/oldy_dead.png');
 }
 
 
@@ -50,12 +78,13 @@ function setup() {
   }
 
   // Lazy
-  lazy = new Lazy(windowWidth / 4, windowHeight / 2, 1, animLazy);
+  lazy = new Lazy(windowWidth / 4, windowHeight / 2, 1, animBaddy);
 
   // bkg Lazy
-  lazy2 = new Lazy(windowWidth / 4,  windowHeight / 4,  0.5, animLazy);
-  lazy3 = new Lazy(-windowWidth / 4, windowHeight / 10, 0.6, animLazy);
-  lazy4 = new Lazy( windowWidth / 2, windowHeight / 15, 0.7, animLazy);
+  lazy2 = new Lazy(windowWidth / 4,  windowHeight / 4,  0.5, animBuddy);
+  lazy3 = new Lazy(-windowWidth / 4, windowHeight / 10, 0.6, animCrazy);
+  lazy4 = new Lazy( windowWidth / 2, windowHeight / 15, 0.7, animOldy);
+  lazy5 = new Lazy( windowWidth / 5, windowHeight / 25, 0.3, animLazy);
 
   score = 0;
 
@@ -111,6 +140,7 @@ function drawBgLazy(speed) {
   lazy2.moveX(speed/25);
   lazy3.moveX(speed/20);
   lazy4.moveX(speed/17);
+  lazy5.moveX(speed/50);
 }
 
 function drawLazy() {
@@ -216,6 +246,7 @@ function windowResized() {
     lazy2.resize();
     lazy3.resize();
     lazy4.resize();
+    lazy5.resize();
   }
 }
 

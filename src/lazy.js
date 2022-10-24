@@ -2,7 +2,6 @@
  * @file LazyBird Lazy class file.
  * @copyright therundmc & weirdaz - 2022
  */
-
 const gravityDefault = 1;
 const anitgravityDefault = 1;
 const nbOfJumpRep = 15;
