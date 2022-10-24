@@ -1,12 +1,19 @@
 
-const speed = 5;
+const GAME_SPEED = 5;
+const FRAME_RATE = 60;
+
 const nbOfPipes = 8;
-const cframeRate = 60;
 const fixSize = "No";
-const noOfJmpRep = 15;
 
 const customWidth = 800;
 const customHeight = 600;
+
+const MAP_W_SUN_RATIO   = 1;
+const MAP_H_SUN_RATIO   = 3;
+const MAP_W_BG_RATIO    = 1;
+const MAP_H_BG_RATIO    = 1.05;
+const MAP_W_GRASS_RATIO = 1;
+const MAP_H_GRASS_RATIO = 1;
 
 let offsetBetweenPipes = 0;
 let gameStatus = "pause";
@@ -19,7 +26,6 @@ let flap;
 let ocean;
 let impact;
 
-let jumpRep = 0;
 
 let score = 0;
 let frameCounter = 0;
@@ -47,13 +53,12 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   textAlign(CENTER, CENTER);
 
-  stroke(255); // Set line drawing color to white
-  frameRate(cframeRate);
+  frameRate(FRAME_RATE);
 
   // Background
-  mapSun = new Map(0, 0, windowWidth, windowHeight / 3, loadImage('assets/sun.png'));
-  mapBg = new Map(0, 0, windowWidth, windowHeight - windowHeight / 20, loadImage('assets/bkg.png'));
-  map = new Map(0, 0, windowWidth, windowHeight, loadImage('assets/bkg_herbe.png'));
+  mapSun  = new Map(0, 0, windowWidth / MAP_W_SUN_RATIO, windowHeight / MAP_H_SUN_RATIO, loadImage('assets/sun.png'));
+  mapBg   = new Map(0, 0, windowWidth / MAP_W_BG_RATIO, windowHeight / MAP_H_BG_RATIO, loadImage('assets/bkg.png'));
+  map     = new Map(0, 0, windowWidth / MAP_W_GRASS_RATIO, windowHeight / MAP_H_GRASS_RATIO, loadImage('assets/bkg_herbe.png'));
 
   // Obstaculo
   offsetBetweenPipes = (windowWidth / (nbOfPipes / 2));
@@ -87,22 +92,22 @@ function draw() {
 
   switch (gameStatus) {
     case 'play':
-      drawBg(speed);
-      drawBgLazy(speed);
-      drawPipes(speed);
-      drawLazy(speed);
+      drawBg(GAME_SPEED);
+      drawBgLazy(GAME_SPEED);
+      drawPipes(GAME_SPEED);
+      drawLazy(GAME_SPEED);
       handleCollision();
       break;
 
     case 'pause':
       drawBg(0);
-      drawBgLazy(-speed);
+      drawBgLazy(-GAME_SPEED);
       drawPauseScreen();
       break;
 
     case 'gameOver':
       drawBg(0);
-      drawBgLazy(-speed);
+      drawBgLazy(-GAME_SPEED);
       drawPipes(0);
       lazy.die();
       drawGamOverScreen();
@@ -116,36 +121,26 @@ function draw() {
   printScore(gameStatus);
 }
 
-function drawBg(speed) {
-  mapBg.moveX(speed / 10);
-  map.moveX(speed);
-  mapSun.moveX(speed / 50);
+function drawBg(GAME_SPEED) {
+  mapBg.moveX(GAME_SPEED/10);
+  map.moveX(GAME_SPEED);
+  mapSun.moveX(GAME_SPEED/50);
 }
 
-function drawPipes(speed) {
+function drawPipes(GAME_SPEED) {
   for (i=0; i < nbOfPipes; i++) {  
-    pipes[i].moveX(speed);
+    pipes[i].moveX(GAME_SPEED);
  }
 }
 
-function drawBgLazy(speed) {
-  lazy2.moveX(speed/25);
-  lazy3.moveX(speed/20);
-  lazy4.moveX(speed/17);
+function drawBgLazy(GAME_SPEED) {
+  lazy2.moveX(GAME_SPEED/25);
+  lazy3.moveX(GAME_SPEED/20);
+  lazy4.moveX(GAME_SPEED/17);
 }
 
-function drawLazy(speed) {
-  if (lazy.jumpDetected != 0 && jumpRep < noOfJmpRep) { // TODO refactor jumpRep into lazy class
-    jumpRep++;
-    lazy.jumpY();
-  }
-  else if (jumpRep >= noOfJmpRep){
-    lazy.moveY();
-    jumpRep = 0;
-  }
-  else {
-    lazy.moveY();
-  } 
+function drawLazy(GAME_SPEED) {
+  lazy.moveY();
 }
 
 function drawPauseScreen() {
@@ -239,20 +234,19 @@ function fixeSizeWindow(width, height){
 }
 
 
-
 function windowResized() {
   if (fixSize == "Yes") {
     fixeSizeWindow(customWidth, customWidth);
   }
   else {
-    mapSun.resize(windowWidth, windowHeight / 3);
-    mapBg.resize(windowWidth, windowHeight - windowHeight / 20);
-    map.resize(windowWidth, windowHeight);
-  
-    for (i=0; i < nbOfPipes; i++) {  
-      pipes[i].resize(windowWidth, windowHeight);
-    }
-    lazy.resize(windowHeight / 10, windowHeight / 10);
+    mapSun.resize();
+    mapBg.resize();
+    map.resize();
+    for(i=0; i < nbOfPipes; i++) {pipes[i].resize();}
+    lazy.resize();
+    lazy2.resize();
+    lazy3.resize();
+    lazy4.resize();
   }
 }
 
@@ -280,6 +274,5 @@ function keyPressed() {
 
 function touchStarted() {
   handleUserAction();
+  return false;
 }
-
-

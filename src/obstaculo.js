@@ -38,9 +38,10 @@ class Obstaculo {
         image(this.img, this.x, this.y, this.width, this.height);
     }
 
-    resize(width, height) {
+    resize() {
         this.x = this.index * (windowWidth / (nbOfPipes / 2));
-        this.width = width / widthRatio;
-        this.height = height;
+        this.width = windowWidth / widthRatio;
+        this.height = windowHeight;
+        this.draw();
     }
 }

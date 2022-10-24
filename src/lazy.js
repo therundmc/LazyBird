@@ -1,5 +1,6 @@
 const gravityDefault = 1;
 const anitgravityDefault = 1;
+const nbOfJumpRep = 15;
 
 class Lazy {
     constructor (x, y, width, height, img) {
@@ -17,11 +18,36 @@ class Lazy {
         this.delta = 0;
         this.now = 0;
         this.last = 0;
+        this.jumpRep = 0;
+        this.nbOfJumpRep = nbOfJumpRep;
+
+        this.heightRatio = windowHeight / height;
     }
 
     moveY() {
-        this.antiGravity = anitgravityDefault;
+    if (this.jumpDetected != 0 && this.jumpRep < this.nbOfJumpRep) {
+        this.jumpRep++;
+        this.jumpY();
+        }
+        else if (this.jumpRep >= this.nbOfJumpRep){
         this.jumpDetected = 0;
+        this.jumpRep = 0;
+        this.fallY();
+        }
+        else {
+        this.fallY();
+        } 
+    }
+
+    jumpY() {
+        this.gravity = gravityDefault;
+        this.antiGravity += this.accel
+        this.y -= this.antiGravity;
+        this.draw();
+    }
+
+    fallY() {
+        this.antiGravity = anitgravityDefault;
         this.gravity +=  this.deccel;
         this.y += this.gravity;
         this.draw();
@@ -42,13 +68,6 @@ class Lazy {
         this.draw();
     }
 
-    jumpY() {
-        this.gravity = gravityDefault;
-        this.antiGravity += this.accel
-        this.y -= this.antiGravity;
-        this.draw();
-    }
-
     die() {
 		image(this.img[5], this.x, this.y, this.width, this.height);
     }
@@ -66,8 +85,9 @@ class Lazy {
     }
 	}
 
-    resize(width, height) {
-        this.width = width;
-        this.height = height;
+    resize() {
+        this.height = windowHeight / this.heightRatio;
+        this.width = this.height // need to be a square
+        this.draw();
     }
 }
