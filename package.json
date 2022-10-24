@@ -1,0 +1,23 @@
+{
+  "name": "lazybird",
+  "version": "1.0.0",
+  "description": "lazybird in p5js",
+  "main": "sketch.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --mode production"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/therundmc/LazyBird.git"
+  },
+  "author": "AnCa & Weirdaz",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/therundmc/LazyBird/issues"
+  },
+  "homepage": "https://github.com/therundmc/LazyBird#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
