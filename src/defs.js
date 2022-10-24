@@ -49,10 +49,22 @@ const IMAGE_LIST = {
     // ---
 }
 
+// ANIM
+const ANIM_LIST = {
+	LAZY: 0,
+	BUDDY: 1,
+    BADDY: 2,
+	CRAZY: 3,
+    OLDY: 4,
+    // ---
+    COUNT: 5,
+
+}
+
 // GAME STATES
 const STATES = {
     INIT: 0,
-	// -- Let room for menu ...
+    MENU: 1,
     PAUSE: 2,
 	PLAY: 3,
 	GAME_OVER: 4,
@@ -71,13 +83,26 @@ const BKG_LIST = {
  // -- PUBLIC VARIABLES 
  let soundList = [];
  let imgList = [];
- let animLazy = [];
- let animBuddy = [];
- let animCrazy = [];
- let animBaddy = [];
- let animOldy = [];
+
+ let animList = [
+    [ANIM_LIST.LAZY],
+    [ANIM_LIST.BUDDY],
+    [ANIM_LIST.CRAZY],
+    [ANIM_LIST.BADDY],
+    [ANIM_LIST.OLDY],
+];
+
+let startImage = {
+    x: 0,
+    y: 0,
+    width: 0,
+    height: 0,
+}
+
+let lazySelected = -1
 
  let pipesList = [];
+ let lazyList = [];
  let mapList = [];
 
  let gameState = STATES.INIT;
