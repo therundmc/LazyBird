@@ -32,7 +32,7 @@ let intro = true;
 
 function preload() {
     // sound
-    song = loadSound('assets/lazyBird.mp3');
+    song = loadSound('assets/LazyBird.mp3');
     flap = loadSound('assets/wing_flap.mp3');
     ocean = loadSound('assets/ocean.mp3');
     impact = loadSound('assets/impact.mp3');
