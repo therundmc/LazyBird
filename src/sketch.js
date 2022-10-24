@@ -256,19 +256,30 @@ function windowResized() {
   }
 }
 
+function handleUserAction() {
+  if (lazy.jumpDetected != 1 && gameStatus == "play")
+  {
+    flap.play();
+    lazy.jumpDetected = 1;
+  }
+  else if (gameStatus == "pause") {
+    gameStatus = "play"
+  }
+  else if (gameStatus == "gameOver") {
+    gameStatus = "play"
+    setup();
+  }
+
+}
+
 function keyPressed() {
   if (keyCode === UP_ARROW) {
-    if (lazy.jumpDetected != 1 && gameStatus == "play")
-    {
-      flap.play();
-      lazy.jumpDetected = 1;
-    }
-    else if (gameStatus == "pause") {
-      gameStatus = "play"
-    }
-    else if (gameStatus == "gameOver") {
-      gameStatus = "play"
-      setup();
-    }
+    handleUserAction();
   }
 }
+
+function touchStarted() {
+  handleUserAction();
+}
+
+
