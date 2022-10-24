@@ -1,12 +1,16 @@
-let widthRatio = 14
+/**
+ * @file LazyBird Pipe class file.
+ * @copyright therundmc & weirdaz - 2022
+ */
+
 let offset = 200
 
-class Obstaculo {
+class Pipe {
     constructor (x, y, orientation, index, img) {
         this.x = x;
         this.y = y;
-        this.width = windowWidth / widthRatio;
-        this.height = windowHeight;
+        this.width = windowWidth / PIPE_W_RATIO;
+        this.height = windowHeight / PIPE_H_RATIO;
         this.img = img;
         this.size = random(windowHeight / 3.5, windowHeight / 2.5);
         this.orientation = orientation;
@@ -38,9 +42,10 @@ class Obstaculo {
         image(this.img, this.x, this.y, this.width, this.height);
     }
 
-    resize(width, height) {
-        this.x = this.index * (windowWidth / (nbOfPipes / 2));
-        this.width = width / widthRatio;
-        this.height = height;
+    resize() {
+        this.x = this.index * (windowWidth / (NB_PIPES / 2));
+        this.width = windowWidth / PIPE_W_RATIO;
+        this.height = windowHeight / PIPE_H_RATIO;
+        this.draw();
     }
 }

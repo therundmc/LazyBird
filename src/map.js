@@ -1,3 +1,8 @@
+/**
+ * @file LazyBird Map class file.
+ * @copyright therundmc & weirdaz - 2022
+ */
+
 class Map {
     constructor (x, y, width, height, img) {
         this.x = x;
@@ -5,6 +10,8 @@ class Map {
         this.width = width;
         this.height = height;
         this.img = img;
+        this.widthRatio = windowWidth / width;
+        this.heightRatio = windowHeight / height;
     }
 
     moveX(speed) {
@@ -22,9 +29,10 @@ class Map {
         image(this.img, this.x + this.width, this.y, this.width, this.height);
     }
 
-    resize(width, height) {
-        this.width = width;
-        this.height = height;
-        resizeCanvas(width, height);
+    resize() {
+        this.width = windowWidth / this.widthRatio;
+        this.height = windowHeight / this.heightRatio;
+        resizeCanvas(this.width, this.height);
+        this.draw();
     }
 }
