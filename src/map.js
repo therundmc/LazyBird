@@ -1,3 +1,8 @@
+/**
+ * @file LazyBird Map class file.
+ * @copyright therundmc & weirdaz - 2022
+ */
+
 class Map {
     constructor (x, y, width, height, img) {
         this.x = x;

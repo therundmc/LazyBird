@@ -1,13 +1,18 @@
+/**
+ * @file LazyBird Lazy class file.
+ * @copyright therundmc & weirdaz - 2022
+ */
+
 const gravityDefault = 1;
 const anitgravityDefault = 1;
 const nbOfJumpRep = 15;
 
 class Lazy {
-    constructor (x, y, width, height, img) {
+    constructor (x, y, size, img) {
         this.x = x;
         this.y = y;
-        this.width = width;
-        this.height = height;
+        this.width = windowHeight / (LAZY_RATIO / size); // Lazy is a square
+        this.height = windowHeight / (LAZY_RATIO / size);
         this.img = img;
         this.deccel = 0.2;
         this.accel = 1 * windowHeight  / 1200;
@@ -86,8 +91,8 @@ class Lazy {
 	}
 
     resize() {
-        this.height = windowHeight / this.heightRatio;
-        this.width = this.height // need to be a square
+        this.height = windowHeight / (LAZY_RATIO / this.size);
+        this.width = windowHeight / (LAZY_RATIO / this.size);
         this.draw();
     }
 }
