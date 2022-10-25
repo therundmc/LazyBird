@@ -25,6 +25,7 @@ function preload() {
   animList[ANIM_LIST.LAZY][3] = loadImage('assets/lazy4.png');
   animList[ANIM_LIST.LAZY][4] = loadImage('assets/lazy5.png');
   animList[ANIM_LIST.LAZY][5] = loadImage('assets/lazy_dead.png');
+  animList[ANIM_LIST.LAZY][6] = loadImage('assets/lazy_ghost.png');
   
   animList[ANIM_LIST.BUDDY][0] = loadImage('assets/buddy1.png');
   animList[ANIM_LIST.BUDDY][1] = loadImage('assets/buddy2.png');
@@ -110,6 +111,7 @@ function draw() {
       break;
 
     case STATES.PLAY:
+	  lazyList[lazySelected].alive = true;
       drawBg(GAME_SPEED);
       drawBgLazy(GAME_SPEED);
       drawPipes(GAME_SPEED);
