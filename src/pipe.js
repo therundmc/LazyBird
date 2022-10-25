@@ -12,7 +12,7 @@ class Pipe {
         this.width = windowWidth / PIPE_W_RATIO;
         this.height = windowHeight / PIPE_H_RATIO;
         this.img = img;
-        this.size = random(windowHeight / 3.5, windowHeight / 2.5);
+        this.size = random(windowHeight / 4, windowHeight / 3.5);
         this.orientation = orientation;
         this.index = index
     }
@@ -22,7 +22,7 @@ class Pipe {
             this.x -= speed;
         }
         else {
-            this.size = random(windowHeight / 3.5, windowHeight / 2.5);
+            this.size = random(windowHeight / 3.7 , windowHeight / 2.7);
             this.x = windowWidth;
         }
 
@@ -46,6 +46,6 @@ class Pipe {
         this.x = this.index * (windowWidth / (NB_PIPES / 2));
         this.width = windowWidth / PIPE_W_RATIO;
         this.height = windowHeight / PIPE_H_RATIO;
-        this.draw();
+        //this.draw();
     }
 }
