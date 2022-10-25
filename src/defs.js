@@ -11,6 +11,8 @@
  const FIX_SIZE = false;
  
  // RATIO
+ const SCREEN_RATIO = 16 / 9;
+ 
  const MAP_W_SUN_RATIO   = 1;
  const MAP_H_SUN_RATIO   = 3;
  const MAP_W_BG_RATIO    = 1;
@@ -21,10 +23,10 @@
  const PIPE_W_RATIO = 14;
  const PIPE_H_RATIO = 1;
 
- const LAZY_RATIO = 10;
+ const LAZY_RATIO = 8;
 
- const TITLE_W_RATIO = 3;
- const TITLE_H_RATIO = 8;
+ const TITLE_W_RATIO = 2;
+ const TITLE_H_RATIO = 7;
 
  const TEXT_SMALL_RATIO = 50;
  const TEXT_BIG_RATIO = 25;
@@ -66,8 +68,9 @@ const STATES = {
     INIT: 0,
     MENU: 1,
     PAUSE: 2,
-	PLAY: 3,
-	GAME_OVER: 4,
+    INIT: 3,
+	PLAY: 4,
+	GAME_OVER: 5,
     // ---
 }
 
@@ -109,6 +112,9 @@ let lazySelected = -1
 
  let frameCounter = 0;
  let score = 0;
+ let initSpeed = 0;
+
+ let defPosXLazy = 0;
  
 
 

@@ -62,6 +62,9 @@ function setup() {
     fixeSizeWindow(customWidth, customWidth);
   }
 
+  pixelDensity(1);
+  windowWidth = (windowHeight) * SCREEN_RATIO;
+
   createCanvas(windowWidth, windowHeight);
   textAlign(CENTER, CENTER);
   frameRate(FRAME_RATE);
@@ -78,23 +81,32 @@ function setup() {
     pipesList[i + 1]= new Pipe(windowWidth + i * offsetBetweenPipes, 0, "up", i, imgList[IMAGE_LIST.PIPE_UP]);
   }
 
-  // Lazy 
-  //lazy = new Lazy(windowWidth / 4, windowHeight / 2, 1,  animList[ANIM_LIST.LAZY]);
+  // Lazy
+  let lazySize = 0.8;
+  let lazyWidth = windowHeight / (LAZY_RATIO / lazySize);
 
-  // bkg Lazy
-  // lazy2 = new Lazy(windowWidth / 4,  windowHeight / 4,  0.5, animList[Math.round(random(0,ANIM_LIST.COUNT - 1))]);
-  // lazy3 = new Lazy(-windowWidth / 4, windowHeight / 10, 0.6, animList[Math.round(random(0,ANIM_LIST.COUNT - 1))]);
-  // lazy4 = new Lazy( windowWidth / 2, windowHeight / 15, 0.7, animList[Math.round(random(0,ANIM_LIST.COUNT - 1))]);
-  // lazy5 = new Lazy( windowWidth / 5, windowHeight / 25, 0.3, animList[Math.round(random(0,ANIM_LIST.COUNT - 1))]);
+  lazyList[ANIM_LIST.LAZY] = new Lazy(windowWidth / 2 - 5 * lazyWidth,  windowHeight / 4 - lazyWidth,  lazySize, animList[ANIM_LIST.LAZY]);
+  lazyList[ANIM_LIST.BUDDY] = new Lazy(windowWidth / 2 - 3 * lazyWidth, windowHeight / 4 + lazyWidth / 3, lazySize, animList[ANIM_LIST.BUDDY]);
+  lazyList[ANIM_LIST.BADDY] = new Lazy( windowWidth / 2 - lazyWidth, windowHeight / 4 - lazyWidth, lazySize, animList[ANIM_LIST.BADDY]);
+  lazyList[ANIM_LIST.CRAZY] = new Lazy( windowWidth / 2 + lazyWidth, windowHeight / 4 + lazyWidth / 3,lazySize, animList[ANIM_LIST.CRAZY]);
+  lazyList[ANIM_LIST.OLDY] = new Lazy( windowWidth / 2 + 3 * lazyWidth, windowHeight / 4 - lazyWidth, lazySize, animList[ANIM_LIST.OLDY]);
 
-  lazyList[ANIM_LIST.LAZY] = new Lazy(windowWidth / 2 - 2*(windowHeight / LAZY_RATIO),  windowHeight / 4,  0.8, animList[ANIM_LIST.LAZY]);
-  lazyList[ANIM_LIST.BUDDY] = new Lazy(windowWidth / 2 - 4*(windowHeight / LAZY_RATIO), windowHeight / 4, 0.8, animList[ANIM_LIST.BUDDY]);
-  lazyList[ANIM_LIST.BADDY] = new Lazy( windowWidth / 2, windowHeight / 4, 0.8, animList[ANIM_LIST.BADDY]);
-  lazyList[ANIM_LIST.CRAZY] = new Lazy( windowWidth / 2 + 2*(windowHeight / LAZY_RATIO), windowHeight / 4, 0.8, animList[ANIM_LIST.CRAZY]);
-  lazyList[ANIM_LIST.OLDY] = new Lazy( windowWidth / 2 + 4*(windowHeight / LAZY_RATIO), windowHeight / 4, 0.8, animList[ANIM_LIST.OLDY]);
+  if (lazySelected < 0) {
+    lazySelected = ANIM_LIST.LAZY;
+    lazyList[lazySelected].select(true); 
+  }
+  else {
+    lazyList[lazySelected].select(true); 
+  }
 
   score = 0;
+  frameCounter = 0;
+
   gameState = STATES.MENU;
+
+  defPosXLazy = windowWidth / 6;
+
+// default lazy
 }
 
 function draw() {
@@ -107,6 +119,27 @@ function draw() {
 
       for (i=0; i<ANIM_LIST.COUNT; i++) {
         lazyList[i].draw();
+      }
+      break;
+
+    case STATES.INIT:
+      drawBg(-initSpeed * (lazySelected + 1));
+      
+      initSpeed -= windowWidth / (4 * windowWidth);
+
+      for (i=0; i<ANIM_LIST.COUNT; i++) {
+        if (lazyList[i].selected) {
+          if (lazyList[i].x < defPosXLazy) {
+            initSpeed = 0;
+            gameState = STATES.PLAY;
+          }
+          else {
+            lazyList[i].moveX(-initSpeed * (i + 1));
+          }   
+        }
+        else {
+          lazyList[i].moveX(-initSpeed * 10);
+        }
       }
       break;
 
@@ -170,10 +203,6 @@ function drawMenuScreen() {
   startImage.height = windowHeight/TITLE_H_RATIO;
 
   image(imgList[IMAGE_LIST.TITLE], startImage.x, startImage.y, startImage.width , startImage.height);
-
-  // textSize((windowWidth + windowHeight) / TEXT_SMALL_RATIO);
-  // fill(255,255,255);
-  // text('PLAY', windowWidth / 2.05, windowHeight/1.6);
 }
 
 
@@ -256,13 +285,15 @@ function windowResized() {
   if (FIX_SIZE == true) {
     fixeSizeWindow(customWidth, customWidth);
   }
-  else {
-    mapList[BKG_LIST.SUN].resize();
-    mapList[BKG_LIST.BKG].resize();
-    mapList[BKG_LIST.GRASS].resize();
-    for(i=0; i < NB_PIPES; i++) {pipesList[i].resize();}
-    for(i=0; i < ANIM_LIST.COUNT; i++) {lazyList[i].resize();}
-  }
+  setup();
+  // else {
+  //   windowWidth = ((windowHeight) * SCREEN_RATIO);
+  //   mapList[BKG_LIST.SUN].resize();
+  //   mapList[BKG_LIST.BKG].resize();
+  //   mapList[BKG_LIST.GRASS].resize();
+  //   for(i=0; i < NB_PIPES; i++) {pipesList[i].resize();}
+  //   for(i=0; i < ANIM_LIST.COUNT; i++) {lazyList[i].resize();}
+  // }
 }
 
 function handleUserAction() {
@@ -275,34 +306,31 @@ function handleUserAction() {
   else if (gameState == STATES.PAUSE) {
     gameState = STATES.PLAY;
   }
+
   else if (gameState == STATES.MENU) {
     for (i=0; i<ANIM_LIST.COUNT; i++) {
       if ((mouseX > lazyList[i].x - lazyList[i].width) && (mouseX < lazyList[i].x + lazyList[i].width)) {
         if ((mouseY > lazyList[i].y - lazyList[i].height) && (mouseY < lazyList[i].y + lazyList[i].height)) {
-           lazySelected = i;
+          lazyList[i].select(true);
+          lazySelected = i;
         }
       }
       else{
-        lazyList[i].isSelected(false);
+        lazyList[i].select(false);
       }
     }
-    if ((mouseX > startImage.x - startImage.width) && (mouseX < startImage.x + startImage.width)) {
-      if ((mouseY > startImage.y - startImage.height) && (mouseY < startImage.y + startImage.height)) {
-        if(lazySelected < 0) {
-          lazySelected = ANIM_LIST.LAZY //by default
-        }
-        lazyList[lazySelected].init();
-        gameState = STATES.PLAY;
+    if ((mouseX > 0) && (mouseX < windowWidth)) {
+      if ((mouseY > startImage.y) && (mouseY < startImage.y + windowHeight)) {
+        gameState = STATES.INIT;
       }
     }
     for (i=0; i<ANIM_LIST.COUNT; i++) {
       if (lazySelected == i){
-        lazyList[i].isSelected(true);
+        lazyList[i].select(true);
       }
       else {
-        lazyList[i].isSelected(false);
+        lazyList[i].select(false);
       }
-
     }
   }
   else if (gameState == STATES.GAME_OVER) {
