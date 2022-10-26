@@ -26,17 +26,43 @@ class Lazy {
         this.jumpRep = 0;
         this.nbOfJumpRep = nbOfJumpRep;
         this.selected = false;
-        this.animate = false;
+        this.animate = true;
         this.alive = true;
         this.deadPosY = 0;
         this.transparency = 255;
         this.initSpeed = 0;
+        this.speed = 0;
 
         this.heightRatio = windowHeight / height;
     }
+    setSpeed(speed){
+        this.animate = true;
+        this.speed = speed;
+    }
 
-    init() {
-        this.x = windowWidth / 4;
+    init(initSpeed) {
+        if (initSpeed != 0){
+            if (this.selected) {
+                if (this.x < defPosXLazy) {
+                return true;
+                }
+                else {
+                this.moveX(-initSpeed);
+                }   
+            }
+            else {
+                if (this.x > (windowWidth + this.width)){
+                    this.size = random(0.4,0.8);
+                    this.resize();
+                    this.x = windowWidth + windowWidth * random(0.1,0.7);
+                    this.y = random(windowHeight/20, windowHeight/4);
+                }
+                else {
+                    this.moveX(initSpeed * 15);
+                }
+            }
+        }
+        this.draw();
     }
 
     moveY(speed) {
@@ -72,23 +98,29 @@ class Lazy {
         this.y += this.gravity;
     }
 
-    moveX(speed) {
-        if (this.x > windowWidth + windowWidth / 8) {
+    moveX(customSpeed) {
+        if (this.x > windowWidth + windowWidth * 0.7) {
             this.x = - windowWidth / 8;
             this.y = random(windowHeight/10, windowHeight/4);
-            this.size = random(0.6, 0.8);
+            this.size = random(0.4, 0.7);
             this.width = windowHeight / (LAZY_RATIO / this.size ); // Lazy is a square
             this.height = windowHeight / (LAZY_RATIO / this.size );
         }
-        else if (this.x < 0 - windowWidth / 4) {
+        else if (this.x < 0 - windowWidth * 0.5) {
             this.x = windowWidth;
-            this.size = random(0.6, 0.8);
-            this.y = random(windowHeight/10, windowHeight/4);
+            this.size = random(0.4, 0.7);
+            this.y = random(windowHeight/20, windowHeight/4);
             this.width = windowHeight / (LAZY_RATIO / this.size ); // Lazy is a square
             this.height = windowHeight / (LAZY_RATIO / this.size );
         }
         else {
-            this.x -= speed;
+            if (customSpeed != 0) {
+                this.x -= customSpeed;
+            }
+            else {
+                this.x -= this.speed;
+            }
+
         }
         this.draw();
     }
@@ -141,7 +173,7 @@ class Lazy {
         }
         else {
             this.selected = false;
-            this.animate = false;
+            //this.animate = false;
             this.size = 0.8;
         }
         this.resize();
