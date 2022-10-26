@@ -37,6 +37,8 @@
 	FLAP: 1,
 	OCEAN: 2,
 	IMPACT: 3,
+    CLICK: 4,
+    CLICK: 5,
     // ---
 }
 
@@ -115,6 +117,9 @@ let lazySelected = -1
  let initSpeed = 0;
 
  let defPosXLazy = 0;
+
+ let pipeCrossed = false;
+ let pipeCrossedPrev = false;
  
 
 

@@ -5,55 +5,57 @@
 
 function preload() {
   // Sounds
-  soundList[SOUND_LIST.SONG] = loadSound('assets/LazyBird.mp3');
-  soundList[SOUND_LIST.FLAP] = loadSound('assets/wing_flap.mp3');
-  soundList[SOUND_LIST.OCEAN] = loadSound('assets/ocean.mp3');
-  soundList[SOUND_LIST.IMPACT] = loadSound('assets/impact.mp3');
+  soundList[SOUND_LIST.SONG] = loadSound('assets/sound/LazyBird.mp3');
+  soundList[SOUND_LIST.FLAP] = loadSound('assets/sound/wing_flap.mp3');
+  soundList[SOUND_LIST.OCEAN] = loadSound('assets/sound/ocean.mp3');
+  soundList[SOUND_LIST.IMPACT] = loadSound('assets/sound/impact.wav');
+  soundList[SOUND_LIST.CLICK] = loadSound('assets/sound/click.mp3');
+  soundList[SOUND_LIST.INTRO] = loadSound('assets/sound/woosh.wav');
 
   // Images
-  imgList[IMAGE_LIST.BKG_SUN] = loadImage('assets/sun.png');
-  imgList[IMAGE_LIST.BKG] = loadImage('assets/bkg.png');
-  imgList[IMAGE_LIST.BKG_GRASS] = loadImage('assets/bkg_herbe.png');
-  imgList[IMAGE_LIST.PIPE_DOWN] = loadImage('assets/pipe_down.png');
-  imgList[IMAGE_LIST.PIPE_UP] = loadImage('assets/pipe_up.png');
-  imgList[IMAGE_LIST.TITLE] = loadImage('assets/titre.png');
+  imgList[IMAGE_LIST.BKG_SUN] = loadImage('assets/img/sun.png');
+  imgList[IMAGE_LIST.BKG] = loadImage('assets/img/bkg.png');
+  imgList[IMAGE_LIST.BKG_GRASS] = loadImage('assets/img/bkg_herbe.png');
+  imgList[IMAGE_LIST.PIPE_DOWN] = loadImage('assets/img/pipe_down.png');
+  imgList[IMAGE_LIST.PIPE_UP] = loadImage('assets/img/pipe_up.png');
+  imgList[IMAGE_LIST.TITLE] = loadImage('assets/img/titre.png');
 
   // Animations
-  animList[ANIM_LIST.LAZY][0] = loadImage('assets/lazy1.png');
-  animList[ANIM_LIST.LAZY][1] = loadImage('assets/lazy2.png');
-  animList[ANIM_LIST.LAZY][2] = loadImage('assets/lazy3.png');
-  animList[ANIM_LIST.LAZY][3] = loadImage('assets/lazy4.png');
-  animList[ANIM_LIST.LAZY][4] = loadImage('assets/lazy5.png');
-  animList[ANIM_LIST.LAZY][5] = loadImage('assets/lazy_dead.png');
-  animList[ANIM_LIST.LAZY][6] = loadImage('assets/lazy_ghost.png');
+  animList[ANIM_LIST.LAZY][0] = loadImage('assets/img/lazy1.png');
+  animList[ANIM_LIST.LAZY][1] = loadImage('assets/img/lazy2.png');
+  animList[ANIM_LIST.LAZY][2] = loadImage('assets/img/lazy3.png');
+  animList[ANIM_LIST.LAZY][3] = loadImage('assets/img/lazy4.png');
+  animList[ANIM_LIST.LAZY][4] = loadImage('assets/img/lazy5.png');
+  animList[ANIM_LIST.LAZY][5] = loadImage('assets/img/lazy_dead.png');
+  animList[ANIM_LIST.LAZY][6] = loadImage('assets/img/lazy_ghost.png');
   
-  animList[ANIM_LIST.BUDDY][0] = loadImage('assets/buddy1.png');
-  animList[ANIM_LIST.BUDDY][1] = loadImage('assets/buddy2.png');
-  animList[ANIM_LIST.BUDDY][2] = loadImage('assets/buddy3.png');
-  animList[ANIM_LIST.BUDDY][3] = loadImage('assets/buddy4.png');
-  animList[ANIM_LIST.BUDDY][4] = loadImage('assets/buddy5.png');
-  animList[ANIM_LIST.BUDDY][5] = loadImage('assets/buddy_dead.png');
+  animList[ANIM_LIST.BUDDY][0] = loadImage('assets/img/buddy1.png');
+  animList[ANIM_LIST.BUDDY][1] = loadImage('assets/img/buddy2.png');
+  animList[ANIM_LIST.BUDDY][2] = loadImage('assets/img/buddy3.png');
+  animList[ANIM_LIST.BUDDY][3] = loadImage('assets/img/buddy4.png');
+  animList[ANIM_LIST.BUDDY][4] = loadImage('assets/img/buddy5.png');
+  animList[ANIM_LIST.BUDDY][5] = loadImage('assets/img/buddy_dead.png');
   
-  animList[ANIM_LIST.BADDY][0] = loadImage('assets/baddy1.png');
-  animList[ANIM_LIST.BADDY][1] = loadImage('assets/baddy2.png');
-  animList[ANIM_LIST.BADDY][2] = loadImage('assets/baddy3.png');
-  animList[ANIM_LIST.BADDY][3] = loadImage('assets/baddy4.png');
-  animList[ANIM_LIST.BADDY][4] = loadImage('assets/baddy5.png');
-  animList[ANIM_LIST.BADDY][5] = loadImage('assets/baddy_dead.png');
+  animList[ANIM_LIST.BADDY][0] = loadImage('assets/img/baddy1.png');
+  animList[ANIM_LIST.BADDY][1] = loadImage('assets/img/baddy2.png');
+  animList[ANIM_LIST.BADDY][2] = loadImage('assets/img/baddy3.png');
+  animList[ANIM_LIST.BADDY][3] = loadImage('assets/img/baddy4.png');
+  animList[ANIM_LIST.BADDY][4] = loadImage('assets/img/baddy5.png');
+  animList[ANIM_LIST.BADDY][5] = loadImage('assets/img/baddy_dead.png');
   
-  animList[ANIM_LIST.CRAZY][0] = loadImage('assets/crazy1.png');
-  animList[ANIM_LIST.CRAZY][1] = loadImage('assets/crazy2.png');
-  animList[ANIM_LIST.CRAZY][2] = loadImage('assets/crazy3.png');
-  animList[ANIM_LIST.CRAZY][3] = loadImage('assets/crazy4.png');
-  animList[ANIM_LIST.CRAZY][4] = loadImage('assets/crazy5.png');
-  animList[ANIM_LIST.CRAZY][5] = loadImage('assets/crazy_dead.png');
+  animList[ANIM_LIST.CRAZY][0] = loadImage('assets/img/crazy1.png');
+  animList[ANIM_LIST.CRAZY][1] = loadImage('assets/img/crazy2.png');
+  animList[ANIM_LIST.CRAZY][2] = loadImage('assets/img/crazy3.png');
+  animList[ANIM_LIST.CRAZY][3] = loadImage('assets/img/crazy4.png');
+  animList[ANIM_LIST.CRAZY][4] = loadImage('assets/img/crazy5.png');
+  animList[ANIM_LIST.CRAZY][5] = loadImage('assets/img/crazy_dead.png');
   
-  animList[ANIM_LIST.OLDY][0] = loadImage('assets/oldy1.png');
-  animList[ANIM_LIST.OLDY][1] = loadImage('assets/oldy2.png');
-  animList[ANIM_LIST.OLDY][2] = loadImage('assets/oldy3.png');
-  animList[ANIM_LIST.OLDY][3] = loadImage('assets/oldy4.png');
-  animList[ANIM_LIST.OLDY][4] = loadImage('assets/oldy5.png');
-  animList[ANIM_LIST.OLDY][5] = loadImage('assets/oldy_dead.png');
+  animList[ANIM_LIST.OLDY][0] = loadImage('assets/img/oldy1.png');
+  animList[ANIM_LIST.OLDY][1] = loadImage('assets/img/oldy2.png');
+  animList[ANIM_LIST.OLDY][2] = loadImage('assets/img/oldy3.png');
+  animList[ANIM_LIST.OLDY][3] = loadImage('assets/img/oldy4.png');
+  animList[ANIM_LIST.OLDY][4] = loadImage('assets/img/oldy5.png');
+  animList[ANIM_LIST.OLDY][5] = loadImage('assets/img/oldy_dead.png');
 }
 
 
@@ -99,55 +101,40 @@ function setup() {
     lazyList[lazySelected].select(true); 
   }
 
+  // MISC
   score = 0;
   frameCounter = 0;
-
   gameState = STATES.MENU;
-
   defPosXLazy = windowWidth / 6;
-
-// default lazy
 }
 
 function draw() {
+  const GAME_SPEED_RESCALED = (GAME_SPEED / 1280) * windowWidth;
   background(0, 255, 255);
 
   switch (gameState) {
     case STATES.MENU:
       drawBg(0.5);
       drawMenuScreen();
-
-      for (i=0; i<ANIM_LIST.COUNT; i++) {
-        lazyList[i].draw();
-      }
+      drawBgLazy(0);
+      drawInitLazy(0);
       break;
 
     case STATES.INIT:
-      drawBg(-initSpeed * (lazySelected + 1));
-      
-      initSpeed -= windowWidth / (4 * windowWidth);
-
-      for (i=0; i<ANIM_LIST.COUNT; i++) {
-        if (lazyList[i].selected) {
-          if (lazyList[i].x < defPosXLazy) {
-            initSpeed = 0;
-            gameState = STATES.PLAY;
-          }
-          else {
-            lazyList[i].moveX(-initSpeed * (i + 1));
-          }   
-        }
-        else {
-          lazyList[i].moveX(-initSpeed * 10);
-        }
-      }
+      initSpeed -= windowWidth / (35 * windowWidth);
+      drawBg(-initSpeed);
+      if(drawInitLazy(initSpeed)){
+        initSpeed = 0;
+        initLazySpeed();
+        gameState = STATES.PLAY;
+      };
       break;
 
     case STATES.PLAY:
 	  lazyList[lazySelected].alive = true;
-      drawBg(GAME_SPEED);
-      drawBgLazy(GAME_SPEED);
-      drawPipes(GAME_SPEED);
+      drawBg(GAME_SPEED_RESCALED);
+      drawBgLazy(0);
+      drawPipes(GAME_SPEED_RESCALED);
       drawLazy();
       drawScore();
       handleCollision();
@@ -155,12 +142,12 @@ function draw() {
 
     case STATES.PAUSE:
       drawBg(0);
-      drawBgLazy(-GAME_SPEED);
+      drawBgLazy(-GAME_SPEED_RESCALED / 4);
       break;
 
     case STATES.GAME_OVER:
       drawBg(0);
-      drawBgLazy(-GAME_SPEED);
+      drawBgLazy(-GAME_SPEED_RESCALED / 4);
       drawPipes(0);
       lazyList[lazySelected].die();
       drawGamOverScreen();
@@ -187,13 +174,31 @@ function drawPipes(speed) {
 function drawBgLazy(speed) {
   for(i=0; i < ANIM_LIST.COUNT; i++) {
     if (!lazyList[i].selected) {
-      lazyList[i].moveX(speed/random(25,50));
+      lazyList[i].moveX(speed);
     }
   }
 }
 
 function drawLazy() {
-  lazyList[lazySelected].moveY();
+  for(i=0; i < ANIM_LIST.COUNT; i++) {
+    if (lazyList[i].selected) {
+      lazyList[i].moveY();
+    }
+  }
+}
+
+function drawInitLazy(initSpeed){
+  for (i=0; i<ANIM_LIST.COUNT; i++) {
+    if(lazyList[i].init(initSpeed * (i+1))){
+      return true;
+    };
+  }
+}
+
+function initLazySpeed() {
+  for (i=0; i<ANIM_LIST.COUNT; i++) {
+    lazyList[i].setSpeed(random(0.2,0.5))
+  }
 }
 
 function drawMenuScreen() {  
@@ -212,21 +217,24 @@ function drawGamOverScreen() {
   text('GAME OVER', windowWidth/2, windowHeight/2);
 
   textSize((windowWidth + windowHeight) / TEXT_SMALL_RATIO);
-  fill(255,255,255)
-  text('PRESS UP TO RESTART', windowWidth/2, windowHeight/2 + windowHeight/10);
+  fill(0,0,0)
+  text("SCORE : " + score, windowWidth/2, windowHeight/2 + windowHeight/10);
 }
 
 function handleCollision(){
   for (i=0; i < NB_PIPES; i+=2) {
-
     if ((abs(lazyList[lazySelected].x - pipesList[i].x)) < lazyList[lazySelected].width) {
       if (((lazyList[lazySelected].y + lazyList[lazySelected].height) < pipesList[i].y && lazyList[lazySelected].y > pipesList[i+1].y + pipesList[i+1].height)) {
-        console.log("GOOOOD");
+        pipeCrossed = true;
+        return;
       }
       else {
         soundList[SOUND_LIST.IMPACT].play();
         gameState = STATES.GAME_OVER;
       }
+    }
+    else {
+      pipeCrossed = false;
     }
   }
 }
@@ -263,16 +271,17 @@ function handleSound() {
 }
 
 function drawScore() {
+  console.log(pipeCrossed, pipeCrossedPrev)
   if (gameState == STATES.PLAY) {
-    frameCounter++;
-    if (frameCounter > 150) {
+    if (pipeCrossedPrev != pipeCrossed && pipeCrossed == false){
       score++;
-      frameCounter = 0;
     }
+    pipeCrossedPrev = pipeCrossed;
   }
-  textSize((windowWidth + windowHeight) / TEXT_BIG_RATIO);
+  scoreTextSize = (windowWidth + windowHeight) / TEXT_BIG_RATIO;
+  textSize(scoreTextSize);
   fill(0,0,0)
-  text(score, windowWidth / 12, windowHeight / 5);
+  text(score, scoreTextSize, scoreTextSize);
 }
 
 function fixeSizeWindow(width, height){
@@ -286,14 +295,6 @@ function windowResized() {
     fixeSizeWindow(customWidth, customWidth);
   }
   setup();
-  // else {
-  //   windowWidth = ((windowHeight) * SCREEN_RATIO);
-  //   mapList[BKG_LIST.SUN].resize();
-  //   mapList[BKG_LIST.BKG].resize();
-  //   mapList[BKG_LIST.GRASS].resize();
-  //   for(i=0; i < NB_PIPES; i++) {pipesList[i].resize();}
-  //   for(i=0; i < ANIM_LIST.COUNT; i++) {lazyList[i].resize();}
-  // }
 }
 
 function handleUserAction() {
@@ -311,6 +312,7 @@ function handleUserAction() {
     for (i=0; i<ANIM_LIST.COUNT; i++) {
       if ((mouseX > lazyList[i].x - lazyList[i].width) && (mouseX < lazyList[i].x + lazyList[i].width)) {
         if ((mouseY > lazyList[i].y - lazyList[i].height) && (mouseY < lazyList[i].y + lazyList[i].height)) {
+          soundList[SOUND_LIST.CLICK].play();
           lazyList[i].select(true);
           lazySelected = i;
         }
@@ -321,6 +323,7 @@ function handleUserAction() {
     }
     if ((mouseX > 0) && (mouseX < windowWidth)) {
       if ((mouseY > startImage.y) && (mouseY < startImage.y + windowHeight)) {
+        soundList[SOUND_LIST.INTRO].play();
         gameState = STATES.INIT;
       }
     }
