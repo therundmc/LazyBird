@@ -14,8 +14,8 @@ class Lazy {
         this.width = windowHeight / (LAZY_RATIO / size); // Lazy is a square
         this.height = windowHeight / (LAZY_RATIO / size);
         this.img = img;
-        this.deccel = 0.2;
-        this.accel = 1 * windowHeight  / 1600;
+        this.deccel = 1 * windowHeight  / GRAVITY_FORCE;
+        this.accel = 1 * windowHeight  / JUMP_FORCE;
         this.gravity = gravityDefault;
         this.antiGravity = anitgravityDefault;
         this.jumpDetected = 0;
@@ -32,6 +32,10 @@ class Lazy {
         this.transparency = 255;
         this.initSpeed = 0;
         this.speed = 0;
+        this.animSens = 1;
+        this.direction = 1;
+        this.lazer = new Lazer(0, this.y + this.width/2, this.width, this.height/16)
+        this.shooting = false;
 
         this.heightRatio = windowHeight / height;
     }
@@ -66,10 +70,16 @@ class Lazy {
     }
 
     moveY(speed) {
-        if (gameState == STATES.INIT) {
-            this.y += speed
+    if (speed != 0) {
+        if (this.y > windowHeight - this.width) {
+            this.direction = 1;
         }
-        else {
+        else if (this.y < 0 ) {
+            this.direction = -1;
+        }
+        this.y -= (speed * this.direction);
+    }
+    else {
         if (this.jumpDetected != 0 && this.jumpRep < this.nbOfJumpRep) {
             this.jumpRep++;
             this.jumpY();
@@ -83,8 +93,9 @@ class Lazy {
             this.fallY();
             } 
         }
-        this.draw();
-        }
+    this.draw();
+    }
+
 
     jumpY() {
         this.gravity = gravityDefault;
@@ -152,15 +163,35 @@ class Lazy {
         
     }
 
+    shoot(speed) {
+        if (this.lazer.isOnScreen()) {
+            this.lazer.moveX(speed);
+            this.shooting = true;
+        }
+        else {
+            this.lazer = new Lazer(this.x, this.y + this.width/2, this.width, this.height/16)
+            forcePlaySound(soundList[SOUND_LIST.LAZER], 0.8);
+            image(this.img[6], this.x, this.y, this.width, this.height);
+            this.shooting = false;
+        }
+    }
+
     draw() {
          image(this.img[this.animFrame], this.x, this.y, this.width, this.height);
          this.now = new Date().getTime()
          this.delta = this.now - this.last;
 
-         if (this.delta >= 100 && this.animate) {
-             this.animFrame++;
-            if(this.animFrame > 4)
-                this.animFrame = 0;
+         if (this.delta >= 33 && this.animate) {
+             this.animFrame += this.animSens;
+            if(this.animFrame >= 4)
+            {
+                this.animSens = -1;
+                //this.animFrame = 0;
+            }
+            if(this.animFrame <= 0)
+            {
+                this.animSens = 1;
+            }
             this.last = this.now;
         }
     }

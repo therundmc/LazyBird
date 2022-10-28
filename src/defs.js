@@ -4,8 +4,13 @@
  */
 
 // -- PUBLIC CONSTANTS 
- const GAME_SPEED = 5;
+ const GAME_SPEED = 8;
+ const ROBOTY_SPEED = 2;
+ const LAZER_SPEED = 3;
  const FRAME_RATE = 60;
+
+ const JUMP_FORCE = 800; // less is more
+ const GRAVITY_FORCE = 1300;
  
  const NB_PIPES = 8;
  const FIX_SIZE = false;
@@ -33,21 +38,21 @@
 
  // SOUNDS
  const SOUND_LIST = {
-	SONG: 0,
-	FLAP: 1,
-	OCEAN: 2,
-	IMPACT: 3,
+    SONG: 0,
+    FLAP: 1,
+    OCEAN: 2,
+    IMPACT: 3,
     CLICK: 4,
-    CLICK: 5,
+    LAZER: 5,
     // ---
 }
 
 // IMAGES
 const IMAGE_LIST = {
-	BKG_SUN: 0,
-	BKG: 1,
-	BKG_GRASS: 2,
-	PIPE_DOWN: 3,
+    BKG_SUN: 0,
+    BKG: 1,
+    BKG_GRASS: 2,
+    PIPE_DOWN: 3,
     PIPE_UP: 4,
     TITLE: 5,
     // ---
@@ -55,13 +60,34 @@ const IMAGE_LIST = {
 
 // ANIM
 const ANIM_LIST = {
-	LAZY: 0,
-	BUDDY: 1,
+    LAZY: 0,
+    BUDDY: 1,
     BADDY: 2,
-	CRAZY: 3,
+    CRAZY: 3,
+    OLDY: 4,
+    ROBOTY: 5,
+    // ---
+    COUNT: 6,
+
+}
+
+// LAZY
+const LAZY_LIST = {
+    LAZY: 0,
+    BUDDY: 1,
+    BADDY: 2,
+    CRAZY: 3,
     OLDY: 4,
     // ---
     COUNT: 5,
+
+}
+
+// ROBOTY
+const ROBOTY_LIST = {
+    ROBOTY: 0,
+    // ---
+    COUNT: 1,
 
 }
 
@@ -71,8 +97,8 @@ const STATES = {
     MENU: 1,
     PAUSE: 2,
     INIT: 3,
-	PLAY: 4,
-	GAME_OVER: 5,
+    PLAY: 4,
+    GAME_OVER: 5,
     // ---
 }
 
@@ -80,7 +106,7 @@ const STATES = {
 const BKG_LIST = {
     SUN: 0,
     BKG: 1,
-	GRASS: 2,
+    GRASS: 2,
     // ---
 }
 
@@ -95,6 +121,7 @@ const BKG_LIST = {
     [ANIM_LIST.CRAZY],
     [ANIM_LIST.BADDY],
     [ANIM_LIST.OLDY],
+    [ANIM_LIST.ROBOTY],
 ];
 
 let startImage = {
@@ -104,15 +131,17 @@ let startImage = {
     height: 0,
 }
 
-let lazySelected = -1
+let lazySelected = -1;
 
  let pipesList = [];
  let lazyList = [];
+ let robotyList = [];
  let mapList = [];
+ let lazer = 0;
 
  let gameState = STATES.INIT;
+ let gameStage = 1;
 
- let frameCounter = 0;
  let score = 0;
  let initSpeed = 0;
 
@@ -120,6 +149,8 @@ let lazySelected = -1
 
  let pipeCrossed = false;
  let pipeCrossedPrev = false;
+
+ let frameCounter = 0;
  
 
 
