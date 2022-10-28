@@ -51,12 +51,19 @@ function preload() {
   animList[ANIM_LIST.CRAZY][4] = loadImage('assets/img/crazy5.png');
   animList[ANIM_LIST.CRAZY][5] = loadImage('assets/img/crazy_dead.png');
   
-  animList[ANIM_LIST.OLDY][0] = loadImage('assets/img/oldy1.png');
+  /*animList[ANIM_LIST.OLDY][0] = loadImage('assets/img/oldy1.png');
   animList[ANIM_LIST.OLDY][1] = loadImage('assets/img/oldy2.png');
   animList[ANIM_LIST.OLDY][2] = loadImage('assets/img/oldy3.png');
   animList[ANIM_LIST.OLDY][3] = loadImage('assets/img/oldy4.png');
   animList[ANIM_LIST.OLDY][4] = loadImage('assets/img/oldy5.png');
-  animList[ANIM_LIST.OLDY][5] = loadImage('assets/img/oldy_dead.png');
+  animList[ANIM_LIST.OLDY][5] = loadImage('assets/img/oldy_dead.png');*/
+  
+  animList[ANIM_LIST.OLDY][0] = loadImage('assets/img/lazykaze1.png');
+  animList[ANIM_LIST.OLDY][1] = loadImage('assets/img/lazykaze2.png');
+  animList[ANIM_LIST.OLDY][2] = loadImage('assets/img/lazykaze3.png');
+  animList[ANIM_LIST.OLDY][3] = loadImage('assets/img/lazykaze4.png');
+  animList[ANIM_LIST.OLDY][4] = loadImage('assets/img/lazykaze5.png');
+  animList[ANIM_LIST.OLDY][5] = loadImage('assets/img/lazykaze_dead.png');
 
   animList[ANIM_LIST.ROBOTY][0] = loadImage('assets/img/roboty1.png');
   animList[ANIM_LIST.ROBOTY][1] = loadImage('assets/img/roboty2.png');
@@ -67,6 +74,8 @@ function preload() {
   animList[ANIM_LIST.ROBOTY][6] = loadImage('assets/img/roboty_shoot.png');
 
   bitFont = loadFont('assets/font/joystix.ttf');
+  
+  logo = loadImage('assets/img/logo4.png');
     
 }
 
@@ -167,6 +176,7 @@ function draw() {
           //drawBgLazy(0);
           drawPipes(GAME_SPEED_RESCALED);
           drawRoboty(GAME_SPEED_RESCALED);
+          shootShortRoboty(GAME_SPEED_RESCALED);
           drawLazy();
       }
       drawScore();
@@ -227,7 +237,22 @@ function drawRoboty(speed) {
   for(i=0; i < ROBOTY_LIST.COUNT; i++) {
     if (score > 3) {
       robotyList[i].moveY(speed);
-      robotyList[i].shoot(speed * LAZER_SPEED);
+    }
+  }
+}
+
+function shootShortRoboty(speed) {
+  for(i=0; i < ROBOTY_LIST.COUNT; i++) {
+    if (score > 3) {
+      robotyList[i].shootShort(speed * LAZER_SPEED);
+    }
+  }
+}
+
+function shootLongRoboty(speed) {
+  for(i=0; i < ROBOTY_LIST.COUNT; i++) {
+    if (score > 3) {
+      robotyList[i].shootLong(speed * LAZER_SPEED);
     }
   }
 }
@@ -269,6 +294,8 @@ function drawMenuScreen() {
   textSize((windowWidth + windowHeight) / TEXT_SMALL_RATIO);
   fill(0,0,0)
   text('- Fnek Game Studios -', windowWidth * 0.5, windowHeight * 0.90);
+  image(logo, windowWidth * 0.5 - 100, windowHeight * 0.75, 100 , 100);
+  
 
 }
 

@@ -34,7 +34,8 @@ class Lazy {
         this.speed = 0;
         this.animSens = 1;
         this.direction = 1;
-        this.lazer = new Lazer(0, this.y + this.width/2, this.width, this.height/16)
+        this.lazer = new Lazer(0, this.y + this.width/2, this.width, this.height/16);
+        this.lazerFree = 0;
         this.shooting = false;
 
         this.heightRatio = windowHeight / height;
@@ -163,17 +164,21 @@ class Lazy {
         
     }
 
-    shoot(speed) {
+    shootShort(speed) {
         if (this.lazer.isOnScreen()) {
             this.lazer.moveX(speed);
             this.shooting = true;
         }
         else {
-            this.lazer = new Lazer(this.x, this.y + this.width/2, this.width, this.height/16)
+            this.lazer = new Lazer(this.x, this.y + this.width/2, this.width/2, this.height/16)
             forcePlaySound(soundList[SOUND_LIST.LAZER], 0.8);
             image(this.img[6], this.x, this.y, this.width, this.height);
             this.shooting = false;
         }
+    }
+
+    shootLong(speed) {
+        //TODO
     }
 
     draw() {
