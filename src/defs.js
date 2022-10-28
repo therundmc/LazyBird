@@ -153,6 +153,8 @@ let lazySelected = -1;
 
  let frameCounter = 0;
  
+ let logo;
+ 
 
 
  
