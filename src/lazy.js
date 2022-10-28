@@ -32,6 +32,7 @@ class Lazy {
         this.transparency = 255;
         this.initSpeed = 0;
         this.speed = 0;
+		this.animSens = 1;
 
         this.heightRatio = windowHeight / height;
     }
@@ -67,7 +68,7 @@ class Lazy {
 
     moveY(speed) {
         if (gameState == STATES.INIT) {
-            this.y += speed
+            this.y += speed;
         }
         else {
         if (this.jumpDetected != 0 && this.jumpRep < this.nbOfJumpRep) {
@@ -157,10 +158,17 @@ class Lazy {
          this.now = new Date().getTime()
          this.delta = this.now - this.last;
 
-         if (this.delta >= 100 && this.animate) {
-             this.animFrame++;
-            if(this.animFrame > 4)
-                this.animFrame = 0;
+         if (this.delta >= 33 && this.animate) {
+             this.animFrame += this.animSens;
+            if(this.animFrame >= 4)
+            {
+				this.animSens = -1;
+				//this.animFrame = 0;
+			}
+			if(this.animFrame <= 0)
+            {
+				this.animSens = 1;
+			}
             this.last = this.now;
         }
     }

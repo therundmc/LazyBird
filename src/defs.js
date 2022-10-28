@@ -60,8 +60,9 @@ const ANIM_LIST = {
     BADDY: 2,
 	CRAZY: 3,
     OLDY: 4,
+	ROBOTY: 5,
     // ---
-    COUNT: 5,
+    COUNT: 6,
 
 }
 
@@ -95,6 +96,7 @@ const BKG_LIST = {
     [ANIM_LIST.CRAZY],
     [ANIM_LIST.BADDY],
     [ANIM_LIST.OLDY],
+    [ANIM_LIST.ROBOTY],
 ];
 
 let startImage = {

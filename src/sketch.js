@@ -56,6 +56,14 @@ function preload() {
   animList[ANIM_LIST.OLDY][3] = loadImage('assets/img/oldy4.png');
   animList[ANIM_LIST.OLDY][4] = loadImage('assets/img/oldy5.png');
   animList[ANIM_LIST.OLDY][5] = loadImage('assets/img/oldy_dead.png');
+  
+  animList[ANIM_LIST.ROBOTY][0] = loadImage('assets/img/roboty1.png');
+  animList[ANIM_LIST.ROBOTY][1] = loadImage('assets/img/roboty2.png');
+  animList[ANIM_LIST.ROBOTY][2] = loadImage('assets/img/roboty3.png');
+  animList[ANIM_LIST.ROBOTY][3] = loadImage('assets/img/roboty4.png');
+  animList[ANIM_LIST.ROBOTY][4] = loadImage('assets/img/roboty5.png');
+  animList[ANIM_LIST.ROBOTY][5] = loadImage('assets/img/roboty_dead.png');
+  animList[ANIM_LIST.ROBOTY][6] = loadImage('assets/img/roboty_shoot.png');
 }
 
 
@@ -92,6 +100,7 @@ function setup() {
   lazyList[ANIM_LIST.BADDY] = new Lazy( windowWidth / 2 - lazyWidth, windowHeight / 4 - lazyWidth, lazySize, animList[ANIM_LIST.BADDY]);
   lazyList[ANIM_LIST.CRAZY] = new Lazy( windowWidth / 2 + lazyWidth, windowHeight / 4 + lazyWidth / 3,lazySize, animList[ANIM_LIST.CRAZY]);
   lazyList[ANIM_LIST.OLDY] = new Lazy( windowWidth / 2 + 3 * lazyWidth, windowHeight / 4 - lazyWidth, lazySize, animList[ANIM_LIST.OLDY]);
+  lazyList[ANIM_LIST.ROBOTY] = new Lazy( 50, 50, lazySize, animList[ANIM_LIST.ROBOTY]);
 
   if (lazySelected < 0) {
     lazySelected = ANIM_LIST.LAZY;
