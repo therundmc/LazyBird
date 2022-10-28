@@ -9,7 +9,8 @@
  const LAZER_SPEED = 3;
  const FRAME_RATE = 60;
 
- const JUMP_FORCE = 1000; // less is more
+ const JUMP_FORCE = 800; // less is more
+ const GRAVITY_FORCE = 1300;
  
  const NB_PIPES = 8;
  const FIX_SIZE = false;

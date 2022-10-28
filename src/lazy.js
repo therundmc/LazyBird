@@ -14,7 +14,7 @@ class Lazy {
         this.width = windowHeight / (LAZY_RATIO / size); // Lazy is a square
         this.height = windowHeight / (LAZY_RATIO / size);
         this.img = img;
-        this.deccel = 0.2;
+        this.deccel = 1 * windowHeight  / GRAVITY_FORCE;
         this.accel = 1 * windowHeight  / JUMP_FORCE;
         this.gravity = gravityDefault;
         this.antiGravity = anitgravityDefault;

@@ -89,8 +89,8 @@ function setup() {
   // Pipes
   let offsetBetweenPipes = (windowWidth / (NB_PIPES / 2));
   for (i=0; i < NB_PIPES; i+=2) {
-    pipesList[i] = new Pipe(windowWidth + i * offsetBetweenPipes, windowHeight - windowHeight / 2, "down", i, 0.4, imgList[IMAGE_LIST.PIPE_DOWN]);
-    pipesList[i + 1]= new Pipe(windowWidth + i * offsetBetweenPipes, 0, "up", i, 0.2, imgList[IMAGE_LIST.PIPE_UP]);
+    pipesList[i] = new Pipe(windowWidth + i * offsetBetweenPipes, windowHeight - windowHeight / 2, "down", i, 0.3, imgList[IMAGE_LIST.PIPE_DOWN]);
+    pipesList[i + 1]= new Pipe(windowWidth + i * offsetBetweenPipes, 0, "up", i, 0.25, imgList[IMAGE_LIST.PIPE_UP]);
   }
 
   // Lazy
