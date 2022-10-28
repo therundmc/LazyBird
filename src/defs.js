@@ -5,6 +5,8 @@
 
 // -- PUBLIC CONSTANTS 
  const GAME_SPEED = 5;
+ const ROBOTY_SPEED = 2;
+ const LAZER_SPEED = 3;
  const FRAME_RATE = 60;
  
  const NB_PIPES = 8;
@@ -38,7 +40,7 @@
     OCEAN: 2,
     IMPACT: 3,
     CLICK: 4,
-    CLICK: 5,
+    LAZER: 5,
     // ---
 }
 
@@ -63,6 +65,26 @@ const ANIM_LIST = {
     ROBOTY: 5,
     // ---
     COUNT: 6,
+
+}
+
+// LAZY
+const LAZY_LIST = {
+    LAZY: 0,
+    BUDDY: 1,
+    BADDY: 2,
+    CRAZY: 3,
+    OLDY: 4,
+    // ---
+    COUNT: 5,
+
+}
+
+// ROBOTY
+const ROBOTY_LIST = {
+    ROBOTY: 0,
+    // ---
+    COUNT: 1,
 
 }
 
@@ -106,15 +128,16 @@ let startImage = {
     height: 0,
 }
 
-let lazySelected = -1
+let lazySelected = -1;
 
  let pipesList = [];
  let lazyList = [];
+ let robotyList = [];
  let mapList = [];
+ let lazer = 0;
 
  let gameState = STATES.INIT;
 
- let frameCounter = 0;
  let score = 0;
  let initSpeed = 0;
 
@@ -122,6 +145,8 @@ let lazySelected = -1
 
  let pipeCrossed = false;
  let pipeCrossedPrev = false;
+
+ let frameCounter = 0;
  
 
 

@@ -33,6 +33,9 @@ class Lazy {
         this.initSpeed = 0;
         this.speed = 0;
         this.animSens = 1;
+        this.direction = 1;
+        this.lazer = new Lazer(0, this.y + this.width/2, this.width, this.height/16)
+        this.shooting = false;
 
         this.heightRatio = windowHeight / height;
     }
@@ -67,10 +70,16 @@ class Lazy {
     }
 
     moveY(speed) {
-        if (gameState == STATES.INIT) {
-            this.y += speed;
+    if (speed != 0) {
+        if (this.y > windowHeight - this.width) {
+            this.direction = 1;
         }
-        else {
+        else if (this.y < 0 ) {
+            this.direction = -1;
+        }
+        this.y -= (speed * this.direction);
+    }
+    else {
         if (this.jumpDetected != 0 && this.jumpRep < this.nbOfJumpRep) {
             this.jumpRep++;
             this.jumpY();
@@ -84,8 +93,9 @@ class Lazy {
             this.fallY();
             } 
         }
-        this.draw();
-        }
+    this.draw();
+    }
+
 
     jumpY() {
         this.gravity = gravityDefault;
@@ -151,6 +161,19 @@ class Lazy {
         image(animList[ANIM_LIST.LAZY][6], this.x, this.deadPosY, this.width, this.height);
         noTint();
         
+    }
+
+    shoot(speed) {
+        if (this.lazer.isOnScreen()) {
+            this.lazer.moveX(speed);
+            this.shooting = true;
+        }
+        else {
+            this.lazer = new Lazer(this.x, this.y + this.width/2, this.width, this.height/16)
+            forcePlaySound(soundList[SOUND_LIST.LAZER], 0.8);
+            image(this.img[6], this.x, this.y, this.width, this.height);
+            this.shooting = false;
+        }
     }
 
     draw() {

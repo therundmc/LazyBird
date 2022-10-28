@@ -8,3 +8,15 @@ function isCollision(object1, object2)
     }
     return false;
 }
+
+function playSound(sound, volume) {
+    if (!sound.isPlaying()) {
+        sound.setVolume(volume);
+        sound.play();
+    }
+}
+
+function forcePlaySound(sound, volume) {
+    sound.setVolume(volume);
+    sound.play();
+}

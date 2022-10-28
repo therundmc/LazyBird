@@ -11,6 +11,7 @@ function preload() {
   soundList[SOUND_LIST.IMPACT] = loadSound('assets/sound/impact.wav');
   soundList[SOUND_LIST.CLICK] = loadSound('assets/sound/click.mp3');
   soundList[SOUND_LIST.INTRO] = loadSound('assets/sound/woosh.wav');
+  soundList[SOUND_LIST.LAZER] = loadSound('assets/sound/lazer.wav')
 
   // Images
   imgList[IMAGE_LIST.BKG_SUN] = loadImage('assets/img/sun.png');
@@ -57,7 +58,6 @@ function preload() {
   animList[ANIM_LIST.OLDY][4] = loadImage('assets/img/oldy5.png');
   animList[ANIM_LIST.OLDY][5] = loadImage('assets/img/oldy_dead.png');
 
-  // TODO replace with roboty assets
   animList[ANIM_LIST.ROBOTY][0] = loadImage('assets/img/roboty1.png');
   animList[ANIM_LIST.ROBOTY][1] = loadImage('assets/img/roboty2.png');
   animList[ANIM_LIST.ROBOTY][2] = loadImage('assets/img/roboty3.png');
@@ -94,19 +94,19 @@ function setup() {
   let lazySize = 0.8;
   let lazyWidth = windowHeight / (LAZY_RATIO / lazySize);
 
-  lazyList[ANIM_LIST.LAZY] = new Lazy(windowWidth / 2 - 5 * lazyWidth,  windowHeight / 4 - lazyWidth,  lazySize, animList[ANIM_LIST.LAZY]);
-  lazyList[ANIM_LIST.BUDDY] = new Lazy(windowWidth / 2 - 3 * lazyWidth, windowHeight / 4 + lazyWidth / 3, lazySize, animList[ANIM_LIST.BUDDY]);
-  lazyList[ANIM_LIST.BADDY] = new Lazy( windowWidth / 2 - lazyWidth, windowHeight / 4 - lazyWidth, lazySize, animList[ANIM_LIST.BADDY]);
-  lazyList[ANIM_LIST.CRAZY] = new Lazy( windowWidth / 2 + lazyWidth, windowHeight / 4 + lazyWidth / 3,lazySize, animList[ANIM_LIST.CRAZY]);
-  lazyList[ANIM_LIST.OLDY] = new Lazy( windowWidth / 2 + 3 * lazyWidth, windowHeight / 4 - lazyWidth, lazySize, animList[ANIM_LIST.OLDY]);
+  lazyList[LAZY_LIST.LAZY] = new Lazy(windowWidth / 2 - 5 * lazyWidth,  windowHeight / 4 - lazyWidth,  lazySize, animList[ANIM_LIST.LAZY]);
+  lazyList[LAZY_LIST.BUDDY] = new Lazy(windowWidth / 2 - 3 * lazyWidth, windowHeight / 4 + lazyWidth / 3, lazySize, animList[ANIM_LIST.BUDDY]);
+  lazyList[LAZY_LIST.BADDY] = new Lazy( windowWidth / 2 - lazyWidth, windowHeight / 4 - lazyWidth, lazySize, animList[ANIM_LIST.BADDY]);
+  lazyList[LAZY_LIST.CRAZY] = new Lazy( windowWidth / 2 + lazyWidth, windowHeight / 4 + lazyWidth / 3,lazySize, animList[ANIM_LIST.CRAZY]);
+  lazyList[LAZY_LIST.OLDY] = new Lazy( windowWidth / 2 + 3 * lazyWidth, windowHeight / 4 - lazyWidth, lazySize, animList[ANIM_LIST.OLDY]);
 
   if (lazySelected < 0) {
-    lazySelected = ANIM_LIST.LAZY;
+    lazySelected = LAZY_LIST.LAZY;
   }
   lazyList[lazySelected].select(true); 
 
   // Bad Lazy
-  lazyList[ANIM_LIST.ROBOTY] = new Lazy(windowWidth - windowWidth / 8,  windowWidth / 8,  lazySize, animList[ANIM_LIST.ROBOTY]);
+  robotyList[ROBOTY_LIST.ROBOTY] = new Lazy(windowWidth - windowWidth / 6,  50,  1.2, animList[ANIM_LIST.ROBOTY]);
 
   // MISC
   score = 0;
@@ -143,6 +143,7 @@ function draw() {
       drawBgLazy(0);
       drawPipes(GAME_SPEED_RESCALED);
       drawLazy();
+      drawRoboty(GAME_SPEED_RESCALED);
       drawScore();
       handleCollision();
       break;
@@ -162,8 +163,10 @@ function draw() {
       
     default:
   }
-
   handleSound();
+  frameCounter++;
+
+  console.log(frameCounter)
 }
 
 function drawBg(speed) {
@@ -179,7 +182,7 @@ function drawPipes(speed) {
 }
 
 function drawBgLazy(speed) {
-  for(i=0; i < ANIM_LIST.COUNT; i++) {
+  for(i=0; i < LAZY_LIST.COUNT; i++) {
     if (!lazyList[i].selected) {
       lazyList[i].moveX(speed);
     }
@@ -187,15 +190,22 @@ function drawBgLazy(speed) {
 }
 
 function drawLazy() {
-  for(i=0; i < ANIM_LIST.COUNT; i++) {
+  for(i=0; i < LAZY_LIST.COUNT; i++) {
     if (lazyList[i].selected) {
-      lazyList[i].moveY();
+      lazyList[i].moveY(0);
     }
   }
 }
 
+function drawRoboty(speed) {
+  for(i=0; i < ROBOTY_LIST.COUNT; i++) {
+    robotyList[i].moveY(speed);
+    robotyList[i].shoot(speed * LAZER_SPEED);
+  }
+}
+
 function drawInitLazy(initSpeed){
-  for (i=0; i<ANIM_LIST.COUNT; i++) {
+  for (i=0; i<LAZY_LIST.COUNT; i++) {
     if(lazyList[i].init(initSpeed * (i+1))){
       return true;
     };
@@ -203,7 +213,7 @@ function drawInitLazy(initSpeed){
 }
 
 function initLazySpeed() {
-  for (i=0; i<ANIM_LIST.COUNT; i++) {
+  for (i=0; i<LAZY_LIST.COUNT; i++) {
     lazyList[i].setSpeed(random(0.2,0.5))
   }
 }
@@ -229,6 +239,14 @@ function drawGamOverScreen() {
 }
 
 function handleCollision(){
+  let lazyHitBox = {
+    x: lazyList[lazySelected].x, 
+    y: lazyList[lazySelected].y,
+    width: 0,
+    height: 0,
+    width: lazyList[lazySelected].width / 4,
+    height: lazyList[lazySelected].height / 4,
+  }
   for (i=0; i < NB_PIPES; i+=2) {
     if ((abs(lazyList[lazySelected].x - pipesList[i].x)) < lazyList[lazySelected].width) {
       if (((lazyList[lazySelected].y + lazyList[lazySelected].height) < pipesList[i].y && lazyList[lazySelected].y > pipesList[i+1].y + pipesList[i+1].height)) {
@@ -236,7 +254,7 @@ function handleCollision(){
         return;
       }
       else {
-        soundList[SOUND_LIST.IMPACT].play();
+        forcePlaySound(soundList[SOUND_LIST.IMPACT], 0.8);
         gameState = STATES.GAME_OVER;
       }
     }
@@ -244,36 +262,31 @@ function handleCollision(){
       pipeCrossed = false;
     }
   }
+  for(i=0; i < ROBOTY_LIST.COUNT; i++) {
+    if (isCollision(robotyList[i].lazer, lazyHitBox)){
+      forcePlaySound(soundList[SOUND_LIST.IMPACT], 0.8);
+      gameState = STATES.GAME_OVER;
+    }
+  }
 }
 
 function handleSound() {
   switch (gameState) {
     case STATES.PLAY:
-      if (!soundList[SOUND_LIST.SONG].isPlaying()) {
-        soundList[SOUND_LIST.SONG].setVolume(0.3);
-        //soundList[SOUND_LIST.SONG].play();
-      }
-      if (!soundList[SOUND_LIST.OCEAN].isPlaying()) {
-        soundList[SOUND_LIST.OCEAN].setVolume(0.5);
-        soundList[SOUND_LIST.OCEAN].play();
-      }
+      //playSound(soundList[SOUND_LIST.SONG], 0.5);
+      playSound(soundList[SOUND_LIST.OCEAN], 0.5);
       break;
 
     case STATES.PAUSE:
-      if (!soundList[SOUND_LIST.OCEAN].isPlaying()) {
-        soundList[SOUND_LIST.OCEAN].setVolume(0.5);
-        soundList[SOUND_LIST.OCEAN].play();
-      }
+      playSound(soundList[SOUND_LIST.OCEAN], 0.5);
       break;
 
     case STATES.GAME_OVER:
-      if (!soundList[SOUND_LIST.OCEAN].isPlaying()) {
-        soundList[SOUND_LIST.OCEAN].setVolume(0.5);
-        soundList[SOUND_LIST.OCEAN].play();
-      }
+      playSound(soundList[SOUND_LIST.OCEAN], 0.5);
       break;
       
     default:
+      break;
   }
 }
 
@@ -310,39 +323,48 @@ function handleUserAction() {
     height: windowHeight / 6,
   }
 
-  if (gameState == STATES.PLAY) {
-    if (lazyList[lazySelected].jumpDetected != 1) {
-      soundList[SOUND_LIST.FLAP].play();
-      lazyList[lazySelected].jumpDetected = 1;
-    }
-  }
-  else if (gameState == STATES.PAUSE) {
-    gameState = STATES.PLAY;
-  }
+  switch (gameState) {
+    case STATES.MENU:
+      for (i=0; i<LAZY_LIST.COUNT; i++) {
+        if (isCollision(mouse,lazyList[i])) {
+            soundList[SOUND_LIST.CLICK].play();
+            lazySelected = i;
+        }
+      }
+      for (i=0; i<LAZY_LIST.COUNT; i++) {
+        if (lazySelected == i){
+          lazyList[i].select(true);
+        }
+        else {
+          lazyList[i].select(false);
+        }
+      }  
+      if (isCollision(mouse,startZone)) {
+        forcePlaySound(soundList[SOUND_LIST.INTRO], 0.8);
+        gameState = STATES.INIT;
+      }
+      break;
 
-  else if (gameState == STATES.MENU) {
-    for (i=0; i<ANIM_LIST.COUNT; i++) {
-      if (isCollision(mouse,lazyList[i])) {
-          soundList[SOUND_LIST.CLICK].play();
-          lazySelected = i;
-      }
-    }
-    for (i=0; i<ANIM_LIST.COUNT; i++) {
-      if (lazySelected == i){
-        lazyList[i].select(true);
-      }
-      else {
-        lazyList[i].select(false);
-      }
-    }
+    case STATES.INIT:
+      break;
 
-    if (isCollision(mouse,startZone)) {
-      soundList[SOUND_LIST.INTRO].play();
-      gameState = STATES.INIT;
-    }
-  }
-  else if (gameState == STATES.GAME_OVER) {
-    setup();
+    case STATES.PLAY:
+      if (lazyList[lazySelected].jumpDetected != 1) {
+        forcePlaySound(soundList[SOUND_LIST.FLAP], 0.8);
+        lazyList[lazySelected].jumpDetected = 1;
+      }
+      break;
+
+    case STATES.PAUSE:
+      gameState = STATES.PLAY;
+      break;
+
+    case STATES.GAME_OVER:
+      setup();
+      break;
+      
+    default:
+      break;
   }
 }
 
