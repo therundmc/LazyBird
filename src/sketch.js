@@ -199,8 +199,10 @@ function drawLazy() {
 
 function drawRoboty(speed) {
   for(i=0; i < ROBOTY_LIST.COUNT; i++) {
-    robotyList[i].moveY(speed);
-    robotyList[i].shoot(speed * LAZER_SPEED);
+    if (score > 3) {
+      robotyList[i].moveY(speed);
+      robotyList[i].shoot(speed * LAZER_SPEED);
+    }
   }
 }
 
