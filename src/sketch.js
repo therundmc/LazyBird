@@ -73,7 +73,6 @@ function preload() {
 
 function setup() {
 
-  pixelDensity(1);
   windowWidth = (windowHeight) * SCREEN_RATIO;
 
   createCanvas(windowWidth, windowHeight);
@@ -147,7 +146,7 @@ function draw() {
       switch (gameStage) {
         case 1:
           drawBg(GAME_SPEED_RESCALED);
-          drawBgLazy(0);
+          //drawBgLazy(0);
           drawPipes(GAME_SPEED_RESCALED);
           drawLazy();
           if (score > 5) {
@@ -165,7 +164,7 @@ function draw() {
 
         case 3:
           drawBg(GAME_SPEED_RESCALED);
-          drawBgLazy(0);
+          //drawBgLazy(0);
           drawPipes(GAME_SPEED_RESCALED);
           drawRoboty(GAME_SPEED_RESCALED);
           drawLazy();
@@ -190,7 +189,9 @@ function draw() {
     default:
       break;
   }
+
   handleSound();
+  drawFps();
   frameCounter++;
 }
 
@@ -271,6 +272,13 @@ function drawMenuScreen() {
 
 }
 
+function drawFps() {
+  let fps = frameRate();
+  textSize((windowWidth + windowHeight) / TEXT_SMALL_RATIO);
+  fill(255);
+  stroke(0);
+  text("FPS: " + fps.toFixed(2), windowWidth*0.85, windowHeight * 0.05);
+}
 
 function drawGamOverScreen() {
   textSize((windowWidth + windowHeight) / TEXT_BIG_RATIO);
