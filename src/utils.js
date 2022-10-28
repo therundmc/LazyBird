@@ -1,8 +1,8 @@
 
-function isCollision(object1x, object1y, object2x, object2y, object2w, object2h)
+function isCollision(object1, object2)
 {
-    if ((object1x > object2x - object2w) && (object1x < object2x + object2w)) {
-        if ((object1y > object2y - object2h) && (object1y < object2y + object2h)) {
+    if ((object1.x + object1.width > object2.x - object2.width) && (object1.x - object1.width< object2.x + object2.width)) {
+        if ((object1.y + object1.height> object2.y - object2.height) && (object1.y - object1.height < object2.y + object2.height))  {
             return true;
         }
     }
