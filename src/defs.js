@@ -8,6 +8,7 @@
  const ROBOTY_SPEED = 2;
  const LAZER_SPEED = 3;
  const FRAME_RATE = 60;
+ const PIXEL_DENSITY = 0.7;
 
  const JUMP_FORCE = 800; // less is more
  const GRAVITY_FORCE = 1300;

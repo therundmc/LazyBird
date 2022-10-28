@@ -15,5 +15,8 @@ copy .\assets\sound .\dist\assets\sound
 mkdir .\dist\assets\img
 copy .\assets\img .\dist\assets\img
 
+mkdir .\dist\assets\font
+copy .\assets\font .\dist\assets\font
+
 mkdir .\dist\src
 copy .\src .\dist\src

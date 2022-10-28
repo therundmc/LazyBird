@@ -80,6 +80,7 @@ function setup() {
   textAlign(CENTER, CENTER);
   textFont(bitFont);
   frameRate(FRAME_RATE);
+  pixelDensity(PIXEL_DENSITY);
 
   // Background
   mapList[BKG_LIST.SUN] = new Map(0, 0, windowWidth / MAP_W_SUN_RATIO, windowHeight / MAP_H_SUN_RATIO, imgList[IMAGE_LIST.BKG_SUN]);
