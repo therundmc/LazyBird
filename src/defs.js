@@ -45,6 +45,7 @@
     IMPACT: 3,
     CLICK: 4,
     LAZER: 5,
+    MENU: 6,
     // ---
 }
 

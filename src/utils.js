@@ -17,6 +17,12 @@ function playSound(sound, volume) {
     }
 }
 
+function stopSound(sound) {
+    if (sound.isPlaying()) {
+        sound.stop();
+    }
+}
+
 function forcePlaySound(sound, volume) {
     sound.setVolume(volume);
     sound.play();

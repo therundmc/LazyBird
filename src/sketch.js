@@ -11,7 +11,8 @@ function preload() {
   soundList[SOUND_LIST.IMPACT] = loadSound('assets/sound/impact.wav');
   soundList[SOUND_LIST.CLICK] = loadSound('assets/sound/click.mp3');
   soundList[SOUND_LIST.INTRO] = loadSound('assets/sound/woosh.wav');
-  soundList[SOUND_LIST.LAZER] = loadSound('assets/sound/lazer.wav')
+  soundList[SOUND_LIST.LAZER] = loadSound('assets/sound/lazer.wav');
+  soundList[SOUND_LIST.MENU] = loadSound('assets/sound/LazyBirdMenu.mp3')
 
   // Images
   imgList[IMAGE_LIST.BKG_SUN] = loadImage('assets/img/sun.png');
@@ -351,8 +352,16 @@ function handleCollision(){
 
 function handleSound() {
   switch (gameState) {
+    case STATES.MENU:
+      stopSound(soundList[SOUND_LIST.SONG]);
+      playSound(soundList[SOUND_LIST.MENU] , 0.7); 
+      playSound(soundList[SOUND_LIST.OCEAN], 0.5);
+      break;
+
+
     case STATES.PLAY:
-      //playSound(soundList[SOUND_LIST.SONG], 0.5);
+      stopSound(soundList[SOUND_LIST.MENU]);
+      playSound(soundList[SOUND_LIST.SONG], 0.3);
       playSound(soundList[SOUND_LIST.OCEAN], 0.5);
       break;
 
@@ -361,6 +370,8 @@ function handleSound() {
       break;
 
     case STATES.GAME_OVER:
+      stopSound(soundList[SOUND_LIST.SONG]);
+      playSound(soundList[SOUND_LIST.MENU], 0.7);
       playSound(soundList[SOUND_LIST.OCEAN], 0.5);
       break;
       
