@@ -140,7 +140,7 @@ function draw() {
       break;
 
     case STATES.PLAY:
-	  lazyList[lazySelected].alive = true;
+      lazyList[lazySelected].alive = true;
       drawBg(GAME_SPEED_RESCALED);
       drawBgLazy(0);
       drawPipes(GAME_SPEED_RESCALED);

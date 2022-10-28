@@ -33,10 +33,10 @@
 
  // SOUNDS
  const SOUND_LIST = {
-	SONG: 0,
-	FLAP: 1,
-	OCEAN: 2,
-	IMPACT: 3,
+    SONG: 0,
+    FLAP: 1,
+    OCEAN: 2,
+    IMPACT: 3,
     CLICK: 4,
     CLICK: 5,
     // ---
@@ -44,10 +44,10 @@
 
 // IMAGES
 const IMAGE_LIST = {
-	BKG_SUN: 0,
-	BKG: 1,
-	BKG_GRASS: 2,
-	PIPE_DOWN: 3,
+    BKG_SUN: 0,
+    BKG: 1,
+    BKG_GRASS: 2,
+    PIPE_DOWN: 3,
     PIPE_UP: 4,
     TITLE: 5,
     // ---
@@ -55,12 +55,12 @@ const IMAGE_LIST = {
 
 // ANIM
 const ANIM_LIST = {
-	LAZY: 0,
-	BUDDY: 1,
+    LAZY: 0,
+    BUDDY: 1,
     BADDY: 2,
-	CRAZY: 3,
+    CRAZY: 3,
     OLDY: 4,
-	ROBOTY: 5,
+    ROBOTY: 5,
     // ---
     COUNT: 6,
 
@@ -72,8 +72,8 @@ const STATES = {
     MENU: 1,
     PAUSE: 2,
     INIT: 3,
-	PLAY: 4,
-	GAME_OVER: 5,
+    PLAY: 4,
+    GAME_OVER: 5,
     // ---
 }
 
@@ -81,7 +81,7 @@ const STATES = {
 const BKG_LIST = {
     SUN: 0,
     BKG: 1,
-	GRASS: 2,
+    GRASS: 2,
     // ---
 }
 

@@ -32,7 +32,7 @@ class Lazy {
         this.transparency = 255;
         this.initSpeed = 0;
         this.speed = 0;
-		this.animSens = 1;
+        this.animSens = 1;
 
         this.heightRatio = windowHeight / height;
     }
@@ -162,13 +162,13 @@ class Lazy {
              this.animFrame += this.animSens;
             if(this.animFrame >= 4)
             {
-				this.animSens = -1;
-				//this.animFrame = 0;
-			}
-			if(this.animFrame <= 0)
+                this.animSens = -1;
+                //this.animFrame = 0;
+            }
+            if(this.animFrame <= 0)
             {
-				this.animSens = 1;
-			}
+                this.animSens = 1;
+            }
             this.last = this.now;
         }
     }
