@@ -170,7 +170,7 @@ class Lazy {
             this.shooting = true;
         }
         else {
-            this.lazer = new Lazer(this.x, this.y + this.width/2, 0, this.height/16)
+            this.lazer = new Lazer(this.x, this.y + this.width/2, this.width/2, this.height/16)
             forcePlaySound(soundList[SOUND_LIST.LAZER], 0.8);
             image(this.img[6], this.x, this.y, this.width, this.height);
             this.shooting = false;

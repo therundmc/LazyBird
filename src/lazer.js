@@ -19,8 +19,7 @@
     }
 
     stretchX(speed) {
-        this.x += speed;
-        this.width -= speed;
+        this.width += speed;
         this.draw();
     }
 
