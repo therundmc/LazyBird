@@ -4,10 +4,12 @@
  */
 
 // -- PUBLIC CONSTANTS 
- const GAME_SPEED = 5;
+ const GAME_SPEED = 8;
  const ROBOTY_SPEED = 2;
  const LAZER_SPEED = 3;
  const FRAME_RATE = 60;
+
+ const JUMP_FORCE = 1000; // less is more
  
  const NB_PIPES = 8;
  const FIX_SIZE = false;
@@ -137,6 +139,7 @@ let lazySelected = -1;
  let lazer = 0;
 
  let gameState = STATES.INIT;
+ let gameStage = 1;
 
  let score = 0;
  let initSpeed = 0;

@@ -6,13 +6,15 @@
 let offset = 200
 
 class Pipe {
-    constructor (x, y, orientation, index, img) {
+    constructor (x, y, orientation, index, size, img) {
         this.x = x;
         this.y = y;
         this.width = windowWidth / PIPE_W_RATIO;
         this.height = windowHeight / PIPE_H_RATIO;
         this.img = img;
-        this.size = random(windowHeight / 4, windowHeight / 3.5);
+        this.sizeMin = size - 0.1;
+        this.sizeMax = size + 0.1;
+        this.size = random(windowHeight * this.sizeMin, windowHeight * this.sizeMax);
         this.orientation = orientation;
         this.index = index
     }
@@ -22,7 +24,7 @@ class Pipe {
             this.x -= speed;
         }
         else {
-            this.size = random(windowHeight / 3.7 , windowHeight / 2.7);
+            this.size = random(windowHeight * this.sizeMin , windowHeight * this.sizeMax);
             this.x = windowWidth;
         }
 
@@ -35,6 +37,12 @@ class Pipe {
         }
 
     
+        this.draw();
+    }
+
+    changeSize (size) {
+        this.sizeMin = size - 0.1;
+        this.sizeMax = size + 0.1;
         this.draw();
     }
 

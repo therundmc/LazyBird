@@ -65,6 +65,8 @@ function preload() {
   animList[ANIM_LIST.ROBOTY][4] = loadImage('assets/img/roboty5.png');
   animList[ANIM_LIST.ROBOTY][5] = loadImage('assets/img/roboty_dead.png');
   animList[ANIM_LIST.ROBOTY][6] = loadImage('assets/img/roboty_shoot.png');
+
+  bitFont = loadFont('assets/font/joystix.ttf');
     
 }
 
@@ -76,6 +78,7 @@ function setup() {
 
   createCanvas(windowWidth, windowHeight);
   textAlign(CENTER, CENTER);
+  textFont(bitFont);
   frameRate(FRAME_RATE);
 
   // Background
@@ -86,8 +89,8 @@ function setup() {
   // Pipes
   let offsetBetweenPipes = (windowWidth / (NB_PIPES / 2));
   for (i=0; i < NB_PIPES; i+=2) {
-    pipesList[i] = new Pipe(windowWidth + i * offsetBetweenPipes, windowHeight - windowHeight / 2, "down", i, imgList[IMAGE_LIST.PIPE_DOWN]);
-    pipesList[i + 1]= new Pipe(windowWidth + i * offsetBetweenPipes, 0, "up", i, imgList[IMAGE_LIST.PIPE_UP]);
+    pipesList[i] = new Pipe(windowWidth + i * offsetBetweenPipes, windowHeight - windowHeight / 2, "down", i, 0.4, imgList[IMAGE_LIST.PIPE_DOWN]);
+    pipesList[i + 1]= new Pipe(windowWidth + i * offsetBetweenPipes, 0, "up", i, 0.2, imgList[IMAGE_LIST.PIPE_UP]);
   }
 
   // Lazy
@@ -112,6 +115,7 @@ function setup() {
   score = 0;
   frameCounter = 0;
   gameState = STATES.MENU;
+  gameStage = 1;
   defPosXLazy = windowWidth / 6;
 }
 
@@ -128,7 +132,7 @@ function draw() {
       break;
 
     case STATES.INIT:
-      initSpeed -= windowWidth / (35 * windowWidth);
+      initSpeed -= windowWidth / (20 * windowWidth);
       drawBg(-initSpeed);
       if(drawInitLazy(initSpeed)){
         initSpeed = 0;
@@ -138,12 +142,33 @@ function draw() {
       break;
 
     case STATES.PLAY:
-	  lazyList[lazySelected].alive = true;
-      drawBg(GAME_SPEED_RESCALED);
-      drawBgLazy(0);
-      drawPipes(GAME_SPEED_RESCALED);
-      drawLazy();
-      drawRoboty(GAME_SPEED_RESCALED);
+	    lazyList[lazySelected].alive = true;
+      switch (gameStage) {
+        case 1:
+          drawBg(GAME_SPEED_RESCALED);
+          drawBgLazy(0);
+          drawPipes(GAME_SPEED_RESCALED);
+          drawLazy();
+          if (score > 5) {
+            gameStage++; 
+          }
+          break;
+
+        // transition 
+        case 2:
+          drawBg(GAME_SPEED_RESCALED);
+          changePipesSize(0.1);
+          drawLazy();
+          gameStage++;
+          break;
+
+        case 3:
+          drawBg(GAME_SPEED_RESCALED);
+          drawBgLazy(0);
+          drawPipes(GAME_SPEED_RESCALED);
+          drawRoboty(GAME_SPEED_RESCALED);
+          drawLazy();
+      }
       drawScore();
       handleCollision();
       break;
@@ -162,11 +187,10 @@ function draw() {
       break;
       
     default:
+      break;
   }
   handleSound();
   frameCounter++;
-
-  console.log(frameCounter)
 }
 
 function drawBg(speed) {
@@ -175,7 +199,7 @@ function drawBg(speed) {
   mapList[BKG_LIST.GRASS].moveX(speed);
 }
 
-function drawPipes(speed) {
+function drawPipes(speed, size) {
   for (i=0; i < NB_PIPES; i++) {  
     pipesList[i].moveX(speed);
  }
@@ -220,6 +244,14 @@ function initLazySpeed() {
   }
 }
 
+function changePipesSize(size) {
+    for (i=0; i < NB_PIPES; i+=2) {
+      pipesList[i].changeSize(size);
+      pipesList[i + 1].changeSize(size);
+
+    }
+}
+
 function drawMenuScreen() {  
   startImage.x = windowWidth/2-windowWidth/TITLE_W_RATIO /2;
   startImage.y = windowHeight/2-windowHeight/TITLE_H_RATIO * 0.5;
@@ -227,6 +259,15 @@ function drawMenuScreen() {
   startImage.height = windowHeight/TITLE_H_RATIO;
 
   image(imgList[IMAGE_LIST.TITLE], startImage.x, startImage.y, startImage.width , startImage.height);
+
+  // textSize((windowWidth + windowHeight) / TEXT_BIG_RATIO);
+  // fill(0,0,0)
+  // text('LAZY BIRD', windowWidth/2, windowHeight * 0.5);
+
+  textSize((windowWidth + windowHeight) / TEXT_SMALL_RATIO);
+  fill(0,0,0)
+  text('- Fnek Game Studios -', windowWidth * 0.5, windowHeight * 0.90);
+
 }
 
 
@@ -246,8 +287,8 @@ function handleCollision(){
     y: lazyList[lazySelected].y,
     width: 0,
     height: 0,
-    width: lazyList[lazySelected].width / 4,
-    height: lazyList[lazySelected].height / 4,
+    width: lazyList[lazySelected].width / 2,
+    height: lazyList[lazySelected].height,
   }
   for (i=0; i < NB_PIPES; i+=2) {
     if ((abs(lazyList[lazySelected].x - pipesList[i].x)) < lazyList[lazySelected].width) {
@@ -292,6 +333,7 @@ function handleSound() {
   }
 }
 
+
 function drawScore() {
   console.log(pipeCrossed, pipeCrossedPrev)
   if (gameState == STATES.PLAY) {
@@ -314,8 +356,8 @@ function handleUserAction() {
   let mouse = {
     x: mouseX,
     y: mouseY,
-    width: 0,
-    height: 0,
+    width: 10,
+    height: 10,
   }
 
   let startZone = {
