@@ -10,8 +10,8 @@
  const FRAME_RATE = 60;
  const PIXEL_DENSITY = 1;
 
- const JUMP_FORCE = 800; // less is more
- const GRAVITY_FORCE = 1300;
+ const JUMP_FORCE = 1100; // less is more
+ const GRAVITY_FORCE = 1500;
  
  const NB_PIPES = 8;
  const FIX_SIZE = false;

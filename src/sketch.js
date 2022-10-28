@@ -167,6 +167,7 @@ function draw() {
           //drawBgLazy(0);
           drawPipes(GAME_SPEED_RESCALED);
           drawRoboty(GAME_SPEED_RESCALED);
+          shootShortRoboty(GAME_SPEED_RESCALED);
           drawLazy();
       }
       drawScore();
@@ -227,7 +228,22 @@ function drawRoboty(speed) {
   for(i=0; i < ROBOTY_LIST.COUNT; i++) {
     if (score > 3) {
       robotyList[i].moveY(speed);
-      robotyList[i].shoot(speed * LAZER_SPEED);
+    }
+  }
+}
+
+function shootShortRoboty(speed) {
+  for(i=0; i < ROBOTY_LIST.COUNT; i++) {
+    if (score > 3) {
+      robotyList[i].shootShort(speed * LAZER_SPEED);
+    }
+  }
+}
+
+function shootLongRoboty(speed) {
+  for(i=0; i < ROBOTY_LIST.COUNT; i++) {
+    if (score > 3) {
+      robotyList[i].shootLong(speed * LAZER_SPEED);
     }
   }
 }

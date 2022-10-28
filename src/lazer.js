@@ -14,7 +14,13 @@
 
     moveX(speed) {
         this.x -= speed;
-        console.log(this.x)
+        this.width += speed / 8;
+        this.draw();
+    }
+
+    stretchX(speed) {
+        this.x += speed;
+        this.width -= speed;
         this.draw();
     }
 
