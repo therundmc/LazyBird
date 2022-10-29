@@ -14,7 +14,7 @@
 
     moveX(speed) {
         this.x -= speed;
-        this.width += speed / 8;
+        this.width += speed / 10;
         this.draw();
     }
 

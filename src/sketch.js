@@ -203,7 +203,7 @@ function draw() {
           drawRoboty(GAME_SPEED_RESCALED);
           shootShortRoboty(GAME_SPEED_RESCALED);
           drawLazy();
-          if (score > 10) {
+          if (score > 12) {
             gameStage++; 
           }
           break;
@@ -212,21 +212,59 @@ function draw() {
         case 4:
           drawBg(GAME_SPEED_RESCALED);
           drawPipes(GAME_SPEED_RESCALED, SIZE_PIPE_EASY);
-          drawRoboty(GAME_SPEED_RESCALED);
+          robotyList[ROBOTY_LIST.ROBOTY].moveX(-GAME_SPEED_RESCALED / 4);
           playSound(soundList[SOUND_LIST.LAZYKAZE] , 0.8); 
           drawLazy();
-          gameStage++;
+          if (score > 13) {
+            gameStage++; 
+          }
           break;
 
         case 5:
           drawBg(GAME_SPEED_RESCALED);
           //drawBgLazy(0);
-          drawPipes(GAME_SPEED_RESCALED, SIZE_PIPE_EASY);
+          drawPipes(GAME_SPEED_RESCALED, SIZE_PIPE_MED);
           drawRoboty(GAME_SPEED_RESCALED);
-          shootShortRoboty(GAME_SPEED_RESCALED);
           drawLazyKaze(GAME_SPEED_RESCALED);
           drawLazy();
+          if (score > 20) {
+            gameStage++; 
+          }
           break;
+
+        // Transistion 
+        case 6:
+          drawBg(GAME_SPEED_RESCALED);
+          drawPipes(GAME_SPEED_RESCALED, SIZE_PIPE_MED);
+          playSound(soundList[SOUND_LIST.ROBOTY] , 0.7); 
+          robotyList[ROBOTY_LIST.ROBOTY].moveX(GAME_SPEED_RESCALED / 4);
+          drawLazyKaze(GAME_SPEED_RESCALED);
+          drawLazy();
+          if (score > 21) {
+            gameStage++; 
+          }
+          break;
+
+        case 7:
+          drawBg(GAME_SPEED_RESCALED);
+          //drawBgLazy(0);
+          drawPipes(GAME_SPEED_RESCALED, SIZE_PIPE_MED);
+          drawRoboty(GAME_SPEED_RESCALED);
+          shootShortRoboty(1.5 * GAME_SPEED_RESCALED);
+          drawLazyKaze(GAME_SPEED_RESCALED);
+          drawLazy();
+          if (score > 35) {
+            gameStage++; 
+          }
+          break;
+
+        case 8:
+          drawBg(0);
+          drawBgLazy(-GAME_SPEED_RESCALED / 4);
+          drawEndGameScreen();
+          break;
+
+          
       }
       drawScore();
       handleCollision();
@@ -241,7 +279,9 @@ function draw() {
       drawBg(0);
       drawBgLazy(-GAME_SPEED_RESCALED / 4);
       drawPipes(0);
-      lazyList[lazySelected].die();
+      if (!lazyList[lazySelected].exploded){
+        lazyList[lazySelected].die();
+      }
       drawGamOverScreen();
       break;
       
@@ -299,8 +339,19 @@ function drawRoboty(speed) {
 
 function drawLazyKaze(speed) {
   for(i=0; i < KAZE_LIST.COUNT; i++) {
-    lazyKazeList[i].moveX(speed * 1.5);
-    lazyKazeList[i].moveY(speed * 0.3);
+    if(!lazyKazeList[i].exploded && lazyKazeList[i].alive){
+      lazyKazeList[i].moveX(speed * 1.5);
+      lazyKazeList[i].moveY(speed * 0.3);
+    }
+    else if (!lazyKazeList[i].exploded && !lazyKazeList[i].alive){
+      lazyKazeList[i].die();
+    }
+    else {
+      lazyKazeList[i].alive = true;
+      lazyKazeList[i].exploded = false;
+      lazyKazeList[i].x = -lazyKazeList[i].width;
+    }
+
   }
 }
 
@@ -369,14 +420,29 @@ function drawGamOverScreen() {
   text("SCORE : " + score, windowWidth/2, windowHeight/2 + windowHeight/10);
 }
 
+function drawEndGameScreen() {
+  textSize((windowWidth + windowHeight) / TEXT_BIG_RATIO);
+  fill(255,0,0)
+  text('YOU WIN !', windowWidth/2, windowHeight/2);
+
+  textSize((windowWidth + windowHeight) / TEXT_SMALL_RATIO);
+  fill(0,0,0)
+  text("SCORE : " + score, windowWidth/2, windowHeight/2 + windowHeight/10);
+}
+
 function handleCollision(){
   let lazyHitBox = {
     x: lazyList[lazySelected].x, 
     y: lazyList[lazySelected].y,
-    width: 0,
-    height: 0,
     width: lazyList[lazySelected].width / 2,
     height: lazyList[lazySelected].height,
+  }
+
+  let boomBox = {
+    x: 0, 
+    y: 0,
+    width: windowWidth * random(0.05, 0.2),
+    height: windowHeight,
   }
   for (i=0; i < NB_PIPES; i+=2) {
     if ((abs(lazyList[lazySelected].x - pipesList[i].x)) < lazyList[lazySelected].width) {
@@ -401,13 +467,21 @@ function handleCollision(){
   }
 
   for(i=0; i < KAZE_LIST.COUNT; i++) {
-    if (isCollision(lazyKazeList[i], lazyHitBox)){
-      causOfDeath = DEATH.LAZYKAZE;
-      forcePlaySound(soundList[SOUND_LIST.BOOM], 1);
-      gameState = STATES.GAME_OVER;
-    }
-    else {
-      causOfDeath = DEATH.OTHER;
+    if(lazyKazeList[i].alive){
+      if (isCollision(lazyKazeList[i], lazyHitBox)){
+        lazyList[lazySelected].causOfDeath = DEATH.LAZYKAZE;
+        forcePlaySound(soundList[SOUND_LIST.BOOM], 1);
+        gameState = STATES.GAME_OVER;
+      }
+      else {
+        lazyList[lazySelected].causOfDeath = DEATH.OTHER;
+      }
+
+      if (isCollision(lazyKazeList[i], boomBox)){
+          lazyKazeList[i].causOfDeath = DEATH.LAZYKAZE
+          forcePlaySound(soundList[SOUND_LIST.BOOM], 1);
+          lazyKazeList[i].die();
+      }
     }
   }
 }
@@ -455,6 +529,11 @@ function drawScore() {
   textSize(scoreTextSize);
   fill(0,0,0)
   text(score, scoreTextSize, scoreTextSize);
+
+  scoreTextSize = (windowWidth + windowHeight) / TEXT_SMALL_RATIO;
+  textSize(scoreTextSize);
+  fill(0,0,0)
+  text("LEVEL: " + gameStage, windowWidth - 4 *scoreTextSize, windowHeight - scoreTextSize);
 }
 
 function windowResized() {
