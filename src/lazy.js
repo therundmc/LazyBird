@@ -37,6 +37,8 @@ class Lazy {
         this.lazer = new Lazer(0, this.y + this.width/2, this.width/2, this.height/16);
         this.shooting = false;
         this.boomFrame = 0;
+        this.causOfDeath = 0;
+        this.exploded = false;
 
         this.heightRatio = windowHeight / height;
     }
@@ -71,32 +73,33 @@ class Lazy {
     }
 
     moveY(speed) {
-    if (speed != 0) {
-        if (this.y > windowHeight - this.width) {
-            this.direction = 1;
-        }
-        else if (this.y < 0 ) {
-            this.direction = -1;
-        }
-        this.y -= (speed * this.direction);
-    }
-    else {
-        if (this.jumpDetected != 0 && this.jumpRep < this.nbOfJumpRep) {
-            this.jumpRep++;
-            this.jumpY();
-            }
-            else if (this.jumpRep >= this.nbOfJumpRep){
-            this.jumpDetected = 0;
-            this.jumpRep = 0;
-            this.fallY();
+        if (this.alive) {
+            if (speed != 0) {
+                if (this.y > windowHeight - this.width) {
+                    this.direction = 1;
+                }
+                else if (this.y < 0 ) {
+                    this.direction = -1;
+                }
+                this.y -= (speed * this.direction);
             }
             else {
-            this.fallY();
-            } 
-        }
-    this.draw();
+                if (this.jumpDetected != 0 && this.jumpRep < this.nbOfJumpRep) {
+                    this.jumpRep++;
+                    this.jumpY();
+                    }
+                    else if (this.jumpRep >= this.nbOfJumpRep){
+                    this.jumpDetected = 0;
+                    this.jumpRep = 0;
+                    this.fallY();
+                    }
+                    else {
+                    this.fallY();
+                    } 
+                }
+            this.draw();
+            }
     }
-
 
     jumpY() {
         this.gravity = gravityDefault;
@@ -111,6 +114,7 @@ class Lazy {
     }
 
     moveX(customSpeed) {
+    if (this.alive) {
         if (this.x > windowWidth + windowWidth * 0.7) {
             this.x = - windowWidth / 8;
             this.y = random(windowHeight/10, windowHeight);
@@ -135,6 +139,8 @@ class Lazy {
         this.draw();
     }
 
+    }
+
     die() {
         if(this.alive)
         {
@@ -143,7 +149,7 @@ class Lazy {
             this.transparency = 255;
         }
 
-        if (causOfDeath != DEATH.LAZYKAZE ) {
+        if (this.causOfDeath != DEATH.LAZYKAZE ) {
             this.drawBumk();
         }
         else {
@@ -179,6 +185,10 @@ class Lazy {
 
         if (this.boomFrame < 14){
             image(BOOM[this.boomFrame], this.x - this.width , this.y - this.height, this.width * 3, this.height * 3);
+        }
+        else {
+            this.exploded = true;
+            this.boomFrame = 0;
         }
     }
 
