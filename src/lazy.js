@@ -34,9 +34,9 @@ class Lazy {
         this.speed = 0;
         this.animSens = 1;
         this.direction = 1;
-        this.lazer = new Lazer(0, this.y + this.width/2, this.width, this.height/16);
-        this.lazerFree = 0;
+        this.lazer = new Lazer(0, this.y + this.width/2, this.width/2, this.height/16);
         this.shooting = false;
+        this.boomFrame = 0;
 
         this.heightRatio = windowHeight / height;
     }
@@ -113,15 +113,13 @@ class Lazy {
     moveX(customSpeed) {
         if (this.x > windowWidth + windowWidth * 0.7) {
             this.x = - windowWidth / 8;
-            this.y = random(windowHeight/10, windowHeight/4);
-            this.size = random(0.4, 0.7);
+            this.y = random(windowHeight/10, windowHeight);
             this.width = windowHeight / (LAZY_RATIO / this.size ); // Lazy is a square
             this.height = windowHeight / (LAZY_RATIO / this.size );
         }
         else if (this.x < 0 - windowWidth * 0.5) {
             this.x = windowWidth;
-            this.size = random(0.4, 0.7);
-            this.y = random(windowHeight/20, windowHeight/4);
+            this.y = random(windowHeight/10, windowHeight);
             this.width = windowHeight / (LAZY_RATIO / this.size ); // Lazy is a square
             this.height = windowHeight / (LAZY_RATIO / this.size );
         }
@@ -144,24 +142,44 @@ class Lazy {
             this.deadPosY = this.y;
             this.transparency = 255;
         }
+
+        if (causOfDeath != DEATH.LAZYKAZE ) {
+            this.drawBumk();
+        }
+        else {
+            this.drawBoom();
+        }
+    }
+
+    drawBumk(){
         image(this.img[5], this.x, this.y, this.width, this.height);
-        
         this.now = new Date().getTime()
         this.delta = this.now - this.last;
 
         if (this.delta >= 33) {
             
             this.last = this.now;
-            
             this.deadPosY -= 10;
             this.transparency -= 10;
         
         }
-        
         tint(255,this.transparency);
         image(animList[ANIM_LIST.LAZY][6], this.x, this.deadPosY, this.width, this.height);
         noTint();
-        
+    }
+
+    drawBoom(){
+        this.now = new Date().getTime()
+        this.delta = this.now - this.last;
+        if (this.delta >= 60 && this.boomFrame < 14) {
+            
+            this.last = this.now;
+            this.boomFrame++;
+        }
+
+        if (this.boomFrame < 14){
+            image(BOOM[this.boomFrame], this.x - this.width , this.y - this.height, this.width * 3, this.height * 3);
+        }
     }
 
     shootShort(speed) {
@@ -169,8 +187,8 @@ class Lazy {
             this.lazer.moveX(speed);
             this.shooting = true;
         }
-        else {
-            this.lazer = new Lazer(this.x, this.y + this.width/2, this.width/2, this.height/16)
+        else{
+            this.lazer = new Lazer(this.x, this.y + this.width/2, this.width/2, this.height/16);
             forcePlaySound(soundList[SOUND_LIST.LAZER], 0.8);
             image(this.img[6], this.x, this.y, this.width, this.height);
             this.shooting = false;

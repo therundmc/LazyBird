@@ -11,7 +11,11 @@ function preload() {
   soundList[SOUND_LIST.IMPACT] = loadSound('assets/sound/impact.wav');
   soundList[SOUND_LIST.CLICK] = loadSound('assets/sound/click.mp3');
   soundList[SOUND_LIST.INTRO] = loadSound('assets/sound/woosh.wav');
-  soundList[SOUND_LIST.LAZER] = loadSound('assets/sound/lazer.wav')
+  soundList[SOUND_LIST.LAZER] = loadSound('assets/sound/lazer.wav');
+  soundList[SOUND_LIST.MENU] = loadSound('assets/sound/LazyBirdMenu.mp3');
+  soundList[SOUND_LIST.BOOM] = loadSound('assets/sound/boom.wav');
+  soundList[SOUND_LIST.ROBOTY] = loadSound('assets/sound/roboty.wav');
+  soundList[SOUND_LIST.LAZYKAZE] = loadSound('assets/sound/lazykaze.mp3');
 
   // Images
   imgList[IMAGE_LIST.BKG_SUN] = loadImage('assets/img/sun.png');
@@ -51,19 +55,12 @@ function preload() {
   animList[ANIM_LIST.CRAZY][4] = loadImage('assets/img/crazy5.png');
   animList[ANIM_LIST.CRAZY][5] = loadImage('assets/img/crazy_dead.png');
   
-  /*animList[ANIM_LIST.OLDY][0] = loadImage('assets/img/oldy1.png');
+  animList[ANIM_LIST.OLDY][0] = loadImage('assets/img/oldy1.png');
   animList[ANIM_LIST.OLDY][1] = loadImage('assets/img/oldy2.png');
   animList[ANIM_LIST.OLDY][2] = loadImage('assets/img/oldy3.png');
   animList[ANIM_LIST.OLDY][3] = loadImage('assets/img/oldy4.png');
   animList[ANIM_LIST.OLDY][4] = loadImage('assets/img/oldy5.png');
-  animList[ANIM_LIST.OLDY][5] = loadImage('assets/img/oldy_dead.png');*/
-  
-  animList[ANIM_LIST.OLDY][0] = loadImage('assets/img/lazykaze1.png');
-  animList[ANIM_LIST.OLDY][1] = loadImage('assets/img/lazykaze2.png');
-  animList[ANIM_LIST.OLDY][2] = loadImage('assets/img/lazykaze3.png');
-  animList[ANIM_LIST.OLDY][3] = loadImage('assets/img/lazykaze4.png');
-  animList[ANIM_LIST.OLDY][4] = loadImage('assets/img/lazykaze5.png');
-  animList[ANIM_LIST.OLDY][5] = loadImage('assets/img/lazykaze_dead.png');
+  animList[ANIM_LIST.OLDY][5] = loadImage('assets/img/oldy_dead.png');
 
   animList[ANIM_LIST.ROBOTY][0] = loadImage('assets/img/roboty1.png');
   animList[ANIM_LIST.ROBOTY][1] = loadImage('assets/img/roboty2.png');
@@ -73,12 +70,34 @@ function preload() {
   animList[ANIM_LIST.ROBOTY][5] = loadImage('assets/img/roboty_dead.png');
   animList[ANIM_LIST.ROBOTY][6] = loadImage('assets/img/roboty_shoot.png');
 
+  animList[ANIM_LIST.LAZYKAZE][0] = loadImage('assets/img/lazykaze1.png');
+  animList[ANIM_LIST.LAZYKAZE][1] = loadImage('assets/img/lazykaze2.png');
+  animList[ANIM_LIST.LAZYKAZE][2] = loadImage('assets/img/lazykaze3.png');
+  animList[ANIM_LIST.LAZYKAZE][3] = loadImage('assets/img/lazykaze4.png');
+  animList[ANIM_LIST.LAZYKAZE][4] = loadImage('assets/img/lazykaze5.png');
+  animList[ANIM_LIST.LAZYKAZE][5] = loadImage('assets/img/lazykaze_dead.png');
+
   bitFont = loadFont('assets/font/joystix.ttf');
   
   logo = loadImage('assets/img/logo4.png');
+  
+  BOOM.push(loadImage('assets/img/explosion1.png'));
+  BOOM.push(loadImage('assets/img/explosion2.png'));
+  BOOM.push(loadImage('assets/img/explosion3.png'));
+  BOOM.push(loadImage('assets/img/explosion4.png'));
+  BOOM.push(loadImage('assets/img/explosion5.png'));
+  BOOM.push(loadImage('assets/img/explosion6.png'));
+  BOOM.push(loadImage('assets/img/explosion7.png'));
+  BOOM.push(loadImage('assets/img/explosion8.png'));
+  BOOM.push(loadImage('assets/img/explosion9.png'));
+  BOOM.push(loadImage('assets/img/explosion10.png'));
+  BOOM.push(loadImage('assets/img/explosion11.png'));
+  BOOM.push(loadImage('assets/img/explosion12.png'));
+  BOOM.push(loadImage('assets/img/explosion13.png'));
+  BOOM.push(loadImage('assets/img/explosion14.png'));
+  BOOM.push(loadImage('assets/img/explosion15.png'));
     
 }
-
 
 function setup() {
 
@@ -98,8 +117,8 @@ function setup() {
   // Pipes
   let offsetBetweenPipes = (windowWidth / (NB_PIPES / 2));
   for (i=0; i < NB_PIPES; i+=2) {
-    pipesList[i] = new Pipe(windowWidth + i * offsetBetweenPipes, windowHeight - windowHeight / 2, "down", i, 0.3, imgList[IMAGE_LIST.PIPE_DOWN]);
-    pipesList[i + 1]= new Pipe(windowWidth + i * offsetBetweenPipes, 0, "up", i, 0.25, imgList[IMAGE_LIST.PIPE_UP]);
+    pipesList[i] = new Pipe(windowWidth + i * offsetBetweenPipes, windowHeight - windowHeight / 2, "down", i, 0.2 + 0.05*i, imgList[IMAGE_LIST.PIPE_DOWN]);
+    pipesList[i + 1]= new Pipe(windowWidth + i * offsetBetweenPipes, 0, "up", i, 0.4 - (0.05*i), imgList[IMAGE_LIST.PIPE_UP]);
   }
 
   // Lazy
@@ -118,8 +137,10 @@ function setup() {
   lazyList[lazySelected].select(true); 
 
   // Bad Lazy
-  robotyList[ROBOTY_LIST.ROBOTY] = new Lazy(windowWidth - windowWidth / 6,  50,  1.2, animList[ANIM_LIST.ROBOTY]);
-
+  robotyList[ROBOTY_LIST.ROBOTY] = new Lazy(windowWidth,  50,  1.2, animList[ANIM_LIST.ROBOTY]);
+  
+  lazyKazeList[KAZE_LIST.LAZYKAZE] = new Lazy(windowWidth,  0,  0.8, animList[ANIM_LIST.LAZYKAZE]);
+  
   // MISC
   score = 0;
   frameCounter = 0;
@@ -151,13 +172,13 @@ function draw() {
       break;
 
     case STATES.PLAY:
-	    lazyList[lazySelected].alive = true;
+      lazyList[lazySelected].alive = true;
       switch (gameStage) {
         case 1:
           drawBg(GAME_SPEED_RESCALED);
           //drawBgLazy(0);
-          drawPipes(GAME_SPEED_RESCALED);
-          drawLazy();
+          drawPipes(GAME_SPEED_RESCALED, SIZE_PIPE_MED);
+          drawLazy()
           if (score > 5) {
             gameStage++; 
           }
@@ -166,18 +187,46 @@ function draw() {
         // transition 
         case 2:
           drawBg(GAME_SPEED_RESCALED);
-          changePipesSize(0.1);
+          drawPipes(GAME_SPEED_RESCALED, SIZE_PIPE_MED);
+          playSound(soundList[SOUND_LIST.ROBOTY] , 0.7); 
+          robotyList[ROBOTY_LIST.ROBOTY].moveX(GAME_SPEED_RESCALED / 4);
           drawLazy();
-          gameStage++;
+          if (score > 6) {
+            gameStage++; 
+          }
           break;
 
         case 3:
           drawBg(GAME_SPEED_RESCALED);
           //drawBgLazy(0);
-          drawPipes(GAME_SPEED_RESCALED);
+          drawPipes(GAME_SPEED_RESCALED, SIZE_PIPE_EASY);
           drawRoboty(GAME_SPEED_RESCALED);
           shootShortRoboty(GAME_SPEED_RESCALED);
           drawLazy();
+          if (score > 10) {
+            gameStage++; 
+          }
+          break;
+
+        // Transistion 
+        case 4:
+          drawBg(GAME_SPEED_RESCALED);
+          drawPipes(GAME_SPEED_RESCALED, SIZE_PIPE_EASY);
+          drawRoboty(GAME_SPEED_RESCALED);
+          playSound(soundList[SOUND_LIST.LAZYKAZE] , 0.8); 
+          drawLazy();
+          gameStage++;
+          break;
+
+        case 5:
+          drawBg(GAME_SPEED_RESCALED);
+          //drawBgLazy(0);
+          drawPipes(GAME_SPEED_RESCALED, SIZE_PIPE_EASY);
+          drawRoboty(GAME_SPEED_RESCALED);
+          shootShortRoboty(GAME_SPEED_RESCALED);
+          drawLazyKaze(GAME_SPEED_RESCALED);
+          drawLazy();
+          break;
       }
       drawScore();
       handleCollision();
@@ -212,8 +261,17 @@ function drawBg(speed) {
 }
 
 function drawPipes(speed, size) {
-  for (i=0; i < NB_PIPES; i++) {  
-    pipesList[i].moveX(speed);
+  for (i=0; i < NB_PIPES; i+=2) {  
+    if (pipesList[i].isOnScreen()) {
+      pipesList[i].moveX(speed);
+      pipesList[i + 1].moveX(speed);
+    }
+    else {
+      sizeDown = random(0.1,size);
+      sizeUp = random(size, size + 0.1) - sizeDown
+      pipesList[i].init(windowWidth, sizeDown);
+      pipesList[i+1].init(windowWidth, sizeUp);
+    }
  }
 }
 
@@ -235,17 +293,20 @@ function drawLazy() {
 
 function drawRoboty(speed) {
   for(i=0; i < ROBOTY_LIST.COUNT; i++) {
-    if (score > 3) {
-      robotyList[i].moveY(speed);
-    }
+    robotyList[i].moveY(speed);
+  }
+}
+
+function drawLazyKaze(speed) {
+  for(i=0; i < KAZE_LIST.COUNT; i++) {
+    lazyKazeList[i].moveX(speed * 1.5);
+    lazyKazeList[i].moveY(speed * 0.3);
   }
 }
 
 function shootShortRoboty(speed) {
   for(i=0; i < ROBOTY_LIST.COUNT; i++) {
-    if (score > 3) {
-      robotyList[i].shootShort(speed * LAZER_SPEED);
-    }
+    robotyList[i].shootShort(speed * LAZER_SPEED);
   }
 }
 
@@ -271,14 +332,6 @@ function initLazySpeed() {
   }
 }
 
-function changePipesSize(size) {
-    for (i=0; i < NB_PIPES; i+=2) {
-      pipesList[i].changeSize(size);
-      pipesList[i + 1].changeSize(size);
-
-    }
-}
-
 function drawMenuScreen() {  
   startImage.x = windowWidth/2-windowWidth/TITLE_W_RATIO /2;
   startImage.y = windowHeight/2-windowHeight/TITLE_H_RATIO * 0.5;
@@ -294,8 +347,7 @@ function drawMenuScreen() {
   textSize((windowWidth + windowHeight) / TEXT_SMALL_RATIO);
   fill(0,0,0)
   text('- Fnek Game Studios -', windowWidth * 0.5, windowHeight * 0.90);
-  image(logo, windowWidth * 0.5 - 100, windowHeight * 0.75, 100 , 100);
-  
+  image(logo, windowWidth * 0.47, windowHeight * 0.75, windowWidth * 0.05 , windowHeight * 0.1);
 
 }
 
@@ -347,13 +399,32 @@ function handleCollision(){
       gameState = STATES.GAME_OVER;
     }
   }
+
+  for(i=0; i < KAZE_LIST.COUNT; i++) {
+    if (isCollision(lazyKazeList[i], lazyHitBox)){
+      causOfDeath = DEATH.LAZYKAZE;
+      forcePlaySound(soundList[SOUND_LIST.BOOM], 1);
+      gameState = STATES.GAME_OVER;
+    }
+    else {
+      causOfDeath = DEATH.OTHER;
+    }
+  }
 }
 
 function handleSound() {
   switch (gameState) {
+    case STATES.MENU:
+      stopSound(soundList[SOUND_LIST.SONG]);
+      playSound(soundList[SOUND_LIST.MENU] , 0.7); 
+      playSound(soundList[SOUND_LIST.OCEAN], 0.2);
+      break;
+
+
     case STATES.PLAY:
-      //playSound(soundList[SOUND_LIST.SONG], 0.5);
-      playSound(soundList[SOUND_LIST.OCEAN], 0.5);
+      stopSound(soundList[SOUND_LIST.MENU]);
+      playSound(soundList[SOUND_LIST.SONG], 0.7);
+      playSound(soundList[SOUND_LIST.OCEAN], 0.1);
       break;
 
     case STATES.PAUSE:
@@ -361,7 +432,9 @@ function handleSound() {
       break;
 
     case STATES.GAME_OVER:
-      playSound(soundList[SOUND_LIST.OCEAN], 0.5);
+      stopSound(soundList[SOUND_LIST.SONG]);
+      playSound(soundList[SOUND_LIST.MENU], 0.7);
+      playSound(soundList[SOUND_LIST.OCEAN], 0.2);
       break;
       
     default:

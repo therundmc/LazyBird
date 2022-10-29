@@ -12,21 +12,13 @@ class Pipe {
         this.width = windowWidth / PIPE_W_RATIO;
         this.height = windowHeight / PIPE_H_RATIO;
         this.img = img;
-        this.sizeMin = size - 0.1;
-        this.sizeMax = size + 0.1;
-        this.size = random(windowHeight * this.sizeMin, windowHeight * this.sizeMax);
+        this.size = windowHeight * size;
         this.orientation = orientation;
-        this.index = index
+        this.index = index;
     }
 
     moveX(speed) {
-        if (-this.x < windowWidth) {
-            this.x -= speed;
-        }
-        else {
-            this.size = random(windowHeight * this.sizeMin , windowHeight * this.sizeMax);
-            this.x = windowWidth;
-        }
+        this.x -= speed;
 
         if (this.orientation == "down" ) {
 
@@ -35,15 +27,23 @@ class Pipe {
         else {
             this.y = - (windowHeight - this.size);
         }
-
-    
         this.draw();
     }
 
-    changeSize (size) {
-        this.sizeMin = size - 0.1;
-        this.sizeMax = size + 0.1;
+    init (x, size) {
+        this.x = x;
+        this.size = size;
+        this.size = random(windowHeight * this.size, windowHeight * this.size);
         this.draw();
+    }
+
+    isOnScreen () {
+        if (this.x + windowWidth > 0) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     draw() {

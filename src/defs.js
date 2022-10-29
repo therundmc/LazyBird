@@ -4,7 +4,7 @@
  */
 
 // -- PUBLIC CONSTANTS 
- const GAME_SPEED = 8;
+ const GAME_SPEED = 6;
  const ROBOTY_SPEED = 2;
  const LAZER_SPEED = 3;
  const FRAME_RATE = 60;
@@ -37,6 +37,10 @@
  const TEXT_SMALL_RATIO = 50;
  const TEXT_BIG_RATIO = 25;
 
+ const SIZE_PIPE_EASY = 0.3;
+ const SIZE_PIPE_MED = 0.4;
+ const SIZE_PIPE_HARD = 0.6;
+
  // SOUNDS
  const SOUND_LIST = {
     SONG: 0,
@@ -45,6 +49,10 @@
     IMPACT: 3,
     CLICK: 4,
     LAZER: 5,
+    MENU: 6,
+    BOOM: 7,
+    ROBOTY: 8,
+    LAZYKAZE: 9,
     // ---
 }
 
@@ -67,8 +75,9 @@ const ANIM_LIST = {
     CRAZY: 3,
     OLDY: 4,
     ROBOTY: 5,
+    LAZYKAZE: 6,
     // ---
-    COUNT: 6,
+    COUNT: 7,
 
 }
 
@@ -89,6 +98,23 @@ const ROBOTY_LIST = {
     ROBOTY: 0,
     // ---
     COUNT: 1,
+
+}
+
+// ROBOTY
+const KAZE_LIST = {
+    LAZYKAZE: 0,
+    // ---
+    COUNT: 1,
+
+}
+
+// CAUSE OF DEATH
+const DEATH = {
+    LAZYKAZE: 0,
+    OTHER: 1,
+    // ---
+    COUNT: 2,
 
 }
 
@@ -123,6 +149,7 @@ const BKG_LIST = {
     [ANIM_LIST.BADDY],
     [ANIM_LIST.OLDY],
     [ANIM_LIST.ROBOTY],
+    [ANIM_LIST.LAZYKAZE],
 ];
 
 let startImage = {
@@ -137,8 +164,10 @@ let lazySelected = -1;
  let pipesList = [];
  let lazyList = [];
  let robotyList = [];
+ let lazyKazeList = [];
  let mapList = [];
  let lazer = 0;
+ let causOfDeath = 0;
 
  let gameState = STATES.INIT;
  let gameStage = 1;
@@ -154,6 +183,8 @@ let lazySelected = -1;
  let frameCounter = 0;
  
  let logo;
+ 
+ let BOOM = [];
  
 
 
