@@ -33,8 +33,10 @@
     }
 
     draw() {
-        fill(255,0,0);
+        fill(255,50,0);
         noStroke();
-        rect(this.x, this.y, this.width, this.height, 20);
+        tint(255, 125);
+        rect(this.x, this.y, this.width, this.height);
+        noTint(255, 125);
     }
 }

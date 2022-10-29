@@ -140,10 +140,10 @@ function setup() {
   robotyList[ROBOTY_LIST.ROBOTY] = new Lazy(windowWidth,  50,  1.2, animList[ANIM_LIST.ROBOTY]);
   
   lazyKazeList[KAZE_LIST.LAZYKAZE] = new Lazy(windowWidth,  0,  0.8, animList[ANIM_LIST.LAZYKAZE]);
-  
+  lazyKazeList[KAZE_LIST.LAZYKAZE2] = new Lazy(windowWidth* 1.5,  windowHeight * 0.5,  0.7, animList[ANIM_LIST.LAZYKAZE]);
+  lazyKazeList[KAZE_LIST.LAZYKAZE3] = new Lazy(windowWidth* 2,  windowHeight * 0.8,  0.8, animList[ANIM_LIST.LAZYKAZE]);
   // MISC
   score = 0;
-  frameCounter = 0;
   gameState = STATES.MENU;
   gameStage = 1;
   defPosXLazy = windowWidth / 6;
@@ -253,7 +253,7 @@ function draw() {
           shootShortRoboty(1.5 * GAME_SPEED_RESCALED);
           drawLazyKaze(GAME_SPEED_RESCALED);
           drawLazy();
-          if (score > 35) {
+          if (score > 40) {
             gameStage++; 
           }
           break;
@@ -290,8 +290,7 @@ function draw() {
   }
 
   handleSound();
-  drawFps();
-  frameCounter++;
+  //drawFps();
 }
 
 function drawBg(speed) {
@@ -444,6 +443,7 @@ function handleCollision(){
     width: windowWidth * random(0.05, 0.2),
     height: windowHeight,
   }
+
   for (i=0; i < NB_PIPES; i+=2) {
     if ((abs(lazyList[lazySelected].x - pipesList[i].x)) < lazyList[lazySelected].width) {
       if (((lazyList[lazySelected].y + lazyList[lazySelected].height) < pipesList[i].y && lazyList[lazySelected].y > pipesList[i+1].y + pipesList[i+1].height)) {
@@ -451,39 +451,50 @@ function handleCollision(){
         return;
       }
       else {
-        forcePlaySound(soundList[SOUND_LIST.IMPACT], 0.8);
-        gameState = STATES.GAME_OVER;
+        if(lazyList[lazySelected].hit(soundList[SOUND_LIST.IMPACT]) <= 0){
+          lazyList[lazySelected].causOfDeath = DEATH.OTHER;
+          gameState = STATES.GAME_OVER;
+        }
       }
     }
     else {
       pipeCrossed = false;
     }
   }
+
   for(i=0; i < ROBOTY_LIST.COUNT; i++) {
     if (isCollision(robotyList[i].lazer, lazyHitBox)){
-      forcePlaySound(soundList[SOUND_LIST.IMPACT], 0.8);
-      gameState = STATES.GAME_OVER;
+      if(lazyList[lazySelected].hit(soundList[SOUND_LIST.IMPACT]) <= 0){
+        lazyList[lazySelected].causOfDeath = DEATH.OTHER;
+        gameState = STATES.GAME_OVER;
+      }
     }
   }
 
   for(i=0; i < KAZE_LIST.COUNT; i++) {
     if(lazyKazeList[i].alive){
       if (isCollision(lazyKazeList[i], lazyHitBox)){
-        lazyList[lazySelected].causOfDeath = DEATH.LAZYKAZE;
-        forcePlaySound(soundList[SOUND_LIST.BOOM], 1);
-        gameState = STATES.GAME_OVER;
-      }
-      else {
-        lazyList[lazySelected].causOfDeath = DEATH.OTHER;
-      }
-
-      if (isCollision(lazyKazeList[i], boomBox)){
-          lazyKazeList[i].causOfDeath = DEATH.LAZYKAZE
-          forcePlaySound(soundList[SOUND_LIST.BOOM], 1);
-          lazyKazeList[i].die();
+        if(lazyList[lazySelected].hit(soundList[SOUND_LIST.BOOM]) <= 0){
+          lazyList[lazySelected].causOfDeath = DEATH.LAZYKAZE;
+          gameState = STATES.GAME_OVER;
+        }
+        else {
+          lazyList[lazySelected].causOfDeath = DEATH.OTHER;
+        }  
       }
     }
   }
+      
+
+for(i=0; i < KAZE_LIST.COUNT; i++) {
+  if(lazyKazeList[i].alive){
+    if (isCollision(lazyKazeList[i], boomBox)){
+        lazyKazeList[i].causOfDeath = DEATH.LAZYKAZE
+        forcePlaySound(soundList[SOUND_LIST.BOOM], 1);
+        lazyKazeList[i].die();
+    }
+  }
+}
 }
 
 function handleSound() {
@@ -518,7 +529,6 @@ function handleSound() {
 
 
 function drawScore() {
-  console.log(pipeCrossed, pipeCrossedPrev)
   if (gameState == STATES.PLAY) {
     if (pipeCrossedPrev != pipeCrossed && pipeCrossed == false){
       score++;
@@ -530,10 +540,21 @@ function drawScore() {
   fill(0,0,0)
   text(score, scoreTextSize, scoreTextSize);
 
-  scoreTextSize = (windowWidth + windowHeight) / TEXT_SMALL_RATIO;
-  textSize(scoreTextSize);
+  levelTextSize = (windowWidth + windowHeight) / TEXT_SMALL_RATIO;
+  textSize(levelTextSize);
   fill(0,0,0)
-  text("LEVEL: " + gameStage, windowWidth - 4 *scoreTextSize, windowHeight - scoreTextSize);
+  text("LEVEL:" + gameStage, windowWidth - 4 *levelTextSize, windowHeight - levelTextSize);
+
+  let livesText = "";
+  livesTextSize = (windowWidth + windowHeight) / TEXT_BIG_RATIO;
+  textSize(livesTextSize);
+  fill(255,0,0)
+  for (i=0; i<lazyList[lazySelected].lives; i++){
+    livesText += '\u2665';
+  }
+  textAlign(LEFT, CENTER);
+  text(livesText, windowWidth - 4 *livesTextSize, livesTextSize);
+  textAlign(CENTER, CENTER);
 }
 
 function windowResized() {

@@ -41,6 +41,9 @@
  const SIZE_PIPE_MED = 0.4;
  const SIZE_PIPE_HARD = 0.6;
 
+ const AFTER_HIT = 300;
+ const LIVES = 3;
+
  // SOUNDS
  const SOUND_LIST = {
     SONG: 0,
@@ -104,8 +107,10 @@ const ROBOTY_LIST = {
 // ROBOTY
 const KAZE_LIST = {
     LAZYKAZE: 0,
+    LAZYKAZE2: 1,
+    LAZYKAZE3: 2,
     // ---
-    COUNT: 1,
+    COUNT: 3,
 
 }
 
@@ -168,6 +173,9 @@ let lazySelected = -1;
  let mapList = [];
  let lazer = 0;
  let causOfDeath = 0;
+
+ let invicibilityTimer = 0;
+ let invicibilityTimerStart = 0;
 
  let gameState = STATES.INIT;
  let gameStage = 1;
