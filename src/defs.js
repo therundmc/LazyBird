@@ -156,6 +156,8 @@ let lazySelected = -1;
  
  let logo;
  
+ let BOOM = [];
+ 
 
 
  

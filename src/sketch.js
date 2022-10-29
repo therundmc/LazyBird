@@ -77,7 +77,45 @@ function preload() {
   bitFont = loadFont('assets/font/joystix.ttf');
   
   logo = loadImage('assets/img/logo4.png');
+  
+  BOOM.push(loadImage('assets/img/explosion1.png'));
+  BOOM.push(loadImage('assets/img/explosion2.png'));
+  BOOM.push(loadImage('assets/img/explosion3.png'));
+  BOOM.push(loadImage('assets/img/explosion4.png'));
+  BOOM.push(loadImage('assets/img/explosion5.png'));
+  BOOM.push(loadImage('assets/img/explosion6.png'));
+  BOOM.push(loadImage('assets/img/explosion7.png'));
+  BOOM.push(loadImage('assets/img/explosion8.png'));
+  BOOM.push(loadImage('assets/img/explosion9.png'));
+  BOOM.push(loadImage('assets/img/explosion10.png'));
+  BOOM.push(loadImage('assets/img/explosion11.png'));
+  BOOM.push(loadImage('assets/img/explosion12.png'));
+  BOOM.push(loadImage('assets/img/explosion13.png'));
+  BOOM.push(loadImage('assets/img/explosion14.png'));
+  BOOM.push(loadImage('assets/img/explosion15.png'));
     
+}
+
+let boomFrame = 0;
+let now = new Date().getTime();
+let last = new Date().getTime();
+
+function tempDrawBoom(){
+	
+	image(BOOM[boomFrame], 100, 100, 100, 100);
+	
+	now = new Date().getTime()
+    let delta = now - last;
+
+        if (delta >= 40) {
+            
+            last = now;
+            boomFrame++;
+			
+			if(boomFrame > 14)
+				boomFrame = 0;
+        
+        }
 }
 
 
@@ -139,6 +177,7 @@ function draw() {
       drawMenuScreen();
       drawBgLazy(0);
       drawInitLazy(0);
+	  tempDrawBoom();
       break;
 
     case STATES.INIT:
