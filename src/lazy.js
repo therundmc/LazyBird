@@ -39,6 +39,11 @@ class Lazy {
         this.boomFrame = 0;
         this.causOfDeath = 0;
         this.exploded = false;
+        this.lives = LIVES;
+        this.invincibility = false;
+
+        this.invincibilityTimer = 0;
+        this.invincibilityTimerStart = 0;
 
         this.heightRatio = windowHeight / height;
     }
@@ -138,6 +143,32 @@ class Lazy {
         }
         this.draw();
     }
+
+    }
+
+    hit(sound, impactDirection) {
+        if(!this.invincibility) {
+            background(255, 0, 0);
+            forcePlaySound(sound, 0.8);
+            this.lives--;
+            this.invincibilityTimerStart = new Date().getTime()
+        }
+
+        this.invincibilityTimer = new Date().getTime() - this.invincibilityTimerStart;
+
+        if (this.invincibilityTimer > AFTER_HIT) {
+            this.invincibilityTimer = 0;
+            this.invincibility = false;
+        }
+        else {
+            this.invincibility = true;
+        }
+
+        if(this.live <= 0) {
+            this.die();
+        }
+
+        return this.lives;
 
     }
 
