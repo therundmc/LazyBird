@@ -203,7 +203,7 @@ function draw() {
           drawRoboty(GAME_SPEED_RESCALED);
           shootShortRoboty(GAME_SPEED_RESCALED);
           drawLazy();
-          if (score > 12) {
+          if (score > 15) {
             gameStage++; 
           }
           break;
@@ -215,7 +215,7 @@ function draw() {
           robotyList[ROBOTY_LIST.ROBOTY].moveX(-GAME_SPEED_RESCALED / 4);
           playSound(soundList[SOUND_LIST.LAZYKAZE] , 0.8); 
           drawLazy();
-          if (score > 13) {
+          if (score > 16) {
             gameStage++; 
           }
           break;
@@ -227,7 +227,7 @@ function draw() {
           drawRoboty(GAME_SPEED_RESCALED);
           drawLazyKaze(GAME_SPEED_RESCALED);
           drawLazy();
-          if (score > 20) {
+          if (score > 25) {
             gameStage++; 
           }
           break;
@@ -240,7 +240,7 @@ function draw() {
           robotyList[ROBOTY_LIST.ROBOTY].moveX(GAME_SPEED_RESCALED / 4);
           drawLazyKaze(GAME_SPEED_RESCALED);
           drawLazy();
-          if (score > 21) {
+          if (score > 26) {
             gameStage++; 
           }
           break;
