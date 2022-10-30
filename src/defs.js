@@ -62,11 +62,12 @@
 // IMAGES
 const IMAGE_LIST = {
     BKG_SUN: 0,
-    BKG: 1,
-    BKG_GRASS: 2,
-    PIPE_DOWN: 3,
-    PIPE_UP: 4,
-    TITLE: 5,
+    BKG_ROCKS: 1,
+    BKG_CLOUDS: 2,
+    BKG_GROUND: 3,
+    PIPE_DOWN: 4,
+    PIPE_UP: 5,
+    TITLE: 6,
     // ---
 }
 
@@ -137,8 +138,9 @@ const STATES = {
 // BKG LIST
 const BKG_LIST = {
     SUN: 0,
-    BKG: 1,
-    GRASS: 2,
+    ROCKS: 1,
+    CLOUDS: 2,
+    GROUND: 3,
     // ---
 }
 
