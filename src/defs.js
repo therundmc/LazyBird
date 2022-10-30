@@ -17,7 +17,7 @@
  const FIX_SIZE = false;
  
  // RATIO
- const SCREEN_RATIO = 16 / 9;
+ const SCREEN_RATIO = 16 / 8.3;
  
  const MAP_W_SUN_RATIO   = 1;
  const MAP_H_SUN_RATIO   = 3;
@@ -26,7 +26,7 @@
  const MAP_W_GRASS_RATIO = 1;
  const MAP_H_GRASS_RATIO = 1;
 
- const PIPE_W_RATIO = 14;
+ const PIPE_W_RATIO = 10;
  const PIPE_H_RATIO = 1;
 
  const LAZY_RATIO = 8;
@@ -57,6 +57,7 @@
     ROBOTY: 8,
     LAZYKAZE: 9,
     // ---
+    COUNT: 10
 }
 
 // IMAGES

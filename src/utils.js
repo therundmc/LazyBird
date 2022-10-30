@@ -27,3 +27,26 @@ function forcePlaySound(sound, volume) {
     sound.setVolume(volume);
     sound.play();
 }
+
+function deInit() {
+    // Background
+    mapList = [];
+
+    // Pipes
+    pipesList = [];
+
+    // Lazy
+    lazyList = [];
+
+     // Bad Lazy
+    robotyList = [];
+    lazyKazeList = [];
+
+    for (i=0; i< SOUND_LIST.COUNT; i++) {
+        soundList[i].stop();
+    } 
+}
+
+function breath() {
+    return (128 + 128 * sin(millis() / 1000));
+}
