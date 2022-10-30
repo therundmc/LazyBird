@@ -3,7 +3,7 @@
  * @copyright therundmc & weirdaz - 2022
  */
 
-class Map {
+class Bkg {
     constructor (x, y, width, height, img) {
         this.x = x;
         this.y = y;
@@ -26,7 +26,7 @@ class Map {
 
     draw() {
         image(this.img, this.x, this.y, this.width, this.height);
-        image(this.img, this.x + this.width, this.y, this.width, this.height);
+        image(this.img, this.x + this.width - 1, this.y, this.width, this.height);
     }
 
     resize() {

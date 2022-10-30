@@ -18,9 +18,10 @@ function preload() {
   soundList[SOUND_LIST.LAZYKAZE] = loadSound('assets/sound/lazykaze.mp3');
 
   // Images
-  imgList[IMAGE_LIST.BKG_SUN] = loadImage('assets/img/sun.png');
-  imgList[IMAGE_LIST.BKG] = loadImage('assets/img/bkg.png');
-  imgList[IMAGE_LIST.BKG_GRASS] = loadImage('assets/img/bkg_herbe.png');
+  imgList[IMAGE_LIST.BKG_SUN] = loadImage('assets/img/sky.png');
+  imgList[IMAGE_LIST.BKG_ROCKS] = loadImage('assets/img/rocks.png');
+  imgList[IMAGE_LIST.BKG_CLOUDS] = loadImage('assets/img/clouds.png');
+  imgList[IMAGE_LIST.BKG_GROUND] = loadImage('assets/img/ground.png');
   imgList[IMAGE_LIST.PIPE_DOWN] = loadImage('assets/img/pipe_down.png');
   imgList[IMAGE_LIST.PIPE_UP] = loadImage('assets/img/pipe_up.png');
   imgList[IMAGE_LIST.TITLE] = loadImage('assets/img/titre.png');
@@ -110,9 +111,9 @@ function setup() {
   pixelDensity(PIXEL_DENSITY);
 
   // Background
-  mapList[BKG_LIST.SUN] = new Map(0, 0, windowWidth / MAP_W_SUN_RATIO, windowHeight / MAP_H_SUN_RATIO, imgList[IMAGE_LIST.BKG_SUN]);
-  mapList[BKG_LIST.BKG] = new Map(0, 0, windowWidth / MAP_W_BG_RATIO, windowHeight / MAP_H_BG_RATIO, imgList[IMAGE_LIST.BKG]);
-  mapList[BKG_LIST.GRASS] = new Map(0, 0, windowWidth / MAP_W_GRASS_RATIO, windowHeight / MAP_H_GRASS_RATIO, imgList[IMAGE_LIST.BKG_GRASS]);
+  mapList[BKG_LIST.SUN] = new Bkg(0, 0, windowWidth, windowHeight, imgList[IMAGE_LIST.BKG_SUN]);
+  mapList[BKG_LIST.ROCKS] = new Bkg(0, 0, windowWidth, windowHeight, imgList[IMAGE_LIST.BKG_ROCKS]);
+  mapList[BKG_LIST.CLOUDS] = new Bkg(0, 0, windowWidth, windowHeight, imgList[IMAGE_LIST.BKG_CLOUDS]);
 
   // Pipes
   let offsetBetweenPipes = (windowWidth / (NB_PIPES / 2));
@@ -295,8 +296,8 @@ function draw() {
 
 function drawBg(speed) {
   mapList[BKG_LIST.SUN].moveX(speed/50);
-  mapList[BKG_LIST.BKG].moveX(speed/10);
-  mapList[BKG_LIST.GRASS].moveX(speed);
+  mapList[BKG_LIST.ROCKS].moveX(speed/5);
+  mapList[BKG_LIST.CLOUDS].moveX(speed/8);
 }
 
 function drawPipes(speed, size) {
@@ -390,12 +391,12 @@ function drawMenuScreen() {
 
   image(imgList[IMAGE_LIST.TITLE], startImage.x, startImage.y, startImage.width , startImage.height);
 
-  // textSize((windowWidth + windowHeight) / TEXT_BIG_RATIO);
+  // textSize((windowWidth + windowHeight) / TEXT_BIG_RATIO * 1.5);
   // fill(0,0,0)
   // text('LAZY BIRD', windowWidth/2, windowHeight * 0.5);
 
   textSize((windowWidth + windowHeight) / TEXT_SMALL_RATIO);
-  fill(0,0,0)
+  fill(0,150,100)
   text('- Fnek Game Studios -', windowWidth * 0.5, windowHeight * 0.90);
   image(logo, windowWidth * 0.47, windowHeight * 0.75, windowWidth * 0.05 , windowHeight * 0.1);
 
@@ -542,7 +543,7 @@ function drawScore() {
 
   levelTextSize = (windowWidth + windowHeight) / TEXT_SMALL_RATIO;
   textSize(levelTextSize);
-  fill(0,0,0)
+  fill(255,255,255)
   text("LEVEL:" + gameStage, windowWidth - 4 *levelTextSize, windowHeight - levelTextSize);
 
   let livesText = "";
