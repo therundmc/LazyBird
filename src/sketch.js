@@ -448,7 +448,7 @@ function handleCollision(){
   let boomBox = {
     x: 0, 
     y: 0,
-    width: windowWidth * random(0.05, 0.2),
+    width: windowWidth * random(0.05, 0.1),
     height: windowHeight,
   }
 
