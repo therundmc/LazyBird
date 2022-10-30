@@ -21,9 +21,9 @@ function preload() {
   imgList[IMAGE_LIST.BKG_SUN] = loadImage('assets/img/sky.png');
   imgList[IMAGE_LIST.BKG_ROCKS] = loadImage('assets/img/rocks.png');
   imgList[IMAGE_LIST.BKG_CLOUDS] = loadImage('assets/img/clouds.png');
-  imgList[IMAGE_LIST.BKG_GROUND] = loadImage('assets/img/ground.png');
-  imgList[IMAGE_LIST.PIPE_DOWN] = loadImage('assets/img/pipe_down.png');
-  imgList[IMAGE_LIST.PIPE_UP] = loadImage('assets/img/pipe_up.png');
+  imgList[IMAGE_LIST.BKG_GROUND] = loadImage('assets/img/grass.png');
+  imgList[IMAGE_LIST.PIPE_DOWN] = loadImage('assets/img/log_down.png');
+  imgList[IMAGE_LIST.PIPE_UP] = loadImage('assets/img/log_up.png');
   imgList[IMAGE_LIST.TITLE] = loadImage('assets/img/titre.png');
 
   // Animations
@@ -114,6 +114,7 @@ function setup() {
   mapList[BKG_LIST.SUN] = new Bkg(0, 0, windowWidth, windowHeight, imgList[IMAGE_LIST.BKG_SUN]);
   mapList[BKG_LIST.ROCKS] = new Bkg(0, 0, windowWidth, windowHeight, imgList[IMAGE_LIST.BKG_ROCKS]);
   mapList[BKG_LIST.CLOUDS] = new Bkg(0, 0, windowWidth, windowHeight, imgList[IMAGE_LIST.BKG_CLOUDS]);
+  mapList[BKG_LIST.GROUND] = new Bkg(0, windowHeight - 50, windowWidth , windowHeight /10, imgList[IMAGE_LIST.BKG_GROUND]);
 
   // Pipes
   let offsetBetweenPipes = (windowWidth / (NB_PIPES / 2));
@@ -226,7 +227,7 @@ function draw() {
           //drawBgLazy(0);
           drawPipes(GAME_SPEED_RESCALED, SIZE_PIPE_MED);
           drawRoboty(GAME_SPEED_RESCALED);
-          drawLazyKaze(GAME_SPEED_RESCALED);
+          drawLazyKaze(GAME_SPEED_RESCALED, 2);
           drawLazy();
           if (score > 25) {
             gameStage++; 
@@ -239,7 +240,7 @@ function draw() {
           drawPipes(GAME_SPEED_RESCALED, SIZE_PIPE_MED);
           playSound(soundList[SOUND_LIST.ROBOTY] , 0.7); 
           robotyList[ROBOTY_LIST.ROBOTY].moveX(GAME_SPEED_RESCALED / 4);
-          drawLazyKaze(GAME_SPEED_RESCALED);
+          drawLazyKaze(GAME_SPEED_RESCALED, 2);
           drawLazy();
           if (score > 26) {
             gameStage++; 
@@ -252,7 +253,7 @@ function draw() {
           drawPipes(GAME_SPEED_RESCALED, SIZE_PIPE_MED);
           drawRoboty(GAME_SPEED_RESCALED);
           shootShortRoboty(1.5 * GAME_SPEED_RESCALED);
-          drawLazyKaze(GAME_SPEED_RESCALED);
+          drawLazyKaze(GAME_SPEED_RESCALED, 3);
           drawLazy();
           if (score > 40) {
             gameStage++; 
@@ -337,11 +338,11 @@ function drawRoboty(speed) {
   }
 }
 
-function drawLazyKaze(speed) {
-  for(i=0; i < KAZE_LIST.COUNT; i++) {
+function drawLazyKaze(speed, nb) {
+  for(i=0; i < nb; i++) {
     if(!lazyKazeList[i].exploded && lazyKazeList[i].alive){
       lazyKazeList[i].moveX(speed * 1.5);
-      lazyKazeList[i].moveY(speed * 0.3);
+      lazyKazeList[i].moveY(speed * 0.5);
     }
     else if (!lazyKazeList[i].exploded && !lazyKazeList[i].alive){
       lazyKazeList[i].die();
@@ -384,16 +385,22 @@ function initLazySpeed() {
 }
 
 function drawMenuScreen() {  
+  let alpha = 100;
   startImage.x = windowWidth/2-windowWidth/TITLE_W_RATIO /2;
   startImage.y = windowHeight/2-windowHeight/TITLE_H_RATIO * 0.5;
   startImage.width = windowWidth/TITLE_W_RATIO;
   startImage.height = windowHeight/TITLE_H_RATIO;
 
+  if (alpha < 255) {
+    alpha += (millis() / 10);
+  }
+  tint(255, alpha);
   image(imgList[IMAGE_LIST.TITLE], startImage.x, startImage.y, startImage.width , startImage.height);
-
-  // textSize((windowWidth + windowHeight) / TEXT_BIG_RATIO * 1.5);
+  
+  // textSize((windowWidth + windowHeight) / TEXT_BIG_RATIO);
   // fill(0,0,0)
   // text('LAZY BIRD', windowWidth/2, windowHeight * 0.5);
+  noTint();
 
   textSize((windowWidth + windowHeight) / TEXT_SMALL_RATIO);
   fill(0,150,100)
@@ -559,6 +566,7 @@ function drawScore() {
 }
 
 function windowResized() {
+  deInit();
   setup();
 }
 
@@ -614,6 +622,7 @@ function handleUserAction() {
       break;
 
     case STATES.GAME_OVER:
+      deInit();
       setup();
       break;
       
