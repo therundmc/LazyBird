@@ -52,31 +52,6 @@ class Lazy {
         this.speed = speed;
     }
 
-    init(initSpeed) {
-        if (initSpeed != 0){
-            if (this.selected) {
-                if (this.x < defPosXLazy) {
-                return true;
-                }
-                else {
-                this.moveX(-initSpeed);
-                }   
-            }
-            else {
-                if (this.x > (windowWidth + this.width)){
-                    this.size = random(0.4,0.8);
-                    this.resize();
-                    this.x = windowWidth + windowWidth * random(0.1,0.7);
-                    this.y = random(windowHeight/20, windowHeight/4);
-                }
-                else {
-                    this.moveX(initSpeed * 15);
-                }
-            }
-        }
-        this.draw();
-    }
-
     moveY(speed) {
         if (this.alive) {
             if (speed != 0) {
@@ -278,5 +253,69 @@ class Lazy {
         this.height = windowHeight / (LAZY_RATIO / this.size);
         this.width = windowHeight / (LAZY_RATIO / this.size);
         this.draw();
+    }
+
+    // New Code propre
+    moveTo(x, y, speed, accel, bound) {
+        if (this.alive) {
+
+            this.speed += accel; 
+
+            if (!Number.isNaN(x)) {
+                if (this.x < (x - this.speed)) {
+                    this.x = this.checkBoundX(this.x += this.speed, bound);
+                }
+                else if (this.x > (x + this.speed)) {
+                    this.x = this.checkBoundX(this.x -= this.speed, bound);
+                }
+                else {
+                    this.x = this.checkBoundX(x, bound);
+                }
+            }
+
+            if (!Number.isNaN(y)) {
+                if (this.y < (y - this.speed)) {
+                    this.y = this.checkBoundY(this.y += this.speed, bound);
+                }
+                else if (this.y > (y + this.speed)) {
+                    this.y = this.checkBoundY(this.y -= this.speed, bound);
+                }
+                else {
+                    this.y= this.checkBoundY(y, bound);
+                }
+            }
+
+            this.draw();
+
+            if ((this.x == x || Number.isNaN(x)) && (this.y == y || Number.isNaN(y))) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+    }
+
+    // PRIVATE
+    checkBoundX(x, b) {
+        if (!b) {return x;}
+        if (x < 0) {
+            x = 0;
+        }
+        else if (x > windowWidth - this.width) {
+            x = windowWidth - this.width;
+        }
+        return x;
+    }
+
+    checkBoundY(y, b) {
+        if (!b) {return x;}
+        if (y < 0) {
+            y = 0;
+        }
+        else if (y > windowHeight - this.height) {
+            y = windowHeight - this.height;
+        }
+        return y;
     }
 }

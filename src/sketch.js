@@ -159,18 +159,22 @@ function draw() {
     case STATES.MENU:
       drawBg(0.5);
       drawMenuScreen();
-      drawBgLazy(0);
-      drawInitLazy(0);
+      drawAllLazyStatic();
       break;
 
     case STATES.INIT:
-      initSpeed -= windowWidth / (20 * windowWidth);
-      drawBg(-initSpeed);
-      if(drawInitLazy(initSpeed)){
-        initSpeed = 0;
-        initLazySpeed();
-        gameState = STATES.PLAY;
-      };
+      drawBg(0.5);
+      for (i=0; i<LAZY_LIST.COUNT; i++ ) {
+        if(i!=lazySelected) {
+          moveToSpecLazy(lazyList[i], windowWidth + 500, NaN, 1, i+1, false);
+        }
+        else{
+          if (moveToSpecLazy(lazyList[i], windowWidth / 6, NaN, 1, true)) {
+            console.log(gameState)
+            gameState = STATES.PLAY;
+          }
+        }
+      }
       break;
 
     case STATES.PLAY:
@@ -324,6 +328,8 @@ function drawBgLazy(speed) {
   }
 }
 
+
+
 function drawLazy() {
   for(i=0; i < LAZY_LIST.COUNT; i++) {
     if (lazyList[i].selected) {
@@ -367,14 +373,6 @@ function shootLongRoboty(speed) {
     if (score > 3) {
       robotyList[i].shootLong(speed * LAZER_SPEED);
     }
-  }
-}
-
-function drawInitLazy(initSpeed){
-  for (i=0; i<LAZY_LIST.COUNT; i++) {
-    if(lazyList[i].init(initSpeed * (i+1))){
-      return true;
-    };
   }
 }
 
@@ -441,7 +439,7 @@ function handleCollision(){
   let lazyHitBox = {
     x: lazyList[lazySelected].x, 
     y: lazyList[lazySelected].y,
-    width: lazyList[lazySelected].width / 2,
+    width: lazyList[lazySelected].width  * 0.75,
     height: lazyList[lazySelected].height,
   }
 
@@ -496,7 +494,7 @@ function handleCollision(){
 
 for(i=0; i < KAZE_LIST.COUNT; i++) {
   if(lazyKazeList[i].alive){
-    if (isCollision(lazyKazeList[i], boomBox)){
+    if (isCollision(lazyKazeList[i], boomBox) || isCollision(lazyKazeList[i], lazyHitBox)){
         lazyKazeList[i].causOfDeath = DEATH.LAZYKAZE
         forcePlaySound(soundList[SOUND_LIST.BOOM], 1);
         lazyKazeList[i].die();
@@ -640,4 +638,22 @@ function keyPressed() {
 function touchStarted() {
   handleUserAction();
   return false;
+}
+
+// NEW CODE 
+function moveToAllLazy(x, y, speed, accel) {
+    for (i=0; i<LAZY_LIST.COUNT; i++) {
+      return lazyList[i].moveTo(x, y , speed, accel);
+    }
+}
+
+function moveToSpecLazy(lazy, x, y, speed, accel, bound) {
+  return lazy.moveTo(x, y , speed, accel, bound);
+}
+
+
+function drawAllLazyStatic() {
+  for (i=0; i<LAZY_LIST.COUNT; i++) {
+    lazyList[i].moveTo(NaN, NaN, 0, 0, 0);
+  }
 }
