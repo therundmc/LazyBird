@@ -4,22 +4,25 @@
  */
 
  class Lazer {
-    constructor (x, y, width, height) {
+    constructor (img, x, y, width, height) {
+        this.img = img;
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
-        this.img = 0;
+        this.deccel = 0.5;
     }
 
     moveX(speed) {
         this.x -= speed;
-        this.width += speed / 10;
         this.draw();
     }
 
     stretchX(speed) {
-        this.width += speed;
+        this.deccel += 0.3;
+
+        this.x -= speed;
+        this.width += speed / 4;
         this.draw();
     }
 
@@ -33,10 +36,6 @@
     }
 
     draw() {
-        fill(255,50,0);
-        noStroke();
-        tint(255, 125);
-        rect(this.x, this.y, this.width, this.height);
-        noTint(255, 125);
+        image(this.img, this.x, this.y, this.width, this.height);
     }
 }

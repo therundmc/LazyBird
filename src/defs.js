@@ -56,8 +56,9 @@
     BOOM: 7,
     ROBOTY: 8,
     LAZYKAZE: 9,
+    LAZER_LONG: 10,
     // ---
-    COUNT: 10
+    COUNT: 11
 }
 
  // SCORE
@@ -77,6 +78,8 @@ const IMAGE_LIST = {
     PIPE_DOWN: 4,
     PIPE_UP: 5,
     TITLE: 6,
+    LAZER_LONG: 7,
+    LAZER_SHORT: 8,
     // ---
 }
 

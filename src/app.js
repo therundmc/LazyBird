@@ -16,6 +16,7 @@ function preload() {
   soundList[SOUND_LIST.BOOM] = loadSound('assets/sound/boom.wav');
   soundList[SOUND_LIST.ROBOTY] = loadSound('assets/sound/roboty.wav');
   soundList[SOUND_LIST.LAZYKAZE] = loadSound('assets/sound/lazykaze.mp3');
+  soundList[SOUND_LIST.LAZER_LONG] = loadSound('assets/sound/lazerLong.ogg');
 
   // Images
   imgList[IMAGE_LIST.BKG_SUN] = loadImage('assets/img/sky.png');
@@ -25,6 +26,8 @@ function preload() {
   imgList[IMAGE_LIST.PIPE_DOWN] = loadImage('assets/img/log_down.png');
   imgList[IMAGE_LIST.PIPE_UP] = loadImage('assets/img/log_up.png');
   imgList[IMAGE_LIST.TITLE] = loadImage('assets/img/titre.png');
+  imgList[IMAGE_LIST.LAZER_SHORT] = loadImage('assets/img/lazer_shot.png')
+  imgList[IMAGE_LIST.LAZER_LONG] = loadImage('assets/img/mega_lazer_shot.png')
 
   // Animations
   animList[ANIM_LIST.LAZY][0] = loadImage('assets/img/lazy1.png');
@@ -199,6 +202,7 @@ function setup() {
   score = 0;
   gameState = STATES.MENU;
   gameStage = 1;
+  level = 1;
   defPosXLazy = windowWidth / 6;
 }
 
@@ -248,7 +252,8 @@ function draw() {
         case 3:
           drawPipes(GAME_SPEED_RESCALED, SIZE_PIPE_EASY);
           drawRoboty(GAME_SPEED_RESCALED);
-          shootShortRoboty(GAME_SPEED_RESCALED);
+          //shootShortRoboty(GAME_SPEED_RESCALED);
+          shootLongRoboty(GAME_SPEED_RESCALED * 0.5)
           if (score > SCORE.LVL2) {
             gameStage++; 
           }
@@ -417,14 +422,14 @@ function drawLazyKaze(speed) {
 
 function shootShortRoboty(speed) {
   for(i=0; i < ROBOTY_LIST.COUNT; i++) {
-    robotyList[i].shootShort(speed * LAZER_SPEED);
+    robotyList[i].shootLazerShort(speed * LAZER_SPEED);
   }
 }
 
 function shootLongRoboty(speed) {
   for(i=0; i < ROBOTY_LIST.COUNT; i++) {
     if (score > 3) {
-      robotyList[i].shootLong(speed * LAZER_SPEED);
+      robotyList[i].shootLazerLong(speed * LAZER_SPEED);
     }
   }
 }
@@ -537,10 +542,12 @@ function handleCollision(){
   }
 
   for(i=0; i < ROBOTY_LIST.COUNT; i++) {
-    if (isCollision(robotyList[i].lazer, lazyHitBox)){
-      if(lazyList[lazySelected].hit(soundList[SOUND_LIST.IMPACT]) <= 0){
-        lazyList[lazySelected].causOfDeath = DEATH.OTHER;
-        gameState = STATES.GAME_OVER;
+    if (robotyList[i].lazer != null) {
+      if (isCollision(robotyList[i].lazer, lazyHitBox)){
+        if(lazyList[lazySelected].hit(soundList[SOUND_LIST.IMPACT]) <= 0){
+          lazyList[lazySelected].causOfDeath = DEATH.OTHER;
+          gameState = STATES.GAME_OVER;
+        }
       }
     }
   }

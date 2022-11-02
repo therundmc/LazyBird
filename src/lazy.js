@@ -34,7 +34,7 @@ class Lazy {
         this.speed = 0;
         this.animSens = 1;
         this.direction = 1;
-        this.lazer = new Lazer(0, this.y + this.width/2, this.width/2, this.height/16);
+        this.lazer = null;
         this.shooting = false;
         this.boomFrame = 0;
         this.causOfDeath = 0;
@@ -186,21 +186,42 @@ class Lazy {
         }
     }
 
-    shootShort(speed) {
-        if (this.lazer.isOnScreen()) {
-            this.lazer.moveX(speed);
-            this.shooting = true;
+    shootLazerShort(speed) {
+        if (this.lazer != null) {
+            if (this.lazer.isOnScreen()) {
+                this.lazer.moveX(speed);
+                this.shooting = true;
+            }
+            else{
+                this.lazer = new Lazer(imgList[IMAGE_LIST.LAZER_SHORT], this.x, this.y + this.width/2, this.width/2, this.height/16);
+                forcePlaySound(soundList[SOUND_LIST.LAZER], 0.8);
+                image(this.img[6], this.x, this.y, this.width, this.height);
+                this.shooting = false;
+            }
         }
-        else{
-            this.lazer = new Lazer(this.x, this.y + this.width/2, this.width/2, this.height/16);
+        else {
             forcePlaySound(soundList[SOUND_LIST.LAZER], 0.8);
-            image(this.img[6], this.x, this.y, this.width, this.height);
-            this.shooting = false;
+            this.lazer = new Lazer(imgList[IMAGE_LIST.LAZER_SHORT], this.x, this.y + this.width/2, this.width/2, this.height/16);
         }
     }
 
-    shootLong(speed) {
-        //TODO
+    shootLazerLong(speed) {
+        if (this.lazer != null) {
+            if (this.lazer.isOnScreen()) {
+                this.lazer.stretchX(speed);
+                this.shooting = true;
+            }
+            else{
+                this.lazer = new Lazer(imgList[IMAGE_LIST.LAZER_LONG], this.x - this.width * 0.25, this.y + this.height/3, this.width / 2, this.height * 0.30);
+                playSound(soundList[SOUND_LIST.LAZER_LONG], 0.8);
+                image(this.img[6], this.x, this.y, this.width, this.height);
+                this.shooting = false;
+            }
+        }
+        else {
+            playSound(soundList[SOUND_LIST.LAZER_LONG], 0.8);
+            this.lazer = new Lazer(imgList[IMAGE_LIST.LAZER_LONG], this.x - this.width * 0.25, this.y + this.height/3, this.width / 2, this.height * 0.30);
+        }
     }
 
     draw() {
