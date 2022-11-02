@@ -205,6 +205,6 @@ let lazySelected = -1;
  
  let BOOM = [];
  
-
+let animList2 = [];
 
  
