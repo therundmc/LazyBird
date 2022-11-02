@@ -98,6 +98,56 @@ function preload() {
   BOOM.push(loadImage('assets/img/explosion14.png'));
   BOOM.push(loadImage('assets/img/explosion15.png'));
     
+  loadAnimation();
+    
+}
+
+function loadAnimation()
+{
+	 animList2.push(new Frame_animation (50,50,loadImage('assets/animation/baddy_animation.png'),42,24,0,4,3,1));
+	 animList2.push(new Frame_animation (50,150,loadImage('assets/animation/buddy_animation.png'),42,24,0,4,3,1));
+	 animList2.push(new Frame_animation (50,250,loadImage('assets/animation/crazy_animation.png'),42,24,0,4,3,1));
+	 animList2.push(new Frame_animation (50,350,loadImage('assets/animation/lazy_animation.png'),42,24,0,4,3,1));
+	 animList2.push(new Frame_animation (50,450,loadImage('assets/animation/lazykaze_animation.png'),42,24,0,4,3,1));
+	 animList2.push(new Frame_animation (50,550,loadImage('assets/animation/oldy_animation.png'),42,24,0,4,3,1));
+	 animList2.push(new Frame_animation (50,650,loadImage('assets/animation/roboty_animation.png'),42,35,0,4,3,1));
+	 animList2.push(new Frame_animation (50,760,loadImage('assets/animation/missile_animation.png'),63,12,0,4,3,1));
+	 animList2.push(new Frame_animation (250,50,loadImage('assets/animation/explosion_animation.png'),50,50,0,14,3,0));
+	 animList2.push(new Frame_animation (250,200,loadImage('assets/animation/fire_animation.png'),21,31,0,9,3,0));
+	 animList2.push(new Frame_animation (250,500,loadImage('assets/animation/bossy_animation.png'),177,95,0,6,3,1));
+	 animList2.push(new Frame_animation (800,500,loadImage('assets/animation/bossy_animation.png'),177,95,96,6,3,1));
+}
+
+function drawAnimation()
+{
+	for(i = 0; i < animList2.length; i++)
+	{
+		image(animList2[i].img, animList2[i].x, animList2[i].y, animList2[i].frame_width*animList2[i].scale, animList2[i].frame_height*animList2[i].scale,animList2[i].frame_width*animList2[i].animFrame+1,animList2[i].sourceY,animList2[i].frame_width,animList2[i].frame_height);
+		let now = new Date().getTime();
+        let delta = now - animList2[i].last;
+        if (delta >= 33) {
+            
+            animList2[i].last = now;
+            animList2[i].animFrame+=animList2[i].sens;
+			
+			if(animList2[i].animFrame < 0)
+			{
+				animList2[i].animFrame = 0;
+				animList2[i].sens*=(-1);
+			}
+			
+			if(animList2[i].animFrame > animList2[i].nbrOfFrames)
+			{
+				if(animList2[i].animationInv)
+				{
+					animList2[i].sens*=(-1);
+					animList2[i].animFrame = animList2[i].nbrOfFrames;
+				}
+				else
+					animList2[i].animFrame = 0;
+			}
+		}
+	}
 }
 
 function setup() {
@@ -160,6 +210,7 @@ function draw() {
       drawBg(0.5);
       drawMenuScreen();
       drawAllLazyStatic();
+	  drawAnimation();
       break;
 
     case STATES.INIT:
