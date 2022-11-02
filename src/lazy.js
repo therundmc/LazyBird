@@ -42,55 +42,43 @@ class Lazy {
         this.lives = LIVES;
         this.invincibility = false;
 
+        this.angle = 0;
+
         this.invincibilityTimer = 0;
         this.invincibilityTimerStart = 0;
 
         this.heightRatio = windowHeight / height;
     }
-    setSpeed(speed){
-        this.animate = true;
-        this.speed = speed;
-    }
 
-    moveY(speed) {
+    // PUBLIC METHODS
+    moveY() {
         if (this.alive) {
-            if (speed != 0) {
-                if (this.y > windowHeight - this.width) {
-                    this.direction = 1;
+            if (this.jumpDetected != 0 && this.jumpRep < this.nbOfJumpRep) {
+                this.jumpRep++;
+                this.jump();
                 }
-                else if (this.y < 0 ) {
-                    this.direction = -1;
+                else if (this.jumpRep >= this.nbOfJumpRep){
+                this.jumpDetected = 0;
+                this.jumpRep = 0;
+                this.fall();
                 }
-                this.y -= (speed * this.direction);
-            }
-            else {
-                if (this.jumpDetected != 0 && this.jumpRep < this.nbOfJumpRep) {
-                    this.jumpRep++;
-                    this.jumpY();
-                    }
-                    else if (this.jumpRep >= this.nbOfJumpRep){
-                    this.jumpDetected = 0;
-                    this.jumpRep = 0;
-                    this.fallY();
-                    }
-                    else {
-                    this.fallY();
-                    } 
-                }
+                else {
+                this.fall();
+                } 
             this.draw();
             }
     }
 
-    jumpY() {
-        this.gravity = gravityDefault;
-        this.antiGravity += this.accel
-        this.y -= this.antiGravity;
-    }
+    moveAndBouceY(speed) {
+        if (this.y > windowHeight - this.width) {
+            this.direction = 1;
+        }
+        else if (this.y < 0 ) {
+            this.direction = -1;
+        }
+        this.y -= (speed * this.direction);
 
-    fallY() {
-        this.antiGravity = anitgravityDefault;
-        this.gravity +=  this.deccel;
-        this.y += this.gravity;
+        this.draw();
     }
 
     moveX(customSpeed) {
@@ -255,6 +243,10 @@ class Lazy {
         this.draw();
     }
 
+    disableGravity() {
+         this.gravity = 0;
+    }
+
     // New Code propre
     moveTo(x, y, speed, accel, bound) {
         if (this.alive) {
@@ -296,7 +288,23 @@ class Lazy {
         }
     }
 
-    // PRIVATE
+    // PRIVATE METHODS
+    jump() {
+        this.gravity = gravityDefault;
+        this.antiGravity += this.accel
+        this.y -= this.antiGravity;
+
+        //this.rotateImg(this.img[this.animFrame], this.x, this.y, this.width, this.height, -0.5)
+    }
+
+    fall() {
+        this.antiGravity = anitgravityDefault;
+        this.gravity +=  this.deccel;
+        this.y += this.gravity;
+
+        //this.rotateImg(this.img[this.animFrame], this.x, this.y, this.width, this.height, 0.5)
+    }
+
     checkBoundX(x, b) {
         if (!b) {return x;}
         if (x < 0) {
@@ -309,7 +317,7 @@ class Lazy {
     }
 
     checkBoundY(y, b) {
-        if (!b) {return x;}
+        if (!b) {return y;}
         if (y < 0) {
             y = 0;
         }
@@ -317,5 +325,16 @@ class Lazy {
             y = windowHeight - this.height;
         }
         return y;
+    }
+
+    rotateImg(img, x, y, w, h, va, a) {
+            this.angle += va;
+            imageMode(CENTER);
+            translate(x+w/2, y+w/2);
+            rotate(PI/180*this.angle);
+            image(img, 0, 0, w, h);
+            rotate(-PI / 180 * this.angle);
+            translate(-(x+w/2), -(y+w/2));
+            imageMode(CORNER);
     }
 }

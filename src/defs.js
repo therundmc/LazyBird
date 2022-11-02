@@ -60,6 +60,14 @@
     COUNT: 10
 }
 
+ // SCORE
+ const SCORE = {
+    LVL1: 5,
+    LVL2: 15,
+    LVL3: 20,
+    LVL4: 35,
+}
+
 // IMAGES
 const IMAGE_LIST = {
     BKG_SUN: 0,
@@ -110,9 +118,8 @@ const ROBOTY_LIST = {
 const KAZE_LIST = {
     LAZYKAZE: 0,
     LAZYKAZE2: 1,
-    LAZYKAZE3: 2,
     // ---
-    COUNT: 3,
+    COUNT: 2,
 
 }
 
@@ -182,6 +189,7 @@ let lazySelected = -1;
 
  let gameState = STATES.INIT;
  let gameStage = 1;
+ let level = 1;
 
  let score = 0;
  let initSpeed = 0;

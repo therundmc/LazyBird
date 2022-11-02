@@ -104,6 +104,7 @@ function setup() {
 
   windowWidth = (windowHeight) * SCREEN_RATIO;
 
+  // Graphics
   createCanvas(windowWidth, windowHeight);
   textAlign(CENTER, CENTER);
   textFont(bitFont);
@@ -140,10 +141,10 @@ function setup() {
 
   // Bad Lazy
   robotyList[ROBOTY_LIST.ROBOTY] = new Lazy(windowWidth,  50,  1.2, animList[ANIM_LIST.ROBOTY]);
-  
+
   lazyKazeList[KAZE_LIST.LAZYKAZE] = new Lazy(windowWidth,  0,  0.8, animList[ANIM_LIST.LAZYKAZE]);
   lazyKazeList[KAZE_LIST.LAZYKAZE2] = new Lazy(windowWidth* 1.5,  windowHeight * 0.5,  0.7, animList[ANIM_LIST.LAZYKAZE]);
-  lazyKazeList[KAZE_LIST.LAZYKAZE3] = new Lazy(windowWidth* 2,  windowHeight * 0.8,  0.8, animList[ANIM_LIST.LAZYKAZE]);
+  
   // MISC
   score = 0;
   gameState = STATES.MENU;
@@ -164,114 +165,97 @@ function draw() {
 
     case STATES.INIT:
       drawBg(0.5);
-      for (i=0; i<LAZY_LIST.COUNT; i++ ) {
-        if(i!=lazySelected) {
-          moveToSpecLazy(lazyList[i], windowWidth + 500, NaN, 1, i+1, false);
-        }
-        else{
-          if (moveToSpecLazy(lazyList[i], windowWidth / 6, NaN, 1, true)) {
-            console.log(gameState)
-            gameState = STATES.PLAY;
-          }
-        }
+      if (init()) {
+        gameState = STATES.PLAY;
       }
       break;
 
     case STATES.PLAY:
       lazyList[lazySelected].alive = true;
+      drawBg(GAME_SPEED_RESCALED);
       switch (gameStage) {
+        // LEVEL 1
         case 1:
-          drawBg(GAME_SPEED_RESCALED);
-          //drawBgLazy(0);
           drawPipes(GAME_SPEED_RESCALED, SIZE_PIPE_MED);
-          drawLazy()
-          if (score > 5) {
+          if (score > SCORE.LVL1) {
             gameStage++; 
           }
           break;
 
-        // transition 
+        // LEVEL 1 => LEVEL 2
         case 2:
-          drawBg(GAME_SPEED_RESCALED);
           drawPipes(GAME_SPEED_RESCALED, SIZE_PIPE_MED);
-          playSound(soundList[SOUND_LIST.ROBOTY] , 0.7); 
           robotyList[ROBOTY_LIST.ROBOTY].moveX(GAME_SPEED_RESCALED / 4);
-          drawLazy();
-          if (score > 6) {
+          playSound(soundList[SOUND_LIST.ROBOTY] , 0.7); 
+          if (score > SCORE.LVL1 + 1) {
             gameStage++; 
+            level++;
           }
           break;
 
+        // LEVEL 2
         case 3:
-          drawBg(GAME_SPEED_RESCALED);
-          //drawBgLazy(0);
           drawPipes(GAME_SPEED_RESCALED, SIZE_PIPE_EASY);
           drawRoboty(GAME_SPEED_RESCALED);
           shootShortRoboty(GAME_SPEED_RESCALED);
-          drawLazy();
-          if (score > 15) {
+          if (score > SCORE.LVL2) {
             gameStage++; 
           }
           break;
 
-        // Transistion 
+        // LEVEL 2 => 3
         case 4:
-          drawBg(GAME_SPEED_RESCALED);
           drawPipes(GAME_SPEED_RESCALED, SIZE_PIPE_EASY);
           robotyList[ROBOTY_LIST.ROBOTY].moveX(-GAME_SPEED_RESCALED / 4);
           playSound(soundList[SOUND_LIST.LAZYKAZE] , 0.8); 
-          drawLazy();
-          if (score > 16) {
+          if (score > SCORE.LVL2 + 1) {
             gameStage++; 
+            level++;
           }
           break;
 
+        // LEVEL 3
         case 5:
-          drawBg(GAME_SPEED_RESCALED);
-          //drawBgLazy(0);
           drawPipes(GAME_SPEED_RESCALED, SIZE_PIPE_MED);
           drawRoboty(GAME_SPEED_RESCALED);
-          drawLazyKaze(GAME_SPEED_RESCALED, 2);
-          drawLazy();
-          if (score > 25) {
+          drawLazyKaze(GAME_SPEED_RESCALED);
+          if (score > SCORE.LVL3) {
             gameStage++; 
           }
           break;
 
-        // Transistion 
+        // LEVEL 3 => 4
         case 6:
-          drawBg(GAME_SPEED_RESCALED);
           drawPipes(GAME_SPEED_RESCALED, SIZE_PIPE_MED);
           playSound(soundList[SOUND_LIST.ROBOTY] , 0.7); 
           robotyList[ROBOTY_LIST.ROBOTY].moveX(GAME_SPEED_RESCALED / 4);
-          drawLazyKaze(GAME_SPEED_RESCALED, 2);
-          drawLazy();
-          if (score > 26) {
+          drawLazyKaze(GAME_SPEED_RESCALED);
+          if (score > SCORE.LVL3 + 1) {
             gameStage++; 
+            level++;
           }
           break;
 
+        // LEVEL 4
         case 7:
-          drawBg(GAME_SPEED_RESCALED);
-          //drawBgLazy(0);
           drawPipes(GAME_SPEED_RESCALED, SIZE_PIPE_MED);
           drawRoboty(GAME_SPEED_RESCALED);
           shootShortRoboty(1.5 * GAME_SPEED_RESCALED);
-          drawLazyKaze(GAME_SPEED_RESCALED, 3);
-          drawLazy();
-          if (score > 40) {
+          drawLazyKaze(GAME_SPEED_RESCALED);
+          if (score > SCORE.LVL4) {
+            level++;
             gameStage++; 
           }
           break;
 
+        // END GAME
         case 8:
           drawBg(0);
           drawBgLazy(-GAME_SPEED_RESCALED / 4);
           drawEndGameScreen();
           break;
-
-          
       }
+      drawLazy();
       drawScore();
       handleCollision();
       break;
@@ -298,6 +282,21 @@ function draw() {
   handleSound();
   //drawFps();
 }
+
+function init() {
+  for (i=0; i<LAZY_LIST.COUNT; i++ ) {
+    if(i!=lazySelected) {
+      moveToSpecLazy(lazyList[i], windowWidth + 500, NaN, 1, i+1, false);
+    }
+    else{
+      if (moveToSpecLazy(lazyList[i], windowWidth / 6, NaN, 1, true)) {
+        console.log(gameState)
+        gameState = STATES.PLAY;
+      }
+    }
+  }
+}
+
 
 function drawBg(speed) {
   mapList[BKG_LIST.SUN].moveX(speed/50);
@@ -328,27 +327,31 @@ function drawBgLazy(speed) {
   }
 }
 
-
-
 function drawLazy() {
   for(i=0; i < LAZY_LIST.COUNT; i++) {
     if (lazyList[i].selected) {
-      lazyList[i].moveY(0);
+      lazyList[i].moveY();
     }
   }
 }
 
 function drawRoboty(speed) {
   for(i=0; i < ROBOTY_LIST.COUNT; i++) {
-    robotyList[i].moveY(speed);
+    robotyList[i].moveAndBouceY(speed);
   }
 }
 
-function drawLazyKaze(speed, nb) {
-  for(i=0; i < nb; i++) {
+function moveRoboty(speed) {
+  for(i=0; i < ROBOTY_LIST.COUNT; i++) {
+    return robotyList[i].moveTo(windowWidth * 0.8, windowHeight * 0.6, speed, 0.05, true);
+  }
+}
+
+function drawLazyKaze(speed) {
+  for(i=0; i < KAZE_LIST.COUNT; i++) {
     if(!lazyKazeList[i].exploded && lazyKazeList[i].alive){
       lazyKazeList[i].moveX(speed * 1.5);
-      lazyKazeList[i].moveY(speed * 0.5);
+      lazyKazeList[i].moveAndBouceY(speed * 0.5);
     }
     else if (!lazyKazeList[i].exploded && !lazyKazeList[i].alive){
       lazyKazeList[i].die();
@@ -358,7 +361,6 @@ function drawLazyKaze(speed, nb) {
       lazyKazeList[i].exploded = false;
       lazyKazeList[i].x = -lazyKazeList[i].width;
     }
-
   }
 }
 
@@ -376,12 +378,6 @@ function shootLongRoboty(speed) {
   }
 }
 
-function initLazySpeed() {
-  for (i=0; i<LAZY_LIST.COUNT; i++) {
-    lazyList[i].setSpeed(random(0.2,0.5))
-  }
-}
-
 function drawMenuScreen() {  
   let alpha = 100;
   startImage.x = windowWidth/2-windowWidth/TITLE_W_RATIO /2;
@@ -389,16 +385,7 @@ function drawMenuScreen() {
   startImage.width = windowWidth/TITLE_W_RATIO;
   startImage.height = windowHeight/TITLE_H_RATIO;
 
-  if (alpha < 255) {
-    alpha += (millis() / 10);
-  }
-  tint(255, alpha);
   image(imgList[IMAGE_LIST.TITLE], startImage.x, startImage.y, startImage.width , startImage.height);
-  
-  // textSize((windowWidth + windowHeight) / TEXT_BIG_RATIO);
-  // fill(0,0,0)
-  // text('LAZY BIRD', windowWidth/2, windowHeight * 0.5);
-  noTint();
 
   textSize((windowWidth + windowHeight) / TEXT_SMALL_RATIO);
   fill(0,150,100)
@@ -433,6 +420,36 @@ function drawEndGameScreen() {
   textSize((windowWidth + windowHeight) / TEXT_SMALL_RATIO);
   fill(0,0,0)
   text("SCORE : " + score, windowWidth/2, windowHeight/2 + windowHeight/10);
+}
+
+function drawScore() {
+  if (gameState == STATES.PLAY) {
+    if (pipeCrossedPrev != pipeCrossed && pipeCrossed == false){
+      score++;
+    }
+    pipeCrossedPrev = pipeCrossed;
+  }
+  scoreTextSize = (windowWidth + windowHeight) / TEXT_BIG_RATIO;
+  textSize(scoreTextSize);
+  fill(0,0,0)
+  text(score, scoreTextSize, scoreTextSize);
+
+  textAlign(RIGHT, CENTER);
+  levelTextSize = (windowWidth + windowHeight) / TEXT_SMALL_RATIO;
+  textSize(levelTextSize);
+  fill(255,255,255)
+  text("LEVEL:" + level, windowWidth -  2* levelTextSize, windowHeight - levelTextSize);
+
+  let livesText = "";
+  livesTextSize = (windowWidth + windowHeight) / TEXT_BIG_RATIO;
+  textSize(livesTextSize);
+  fill(255,0,0)
+  for (i=0; i<lazyList[lazySelected].lives; i++){
+    livesText += '\u2665';
+  }
+  textAlign(RIGHT, CENTER);
+  text(livesText, windowWidth - livesTextSize, livesTextSize);
+  textAlign(CENTER, CENTER);
 }
 
 function handleCollision(){
@@ -531,36 +548,6 @@ function handleSound() {
     default:
       break;
   }
-}
-
-
-function drawScore() {
-  if (gameState == STATES.PLAY) {
-    if (pipeCrossedPrev != pipeCrossed && pipeCrossed == false){
-      score++;
-    }
-    pipeCrossedPrev = pipeCrossed;
-  }
-  scoreTextSize = (windowWidth + windowHeight) / TEXT_BIG_RATIO;
-  textSize(scoreTextSize);
-  fill(0,0,0)
-  text(score, scoreTextSize, scoreTextSize);
-
-  levelTextSize = (windowWidth + windowHeight) / TEXT_SMALL_RATIO;
-  textSize(levelTextSize);
-  fill(255,255,255)
-  text("LEVEL:" + gameStage, windowWidth - 4 *levelTextSize, windowHeight - levelTextSize);
-
-  let livesText = "";
-  livesTextSize = (windowWidth + windowHeight) / TEXT_BIG_RATIO;
-  textSize(livesTextSize);
-  fill(255,0,0)
-  for (i=0; i<lazyList[lazySelected].lives; i++){
-    livesText += '\u2665';
-  }
-  textAlign(LEFT, CENTER);
-  text(livesText, windowWidth - 4 *livesTextSize, livesTextSize);
-  textAlign(CENTER, CENTER);
 }
 
 function windowResized() {
