@@ -29,7 +29,8 @@
  const PIPE_W_RATIO = 10;
  const PIPE_H_RATIO = 1;
 
- const LAZY_RATIO = 8;
+ const LAZY_W_RATIO = 8;
+ const LAZY_H_RATIO = 8;
 
  const TITLE_W_RATIO = 2;
  const TITLE_H_RATIO = 7;
@@ -42,7 +43,7 @@
  const SIZE_PIPE_HARD = 0.6;
 
  const AFTER_HIT = 300;
- const LIVES = 3;
+ const LIVES = 10;
 
  // SOUNDS
  const SOUND_LIST = {
@@ -57,8 +58,9 @@
     ROBOTY: 8,
     LAZYKAZE: 9,
     LAZER_LONG: 10,
+    MISSILE: 11,
     // ---
-    COUNT: 11
+    COUNT: 12
 }
 
  // SCORE
@@ -66,7 +68,7 @@
     LVL1: 5,
     LVL2: 15,
     LVL3: 20,
-    LVL4: 35,
+    LVL4: 30,
 }
 
 // IMAGES
@@ -80,6 +82,8 @@ const IMAGE_LIST = {
     TITLE: 6,
     LAZER_LONG: 7,
     LAZER_SHORT: 8,
+    LAZY_DEAD: 9,
+    LAZY_GHOST: 10,
     // ---
 }
 
@@ -190,6 +194,7 @@ let lazySelected = -1;
  let lazyList = [];
  let robotyList = [];
  let lazyKazeList = [];
+ let bossy;
  let mapList = [];
  let lazer = 0;
  let causOfDeath = 0;

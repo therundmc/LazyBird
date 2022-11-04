@@ -7,7 +7,7 @@
     constructor (img, anim, x, y, width, height, duration) {
         this.img = img;
         this.anim = anim;
-        this.explosion = animList2[ANIM_LIST.EXPLOSION];
+        this.explosion = animList[ANIM_LIST.EXPLOSION];
         this.x = x;
         this.y = y;
         this.width = width;
@@ -26,10 +26,19 @@
     }
 
     stretchX(speed) {
-        this.deccel += 0.3;
+        this.deccel += this.width / 10;
 
-        this.x -= speed;
-        this.width += speed / 4;
+        this.x -= speed + this.deccel;
+        this.width += speed + this.deccel;
+
+        // if (this.isOnScreen()) {
+        //     this.x -= speed  + this.deccel;
+        //     this.width += speed + this.deccel;
+        // }
+        // else {
+        //     this.x += speed  + this.deccel;
+        //     this.width -= speed + this.deccel;
+        // }
         this.draw();
     }
 
@@ -55,11 +64,11 @@
                 image(this.img, this.x, this.y, this.width, this.height)
             }
             else {
-                this.anim.draw(this.x, this.y, 3);
+                this.anim.draw(this.x, this.y, this.width / 15);
             }
         }
         else {
-            this.explosion.draw(this.x, this.y, 3);
+            this.explosion.draw(this.x, this.y, this.width / 15);
         }
     }
 

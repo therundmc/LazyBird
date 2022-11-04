@@ -11,8 +11,8 @@ class Lazy {
         this.x = x;
         this.y = y;
         this.size = size;
-        this.width = windowHeight / (LAZY_RATIO / size); // Lazy is a square
-        this.height = windowHeight / (LAZY_RATIO / size);
+        this.width = windowHeight / (LAZY_W_RATIO / size); // Lazy is a square
+        this.height = windowHeight / (LAZY_H_RATIO / size);
         this.img = img;
         this.deccel = 1 * windowHeight  / GRAVITY_FORCE;
         this.accel = 1 * windowHeight  / JUMP_FORCE;
@@ -43,6 +43,8 @@ class Lazy {
         this.exploded = false;
         this.lives = LIVES;
         this.invincibility = false;
+
+        this.explosion = animList[ANIM_LIST.EXPLOSION];
 
         this.angle = 0;
 
@@ -88,14 +90,10 @@ class Lazy {
         if (this.x > windowWidth + windowWidth * 0.7) {
             this.x = - windowWidth / 8;
             this.y = random(windowHeight/10, windowHeight);
-            this.width = windowHeight / (LAZY_RATIO / this.size ); // Lazy is a square
-            this.height = windowHeight / (LAZY_RATIO / this.size );
         }
         else if (this.x < 0 - windowWidth * 0.5) {
             this.x = windowWidth;
             this.y = random(windowHeight/10, windowHeight);
-            this.width = windowHeight / (LAZY_RATIO / this.size ); // Lazy is a square
-            this.height = windowHeight / (LAZY_RATIO / this.size );
         }
         else {
             if (customSpeed != 0) {
@@ -154,7 +152,7 @@ class Lazy {
     }
 
     drawBumk(){
-        image(this.img[5], this.x, this.y, this.width, this.height);
+        this.img.drawSpecFrame(5);
         this.now = new Date().getTime()
         this.delta = this.now - this.last;
 
@@ -166,44 +164,48 @@ class Lazy {
         
         }
         tint(255,this.transparency);
-        image(animList[ANIM_LIST.LAZY][6], this.x, this.deadPosY, this.width, this.height);
+        image(imgList[IMAGE_LIST.LAZY_GHOST], this.x, this.deadPosY, this.width *1.5, this.height);
         noTint();
     }
 
     drawBoom(){
-        this.now = new Date().getTime()
-        this.delta = this.now - this.last;
-        if (this.delta >= 60 && this.boomFrame < 14) {
-            
-            this.last = this.now;
-            this.boomFrame++;
-        }
 
-        if (this.boomFrame < 14){
-            image(BOOM[this.boomFrame], this.x - this.width , this.y - this.height, this.width * 3, this.height * 3);
-        }
-        else {
+        this.explosion.draw(this.x, this.y, this.width / 15);
+        if (this.explosion.isDone()) {
             this.exploded = true;
-            this.boomFrame = 0;
         }
+        // this.now = new Date().getTime()
+        // this.delta = this.now - this.last;
+        // if (this.delta >= 60 && this.boomFrame < 14) {
+            
+        //     this.last = this.now;
+        //     this.boomFrame++;
+        // }
+
+        // if (this.boomFrame < 14){
+        //     image(BOOM[this.boomFrame], this.x - this.width , this.y - this.height, this.width * 3, this.height * 3);
+        // }
+        // else {
+        //     this.exploded = true;
+        //     this.boomFrame = 0;
+        // }
     }
 
     shootLazerShort(speed) {
         if (this.lazerShort != null) {
-            if (!this.lazerShort.isDone()) {
+            if (this.lazerShort.isOnScreen()) {
                 this.lazerShort.moveX(speed);
                 this.shooting = true;
             }
             else{
-                this.lazerShort = new Lazer(imgList[IMAGE_LIST.LAZER_SHORT], 0, this.x, this.y + this.width/2, this.width/2, this.height/16, 3000);
+                this.lazerShort = new Lazer(imgList[IMAGE_LIST.LAZER_SHORT], 0, this.x, this.y + this.width/2, this.width, this.height/16, 1200);
                 forcePlaySound(soundList[SOUND_LIST.LAZER], 0.8);
-                image(this.img[6], this.x, this.y, this.width, this.height);
                 this.shooting = false;
             }
         }
         else {
             forcePlaySound(soundList[SOUND_LIST.LAZER], 0.8);
-            this.lazerShort = new Lazer(imgList[IMAGE_LIST.LAZER_SHORT], 0, this.x, this.y + this.width/2, this.width/2, this.height/16, 3000);
+            this.lazerShort = new Lazer(imgList[IMAGE_LIST.LAZER_SHORT], 0, this.x, this.y + this.width/2, this.width, this.height/16, 1200);
         }
     }
 
@@ -211,59 +213,60 @@ class Lazy {
         if (this.lazerLong != null) {
             if (!this.lazerLong.isDone()) {
                 this.lazerLong.stretchX(speed);
+                this.lazerLong.y = this.y + this.height/3;
                 this.shooting = true;
             }
             else{
-                this.lazerLong = new Lazer(imgList[IMAGE_LIST.LAZER_LONG], 0, this.x - this.width * 0.25, this.y + this.height/3, this.width / 2, this.height * 0.30, 3000);
+                this.lazerLong = new Lazer(imgList[IMAGE_LIST.LAZER_LONG], 0, this.x - this.width * 0.25, this.y + this.height/3, this.width / 2, this.height * 0.4, 3000);
                 playSound(soundList[SOUND_LIST.LAZER_LONG], 0.8);
-                image(this.img[6], this.x, this.y, this.width, this.height);
                 this.shooting = false;
             }
         }
         else {
             playSound(soundList[SOUND_LIST.LAZER_LONG], 0.8);
-            this.lazerLong = new Lazer(imgList[IMAGE_LIST.LAZER_LONG], 0, this.x - this.width * 0.25, this.y + this.height/3, this.width / 2, this.height * 0.30, 3000);
+            this.lazerLong = new Lazer(imgList[IMAGE_LIST.LAZER_LONG], 0, this.x - this.width * 0.25, this.y + this.height/3, this.width / 2, this.height * 0.4, 3000);
         }
     }
 
     
-    shootMissile(speed) {
+    shootMissile(speed, freq) {
         if (this.missile != null) {
             if (!this.missile.isDone()) {
                 this.missile.moveX(speed);
                 this.shooting = true;
             }
             else{
-                this.missile = new Lazer(0, animList2[ANIM_LIST.MISSILE], this.x - this.width * 0.25, this.y + this.height/3, this.width * 0.5, this.height * 0.5, 3000);
-                playSound(soundList[SOUND_LIST.LAZER_LONG], 0.8);
-                image(this.img[6], this.x, this.y, this.width, this.height);
+                this.missile = new Lazer(0, animList[ANIM_LIST.MISSILE], this.x - this.width * 0.25, this.y + this.height/3, this.width * 0.5, this.height * 0.25, freq);
+                forcePlaySound(soundList[SOUND_LIST.MISSILE], 0.8);
                 this.shooting = false;
             }
         }
         else {
-            playSound(soundList[SOUND_LIST.LAZER_LONG], 0.8);
-            this.missile = new Lazer(0, animList2[ANIM_LIST.MISSILE], this.x - this.width * 0.25, this.y + this.height/3, this.width * 0.5, this.height * 0.5, 3000);
+            forcePlaySound(soundList[SOUND_LIST.MISSILE], 0.8);
+            this.missile = new Lazer(0, animList[ANIM_LIST.MISSILE], this.x - this.width * 0.25, this.y + this.height/3, this.width * 0.5, this.height * 0.25, freq);
         }
     }
 
     draw() {
-         image(this.img[this.animFrame], this.x, this.y, this.width, this.height);
-         this.now = new Date().getTime()
-         this.delta = this.now - this.last;
 
-         if (this.delta >= 33 && this.animate) {
-             this.animFrame += this.animSens;
-            if(this.animFrame >= 4)
-            {
-                this.animSens = -1;
-                //this.animFrame = 0;
-            }
-            if(this.animFrame <= 0)
-            {
-                this.animSens = 1;
-            }
-            this.last = this.now;
-        }
+        this.img.draw(this.x, this.y, (this.width / 32)); // TODO calculate precisely scale
+        //  image(this.img[this.animFrame], this.x, this.y, this.width, this.height);
+        //  this.now = new Date().getTime()
+        //  this.delta = this.now - this.last;
+
+        //  if (this.delta >= 33 && this.animate) {
+        //      this.animFrame += this.animSens;
+        //     if(this.animFrame >= 4)
+        //     {
+        //         this.animSens = -1;
+        //         //this.animFrame = 0;
+        //     }
+        //     if(this.animFrame <= 0)
+        //     {
+        //         this.animSens = 1;
+        //     }
+        //     this.last = this.now;
+        // }
     }
 
     select(select) {
@@ -281,8 +284,8 @@ class Lazy {
     }
 
     resize() {
-        this.height = windowHeight / (LAZY_RATIO / this.size);
-        this.width = windowHeight / (LAZY_RATIO / this.size);
+        this.height = windowHeight / (LAZY_W_RATIO / this.size);
+        this.width = windowHeight / (LAZY_H_RATIO / this.size);
         this.draw();
     }
 

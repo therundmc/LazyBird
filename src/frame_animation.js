@@ -48,5 +48,16 @@
 					this.animFrame = 0;
 				}
 			}
-    }    
+    } 
+
+	drawSpecFrame(frame) {
+		this.animFrame = frame;
+		image(this.img, this.x, this.y, this.frame_width*this.scale, this.frame_height*this.scale,this.frame_width*this.animFrame+1,this.sourceY,this.frame_width,this.frame_height);
+	}
+
+	isDone() {
+		if (this.animFrame >= this.nbrOfFrames) {
+			return true
+		}
+	}   
 }
