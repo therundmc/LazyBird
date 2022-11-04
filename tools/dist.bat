@@ -18,5 +18,9 @@ copy .\assets\img .\dist\assets\img
 mkdir .\dist\assets\font
 copy .\assets\font .\dist\assets\font
 
+mkdir .\dist\assets\animation
+copy .\assets\animation .\dist\assets\animation
+
+
 mkdir .\dist\src
 copy .\src .\dist\src

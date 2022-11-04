@@ -164,7 +164,7 @@ class Lazy {
         
         }
         tint(255,this.transparency);
-        image(imgList[IMAGE_LIST.LAZY_GHOST], this.x, this.deadPosY, this.width *1.5, this.height);
+        image(imgList[IMAGE_LIST.LAZY_GHOST], this.x, this.deadPosY, this.width, this.height);
         noTint();
     }
 
