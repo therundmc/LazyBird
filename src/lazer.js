@@ -4,23 +4,51 @@
  */
 
  class Lazer {
-    constructor (x, y, width, height) {
+    constructor (img, anim, x, y, width, height, duration) {
+        this.img = img;
+        this.anim = anim;
+        this.explosion = animList[ANIM_LIST.EXPLOSION];
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
-        this.img = 0;
+        this.deccel = 0.5;
+        this.duration = duration;
+        this.hit = false;
+
+        this.start = new Date().getTime();
+        this.delta = 0;
     }
 
     moveX(speed) {
         this.x -= speed;
-        this.width += speed / 10;
         this.draw();
     }
 
     stretchX(speed) {
-        this.width += speed;
+        this.deccel += this.width / 100;
+
+        this.x -= speed + this.deccel;
+        this.width += speed + this.deccel;
+
+        if (this.x < - windowWidth * 10) {
+            this.x = -windowWidth;
+            this.y = 0;
+            this.width = 0;
+            this.height = 0;   
+        }
+
         this.draw();
+
+        // if (this.isOnScreen()) {
+        //     this.x -= speed  + this.deccel;
+        //     this.width += speed + this.deccel;
+        // }
+        // else {
+        //     this.x += speed  + this.deccel;
+        //     this.width -= speed + this.deccel;
+        // }
+
     }
 
     isOnScreen() {
@@ -32,11 +60,28 @@
         }
     }
 
+    isDone() {
+        if (this.delta > this.duration) {
+            return true;
+        }
+    }
+
     draw() {
-        fill(255,50,0);
-        noStroke();
-        tint(255, 125);
-        rect(this.x, this.y, this.width, this.height);
-        noTint(255, 125);
+        this.delta = new Date().getTime() - this.start;
+        if (!this.hit) {
+            if (this.img != 0){
+                image(this.img, this.x, this.y, this.width, this.height)
+            }
+            else {
+                this.anim.draw(this.x, this.y, this.width, this.height);
+            }
+        }
+        else {
+            this.explosion.draw(this.x, this.y, this.width, this.height);
+        }
+    }
+
+    boom() {
+        this.hit = true;
     }
 }
