@@ -118,8 +118,6 @@ function preload() {
   animList[ANIM_LIST.BOSSY2] = (new Frame_animation (800,500,loadImage('assets/animation/bossy_animation.png'),177,95,96,6,3,1));
 }
 
-
-
 function setup() {
 
   windowWidth = (windowHeight) * SCREEN_RATIO;
@@ -148,11 +146,11 @@ function setup() {
   let lazySize = 0.8;
   let lazyWidth = windowHeight / (LAZY_W_RATIO / lazySize);
 
-  lazyList[LAZY_LIST.LAZY] = new Lazy(windowWidth / 2 - 5 * lazyWidth,  windowHeight / 4 - lazyWidth,  lazySize, animList[ANIM_LIST.LAZY]);
-  lazyList[LAZY_LIST.BUDDY] = new Lazy(windowWidth / 2 - 3 * lazyWidth, windowHeight / 4 + lazyWidth / 3, lazySize, animList[ANIM_LIST.BUDDY]);
+  lazyList[LAZY_LIST.LAZY] = new Lazy(windowWidth / 2 - 7 * lazyWidth,  windowHeight / 4 - lazyWidth,  lazySize, animList[ANIM_LIST.LAZY]);
+  lazyList[LAZY_LIST.BUDDY] = new Lazy(windowWidth / 2 - 4 * lazyWidth, windowHeight / 4 + lazyWidth / 3, lazySize, animList[ANIM_LIST.BUDDY]);
   lazyList[LAZY_LIST.BADDY] = new Lazy( windowWidth / 2 - lazyWidth, windowHeight / 4 - lazyWidth, lazySize, animList[ANIM_LIST.BADDY]);
-  lazyList[LAZY_LIST.CRAZY] = new Lazy( windowWidth / 2 + lazyWidth, windowHeight / 4 + lazyWidth / 3,lazySize, animList[ANIM_LIST.CRAZY]);
-  lazyList[LAZY_LIST.OLDY] = new Lazy( windowWidth / 2 + 3 * lazyWidth, windowHeight / 4 - lazyWidth, lazySize, animList[ANIM_LIST.OLDY]);
+  lazyList[LAZY_LIST.CRAZY] = new Lazy( windowWidth / 2 + 2 * lazyWidth, windowHeight / 4 + lazyWidth / 3,lazySize, animList[ANIM_LIST.CRAZY]);
+  lazyList[LAZY_LIST.OLDY] = new Lazy( windowWidth / 2 +  5 * lazyWidth, windowHeight / 4 - lazyWidth, lazySize, animList[ANIM_LIST.OLDY]);
 
   if (lazySelected < 0) {
     lazySelected = LAZY_LIST.LAZY;
@@ -160,12 +158,12 @@ function setup() {
   lazyList[lazySelected].select(true); 
 
   // Bad Lazy
-  robotyList[ROBOTY_LIST.ROBOTY] = new Lazy(windowWidth,  windowHeight * 0.6,  1.2, animList[ANIM_LIST.ROBOTY]);
+  robotyList[ROBOTY_LIST.ROBOTY] = new Lazy(windowWidth,  windowHeight * 0.2,  1.2, animList[ANIM_LIST.ROBOTY]);
 
   lazyKazeList[KAZE_LIST.LAZYKAZE] = new Lazy(windowWidth,  0,  0.8, animList[ANIM_LIST.LAZYKAZE]);
-  lazyKazeList[KAZE_LIST.LAZYKAZE2] = new Lazy(windowWidth* 1.5,  windowHeight * 0.5,  0.7, animList[ANIM_LIST.LAZYKAZE]);
+  lazyKazeList[KAZE_LIST.LAZYKAZE2] = new Lazy(windowWidth* 1.5,  windowHeight * 0.5,  0.8, animList[ANIM_LIST.LAZYKAZE]);
 
-  bossy = new Lazy(windowWidth,  windowHeight * 0.5,  5, animList[ANIM_LIST.BOSSY]);
+  bossy = new Lazy(windowWidth,  windowHeight * 0.5,  2.5, animList[ANIM_LIST.BOSSY]);
   
   // MISC
   score = 0;
@@ -184,6 +182,7 @@ function draw() {
       drawBg(0.5);
       drawMenuScreen();
       drawAllLazyStatic();
+      
       //shootMissileRoboty(GAME_SPEED_RESCALED * 0.5);
       break;
 
@@ -209,7 +208,7 @@ function draw() {
         // LEVEL 1 => LEVEL 2
         case 2:
           drawPipes(GAME_SPEED_RESCALED, SIZE_PIPE_MED);
-          robotyList[ROBOTY_LIST.ROBOTY].moveX(GAME_SPEED_RESCALED / 4);
+          robotyList[ROBOTY_LIST.ROBOTY].moveX(GAME_SPEED_RESCALED *0.4);
           playSound(soundList[SOUND_LIST.ROBOTY] , 0.7); 
           if (score > SCORE.LVL1 + 1) {
             gameStage++; 
@@ -220,8 +219,8 @@ function draw() {
         // LEVEL 2
         case 3:
           drawPipes(GAME_SPEED_RESCALED, SIZE_PIPE_EASY);
-          drawRoboty(GAME_SPEED_RESCALED * 0.5);
-          shootShortRoboty(GAME_SPEED_RESCALED);
+          drawRoboty(GAME_SPEED_RESCALED * 0.6);
+          shootLongRoboty(GAME_SPEED_RESCALED);
           if (score > SCORE.LVL2) {
             gameStage++; 
           }
@@ -230,8 +229,7 @@ function draw() {
         // LEVEL 2 => 3
         case 4:
           drawPipes(GAME_SPEED_RESCALED, SIZE_PIPE_EASY);
-          drawRoboty(GAME_SPEED_RESCALED * 0.5);
-          shootShortRoboty(GAME_SPEED_RESCALED);
+          drawRoboty(GAME_SPEED_RESCALED * 0.6);
           playSound(soundList[SOUND_LIST.LAZYKAZE] , 0.8); 
           if (score > SCORE.LVL2 + 1) {
             gameStage++; 
@@ -241,9 +239,9 @@ function draw() {
 
         // LEVEL 3
         case 5:
-          drawPipes(GAME_SPEED_RESCALED, SIZE_PIPE_MED);
-          drawRoboty(GAME_SPEED_RESCALED * 0.8);
-          shootLongRoboty(GAME_SPEED_RESCALED);
+          drawPipes(GAME_SPEED_RESCALED, SIZE_PIPE_EASY);
+          drawRoboty(GAME_SPEED_RESCALED);
+          shootShortRoboty(GAME_SPEED_RESCALED);
           drawLazyKaze(GAME_SPEED_RESCALED);
           if (score > SCORE.LVL3) {
             gameStage++; 
@@ -253,8 +251,8 @@ function draw() {
         // LEVEL 3 => 4
         case 6:
           drawPipes(GAME_SPEED_RESCALED, SIZE_PIPE_MED);
-          bossy.moveX(GAME_SPEED_RESCALED * 0.5);
-          robotyList[ROBOTY_LIST.ROBOTY].moveX(-GAME_SPEED_RESCALED / 4);
+          bossy.moveX(GAME_SPEED_RESCALED * 0.4);
+          robotyList[ROBOTY_LIST.ROBOTY].moveX(-GAME_SPEED_RESCALED * 0.4);
           playSound(soundList[SOUND_LIST.ROBOTY] , 0.7); 
           if (score > SCORE.LVL3 + 1) {
             gameStage++; 
@@ -265,21 +263,35 @@ function draw() {
         // LEVEL 4
         case 7:
           drawPipes(GAME_SPEED_RESCALED, SIZE_PIPE_MED);
-          drawBossy(GAME_SPEED_RESCALED);
+          bossy.moveX(GAME_SPEED_RESCALED * 0.03);
+          drawBossy(GAME_SPEED_RESCALED * 0.3);
           shootMissileBossy(GAME_SPEED_RESCALED * 0.5, 2000);
           if (score > SCORE.LVL4) {
-            level++;
+            gameStage++; 
+          }
+          break;
+
+        // LEVEL  4 ==> 5
+        case 8:
+          drawPipes(GAME_SPEED_RESCALED, SIZE_PIPE_MED);
+          drawBossy(GAME_SPEED_RESCALED * 0.3);
+          shootMissileBossy(GAME_SPEED_RESCALED * 0.5, 1500);
+          playSound(soundList[SOUND_LIST.ROBOTY] , 0.7); 
+          playSound(soundList[SOUND_LIST.LAZYKAZE] , 0.8); 
+          if (score > SCORE.LVL4 + 1) {
             gameStage++; 
           }
           break;
 
           // LEVEL 5
-        case 8:
+        case 9:
+          bossy.moveX(GAME_SPEED_RESCALED * 0.05);
           drawPipes(GAME_SPEED_RESCALED, SIZE_PIPE_MED);
-          drawBossy(GAME_SPEED_RESCALED);
-          shootMissileBossy(GAME_SPEED_RESCALED * 0.5, 2000);
+          drawBossy(GAME_SPEED_RESCALED * 0.3);
+          shootMissileBossy(GAME_SPEED_RESCALED * 0.5, 1500);
           shootShortBossy(GAME_SPEED_RESCALED);
-          // if (score > SCORE.LVL4) {
+          drawLazyKaze(GAME_SPEED_RESCALED);
+          // if (score > SCORE.LVL5) {
           //   level++;
           //   gameStage++; 
           // }
@@ -751,6 +763,6 @@ function moveToSpecLazy(lazy, x, y, speed, accel, bound) {
 
 function drawAllLazyStatic() {
   for (i=0; i<LAZY_LIST.COUNT; i++) {
-    lazyList[i].moveTo(NaN, NaN, 0, 0, 0);
+    lazyList[i].draw();
   }
 }

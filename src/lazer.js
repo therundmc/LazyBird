@@ -26,10 +26,19 @@
     }
 
     stretchX(speed) {
-        this.deccel += this.width / 10;
+        this.deccel += this.width / 100;
 
         this.x -= speed + this.deccel;
         this.width += speed + this.deccel;
+
+        if (this.x < - windowWidth * 10) {
+            this.x = -windowWidth;
+            this.y = 0;
+            this.width = 0;
+            this.height = 0;   
+        }
+
+        this.draw();
 
         // if (this.isOnScreen()) {
         //     this.x -= speed  + this.deccel;
@@ -39,7 +48,7 @@
         //     this.x += speed  + this.deccel;
         //     this.width -= speed + this.deccel;
         // }
-        this.draw();
+
     }
 
     isOnScreen() {

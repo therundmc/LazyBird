@@ -11,7 +11,7 @@ class Lazy {
         this.x = x;
         this.y = y;
         this.size = size;
-        this.width = windowHeight / (LAZY_W_RATIO / size); // Lazy is a square
+        this.width = windowWidth / (LAZY_W_RATIO / size); // Lazy is a square
         this.height = windowHeight / (LAZY_H_RATIO / size);
         this.img = img;
         this.deccel = 1 * windowHeight  / GRAVITY_FORCE;
@@ -198,14 +198,14 @@ class Lazy {
                 this.shooting = true;
             }
             else{
-                this.lazerShort = new Lazer(imgList[IMAGE_LIST.LAZER_SHORT], 0, this.x, this.y + this.width/2, this.width, this.height/16, 1200);
+                this.lazerShort = new Lazer(imgList[IMAGE_LIST.LAZER_SHORT], 0, this.x, this.y + this.width/2, this.width * 0.6, this.height/16, 1200);
                 forcePlaySound(soundList[SOUND_LIST.LAZER], 0.8);
                 this.shooting = false;
             }
         }
         else {
             forcePlaySound(soundList[SOUND_LIST.LAZER], 0.8);
-            this.lazerShort = new Lazer(imgList[IMAGE_LIST.LAZER_SHORT], 0, this.x, this.y + this.width/2, this.width, this.height/16, 1200);
+            this.lazerShort = new Lazer(imgList[IMAGE_LIST.LAZER_SHORT], 0, this.x, this.y + this.width/2, this.width * 0.6, this.height/16, 1200);
         }
     }
 
@@ -213,18 +213,18 @@ class Lazy {
         if (this.lazerLong != null) {
             if (!this.lazerLong.isDone()) {
                 this.lazerLong.stretchX(speed);
-                this.lazerLong.y = this.y + this.height/3;
+                this.lazerLong.y = this.y + this.height * 0.5;
                 this.shooting = true;
             }
             else{
-                this.lazerLong = new Lazer(imgList[IMAGE_LIST.LAZER_LONG], 0, this.x - this.width * 0.25, this.y + this.height/3, this.width / 2, this.height * 0.4, 3000);
+                this.lazerLong = new Lazer(imgList[IMAGE_LIST.LAZER_LONG], 0, this.x - this.width * 0.3, this.y + this.height, this.width / 2, this.height * 0.3, 3000);
                 playSound(soundList[SOUND_LIST.LAZER_LONG], 0.8);
                 this.shooting = false;
             }
         }
         else {
             playSound(soundList[SOUND_LIST.LAZER_LONG], 0.8);
-            this.lazerLong = new Lazer(imgList[IMAGE_LIST.LAZER_LONG], 0, this.x - this.width * 0.25, this.y + this.height/3, this.width / 2, this.height * 0.4, 3000);
+            this.lazerLong = new Lazer(imgList[IMAGE_LIST.LAZER_LONG], 0, this.x - this.width * 0.3, this.y + this.height, this.width / 2, this.height * 0.3, 3000);
         }
     }
 
@@ -236,14 +236,14 @@ class Lazy {
                 this.shooting = true;
             }
             else{
-                this.missile = new Lazer(0, animList[ANIM_LIST.MISSILE], this.x - this.width * 0.25, this.y + this.height/3, this.width * 0.25, this.height * 0.25, freq);
+                this.missile = new Lazer(0, animList[ANIM_LIST.MISSILE], this.x + this.width * 0.5, this.y + this.height * 0.6, this.width * 0.6, this.height * 0.13, freq);
                 forcePlaySound(soundList[SOUND_LIST.MISSILE], 0.8);
                 this.shooting = false;
             }
         }
         else {
             forcePlaySound(soundList[SOUND_LIST.MISSILE], 0.8);
-            this.missile = new Lazer(0, animList[ANIM_LIST.MISSILE], this.x - this.width * 0.25, this.y + this.height/3, this.width * 0.25, this.height * 0.25, freq);
+            this.missile = new Lazer(0, animList[ANIM_LIST.MISSILE], this.x + this.width * 0.5, this.y + this.height * 0.6, this.width * 0.5, this.height * 0.13, freq);
         }
     }
 
@@ -285,8 +285,8 @@ class Lazy {
     }
 
     resize() {
-        this.height = windowHeight / (LAZY_W_RATIO / this.size);
-        this.width = windowHeight / (LAZY_H_RATIO / this.size);
+        this.height = windowHeight / (LAZY_H_RATIO / this.size);
+        this.width = windowWidth / (LAZY_W_RATIO / this.size);
         this.draw();
     }
 

@@ -29,8 +29,8 @@
  const PIPE_W_RATIO = 10;
  const PIPE_H_RATIO = 1;
 
- const LAZY_W_RATIO = 8;
- const LAZY_H_RATIO = 8;
+ const LAZY_W_RATIO = 12;
+ const LAZY_H_RATIO = 9;
 
  const TITLE_W_RATIO = 2;
  const TITLE_H_RATIO = 7;
@@ -67,8 +67,9 @@
  const SCORE = {
     LVL1: 5,
     LVL2: 15,
-    LVL3: 20,
-    LVL4: 30,
+    LVL3: 25,
+    LVL4: 35,
+    LVL5: 45,
 }
 
 // IMAGES
