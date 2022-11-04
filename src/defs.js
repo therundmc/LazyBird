@@ -43,7 +43,7 @@
  const SIZE_PIPE_HARD = 0.6;
 
  const AFTER_HIT = 300;
- const LIVES = 10;
+ const LIVES = 5;
 
  // SOUNDS
  const SOUND_LIST = {
