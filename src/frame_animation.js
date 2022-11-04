@@ -18,12 +18,12 @@
         this.animationInv = animationInv;
         this.sens = 1;
     }
-    draw(x, y, scale) {
+    draw(x, y,width,height) {
         this.x = x;
         this.y = y;
-        this.scale = scale;
 
-        image(this.img, this.x, this.y, this.frame_width*this.scale, this.frame_height*this.scale,this.frame_width*this.animFrame+1,this.sourceY,this.frame_width,this.frame_height);
+        //image(this.img, this.x, this.y, this.frame_width*this.scale, this.frame_height*this.scale,this.frame_width*this.animFrame+1,this.sourceY,this.frame_width,this.frame_height);
+        image(this.img, this.x, this.y, width, height,this.frame_width*this.animFrame+1,this.sourceY,this.frame_width,this.frame_height);
         let now = new Date().getTime();
             let delta = now - this.last;
                 if (delta >= 33) {
@@ -50,9 +50,9 @@
             }
     } 
 
-    drawSpecFrame(frame) {
+    drawSpecFrame(frame,width,height) {
         this.animFrame = frame;
-        image(this.img, this.x, this.y, this.frame_width*this.scale, this.frame_height*this.scale,this.frame_width*this.animFrame+1,this.sourceY,this.frame_width,this.frame_height);
+        image(this.img, this.x, this.y, width, height,this.frame_width*this.animFrame+1,this.sourceY,this.frame_width,this.frame_height);
     }
 
     isDone() {

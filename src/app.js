@@ -165,7 +165,7 @@ function setup() {
   lazyKazeList[KAZE_LIST.LAZYKAZE] = new Lazy(windowWidth,  0,  0.8, animList[ANIM_LIST.LAZYKAZE]);
   lazyKazeList[KAZE_LIST.LAZYKAZE2] = new Lazy(windowWidth* 1.5,  windowHeight * 0.5,  0.7, animList[ANIM_LIST.LAZYKAZE]);
 
-  bossy = new Lazy(windowWidth,  windowHeight * 0.5,  1, animList[ANIM_LIST.BOSSY]);
+  bossy = new Lazy(windowWidth,  windowHeight * 0.5,  5, animList[ANIM_LIST.BOSSY]);
   
   // MISC
   score = 0;

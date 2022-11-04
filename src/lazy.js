@@ -152,7 +152,7 @@ class Lazy {
     }
 
     drawBumk(){
-        this.img.drawSpecFrame(5);
+        this.img.drawSpecFrame(5,this.width, this.height);
         this.now = new Date().getTime()
         this.delta = this.now - this.last;
 
@@ -170,7 +170,7 @@ class Lazy {
 
     drawBoom(){
 
-        this.explosion.draw(this.x, this.y, this.width / 15);
+        this.explosion.draw(this.x, this.y,this.width*1.5, this.height*1.5);
         if (this.explosion.isDone()) {
             this.exploded = true;
         }
@@ -236,20 +236,21 @@ class Lazy {
                 this.shooting = true;
             }
             else{
-                this.missile = new Lazer(0, animList[ANIM_LIST.MISSILE], this.x - this.width * 0.25, this.y + this.height/3, this.width * 0.5, this.height * 0.25, freq);
+                this.missile = new Lazer(0, animList[ANIM_LIST.MISSILE], this.x - this.width * 0.25, this.y + this.height/3, this.width * 0.25, this.height * 0.25, freq);
                 forcePlaySound(soundList[SOUND_LIST.MISSILE], 0.8);
                 this.shooting = false;
             }
         }
         else {
             forcePlaySound(soundList[SOUND_LIST.MISSILE], 0.8);
-            this.missile = new Lazer(0, animList[ANIM_LIST.MISSILE], this.x - this.width * 0.25, this.y + this.height/3, this.width * 0.5, this.height * 0.25, freq);
+            this.missile = new Lazer(0, animList[ANIM_LIST.MISSILE], this.x - this.width * 0.25, this.y + this.height/3, this.width * 0.25, this.height * 0.25, freq);
         }
     }
 
     draw() {
 
-        this.img.draw(this.x, this.y, (this.width / 32)); // TODO calculate precisely scale
+        //this.img.draw(this.x, this.y, (this.width / 32)); // TODO calculate precisely scale
+        this.img.draw(this.x, this.y,this.width, this.height); // TODO calculate precisely scale
         //  image(this.img[this.animFrame], this.x, this.y, this.width, this.height);
         //  this.now = new Date().getTime()
         //  this.delta = this.now - this.last;

@@ -64,11 +64,11 @@
                 image(this.img, this.x, this.y, this.width, this.height)
             }
             else {
-                this.anim.draw(this.x, this.y, this.width / 15);
+                this.anim.draw(this.x, this.y, this.width, this.height);
             }
         }
         else {
-            this.explosion.draw(this.x, this.y, this.width / 15);
+            this.explosion.draw(this.x, this.y, this.width, this.height);
         }
     }
 
