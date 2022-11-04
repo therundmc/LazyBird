@@ -92,8 +92,15 @@ const ANIM_LIST = {
     OLDY: 4,
     ROBOTY: 5,
     LAZYKAZE: 6,
+    MISSILE: 7,
+    LAZER_SHORT: 8,
+    LAZER_LONG: 9,
+    EXPLOSION: 10,
+    FIRE: 11,
+    BOSSY: 12,
+    BOSSY2: 13,
     // ---
-    COUNT: 7,
+    COUNT: 14,
 
 }
 
@@ -128,7 +135,7 @@ const KAZE_LIST = {
 
 // CAUSE OF DEATH
 const DEATH = {
-    LAZYKAZE: 0,
+    BOOM: 0,
     OTHER: 1,
     // ---
     COUNT: 2,
