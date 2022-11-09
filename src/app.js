@@ -16,7 +16,7 @@ function preload() {
   soundList[SOUND_LIST.BOOM] = loadSound('assets/sound/boom.wav');
   soundList[SOUND_LIST.ROBOTY] = loadSound('assets/sound/roboty.wav');
   soundList[SOUND_LIST.LAZYKAZE] = loadSound('assets/sound/lazykaze.mp3');
-  soundList[SOUND_LIST.LAZER_LONG] = loadSound('assets/sound/lazerLong.ogg');
+  soundList[SOUND_LIST.LAZER_LONG] = loadSound('assets/sound/lazerLong.mp3');
   soundList[SOUND_LIST.MISSILE] = loadSound('assets/sound/missile.wav');
 
   // Images
@@ -587,13 +587,11 @@ for(i=0; i < KAZE_LIST.COUNT; i++) {
 function handleSound() {
   switch (gameState) {
     case STATES.MENU:
-      stopSound(soundList[SOUND_LIST.SONG]);
-      playSound(soundList[SOUND_LIST.MENU] , 0.7); 
+      playSound(soundList[SOUND_LIST.SONG] , 0.5); 
       break;
 
 
     case STATES.PLAY:
-      stopSound(soundList[SOUND_LIST.MENU]);
       playSound(soundList[SOUND_LIST.SONG], 0.7);
       break;
 
@@ -602,8 +600,7 @@ function handleSound() {
       break;
 
     case STATES.GAME_OVER:
-      stopSound(soundList[SOUND_LIST.SONG]);
-      playSound(soundList[SOUND_LIST.MENU], 0.7);
+      stopSound(soundList[SOUND_LIST.SONG], 0.7);
       break;
       
     default:
