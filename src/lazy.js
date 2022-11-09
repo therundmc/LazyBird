@@ -174,21 +174,6 @@ class Lazy {
         if (this.explosion.isDone()) {
             this.exploded = true;
         }
-        // this.now = new Date().getTime()
-        // this.delta = this.now - this.last;
-        // if (this.delta >= 60 && this.boomFrame < 14) {
-            
-        //     this.last = this.now;
-        //     this.boomFrame++;
-        // }
-
-        // if (this.boomFrame < 14){
-        //     image(BOOM[this.boomFrame], this.x - this.width , this.y - this.height, this.width * 3, this.height * 3);
-        // }
-        // else {
-        //     this.exploded = true;
-        //     this.boomFrame = 0;
-        // }
     }
 
     shootLazerShort(speed) {
@@ -237,37 +222,18 @@ class Lazy {
             }
             else{
                 this.missile = new Lazer(0, animList[ANIM_LIST.MISSILE], this.x + this.width * 0.5, this.y + this.height * 0.6, this.width * 0.6, this.height * 0.13, freq);
-                forcePlaySound(soundList[SOUND_LIST.MISSILE], 0.8);
+                forcePlaySound(soundList[SOUND_LIST.MISSILE], 0.4);
                 this.shooting = false;
             }
         }
         else {
-            forcePlaySound(soundList[SOUND_LIST.MISSILE], 0.8);
+            forcePlaySound(soundList[SOUND_LIST.MISSILE], 0.4);
             this.missile = new Lazer(0, animList[ANIM_LIST.MISSILE], this.x + this.width * 0.5, this.y + this.height * 0.6, this.width * 0.5, this.height * 0.13, freq);
         }
     }
 
     draw() {
-
-        //this.img.draw(this.x, this.y, (this.width / 32)); // TODO calculate precisely scale
         this.img.draw(this.x, this.y,this.width, this.height); // TODO calculate precisely scale
-        //  image(this.img[this.animFrame], this.x, this.y, this.width, this.height);
-        //  this.now = new Date().getTime()
-        //  this.delta = this.now - this.last;
-
-        //  if (this.delta >= 33 && this.animate) {
-        //      this.animFrame += this.animSens;
-        //     if(this.animFrame >= 4)
-        //     {
-        //         this.animSens = -1;
-        //         //this.animFrame = 0;
-        //     }
-        //     if(this.animFrame <= 0)
-        //     {
-        //         this.animSens = 1;
-        //     }
-        //     this.last = this.now;
-        // }
     }
 
     select(select) {
