@@ -587,12 +587,14 @@ for(i=0; i < KAZE_LIST.COUNT; i++) {
 function handleSound() {
   switch (gameState) {
     case STATES.MENU:
-      playSound(soundList[SOUND_LIST.SONG] , 0.5); 
+      stopSound(soundList[SOUND_LIST.SONG] , 0.5);
+      playSound(soundList[SOUND_LIST.MENU] , 0.5); 
       break;
 
 
     case STATES.PLAY:
-      playSound(soundList[SOUND_LIST.SONG], 0.7);
+      stopSound(soundList[SOUND_LIST.MENU] , 0.5);
+      playSound(soundList[SOUND_LIST.SONG] , 0.5); 
       break;
 
     case STATES.PAUSE:
