@@ -16,7 +16,7 @@ function preload() {
   soundList[SOUND_LIST.BOOM] = loadSound('assets/sound/boom.wav');
   soundList[SOUND_LIST.ROBOTY] = loadSound('assets/sound/roboty.wav');
   soundList[SOUND_LIST.LAZYKAZE] = loadSound('assets/sound/lazykaze.mp3');
-  soundList[SOUND_LIST.LAZER_LONG] = loadSound('assets/sound/lazerLong.mp3');
+  soundList[SOUND_LIST.LAZER_LONG] = loadSound('assets/sound/LazerLong.mp3');
   soundList[SOUND_LIST.MISSILE] = loadSound('assets/sound/missile.wav');
 
   // Images
