@@ -104,8 +104,10 @@ const ANIM_LIST = {
     FIRE: 11,
     BOSSY: 12,
     BOSSY2: 13,
+	APPLE: 14,
+	SHIELD: 15,
     // ---
-    COUNT: 14,
+    COUNT: 16,
 
 }
 

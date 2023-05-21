@@ -49,6 +49,11 @@ function preload() {
   animList[ANIM_LIST.FIRE] = (new Frame_animation (250,200,loadImage('assets/animation/fire_animation.png'),21,31,0,9,3,0));
   animList[ANIM_LIST.BOSSY] = (new Frame_animation (250,500,loadImage('assets/animation/bossy_animation.png'),177,95,0,6,3,1));
   animList[ANIM_LIST.BOSSY2] = (new Frame_animation (800,500,loadImage('assets/animation/bossy_animation.png'),177,95,96,6,3,1));
+	
+  animList[ANIM_LIST.APPLE] = new Frame_animation (250,250,loadImage('assets/animation/apple_animation.png'),32,42,0,4,2,1);
+  animList[ANIM_LIST.SHIELD] = new Frame_animation (250,250,loadImage('assets/animation/bouclier_animation.png'),32,42,0,4,2,1);
+	
+	
 }
 
 function setup() {
@@ -97,6 +102,11 @@ function setup() {
   lazyKazeList[KAZE_LIST.LAZYKAZE2] = new Lazy(windowWidth* 1.5,  windowHeight * 0.5,  0.8, animList[ANIM_LIST.LAZYKAZE]);
 
   bossy = new Lazy(windowWidth,  windowHeight * 0.5,  2.5, animList[ANIM_LIST.BOSSY]);
+	
+  //Pickups
+  apple_pickup = new Pickups(animList[ANIM_LIST.APPLE],windowHeight/2 - 50);
+  shield_pickup = new Pickups(animList[ANIM_LIST.SHIELD],windowHeight/2 + 50);
+  shield_color = color(200,128);
   
   // MISC
   score = 0;
@@ -131,8 +141,12 @@ function draw() {
         // LEVEL 1
         case 1:
           drawPipes(GAME_SPEED_RESCALED, SIZE_PIPE_MED);
+		  apple_pickup.moveX(GAME_SPEED_RESCALED);
+		  shield_pickup.moveX(GAME_SPEED_RESCALED);
           if (score > SCORE.LVL1) {
             gameStage++; 
+			apple_pickup.reset();
+			shield_pickup.reset();
           }
           break;
 
@@ -141,9 +155,12 @@ function draw() {
           drawPipes(GAME_SPEED_RESCALED, SIZE_PIPE_MED);
           robotyList[ROBOTY_LIST.ROBOTY].moveX(GAME_SPEED_RESCALED *0.4);
           playSound(soundList[SOUND_LIST.ROBOTY] , 0.7); 
+		  apple_pickup.moveX(GAME_SPEED_RESCALED);
+		  shield_pickup.moveX(GAME_SPEED_RESCALED);
           if (score > SCORE.LVL1 + 1) {
             gameStage++; 
             level++;
+			
           }
           break;
 
@@ -152,8 +169,12 @@ function draw() {
           drawPipes(GAME_SPEED_RESCALED, SIZE_PIPE_EASY);
           drawRoboty(GAME_SPEED_RESCALED * 0.6);
           shootShortRoboty(GAME_SPEED_RESCALED);
+		  apple_pickup.moveX(GAME_SPEED_RESCALED);
+			  shield_pickup.moveX(GAME_SPEED_RESCALED);
           if (score > SCORE.LVL2) {
             gameStage++; 
+			apple_pickup.reset();
+			  shield_pickup.reset();
           }
           break;
 
@@ -162,6 +183,8 @@ function draw() {
           drawPipes(GAME_SPEED_RESCALED, SIZE_PIPE_EASY);
           drawRoboty(GAME_SPEED_RESCALED * 0.6);
           playSound(soundList[SOUND_LIST.LAZYKAZE] , 0.8); 
+		  apple_pickup.moveX(GAME_SPEED_RESCALED);
+			  shield_pickup.moveX(GAME_SPEED_RESCALED);
           if (score > SCORE.LVL2 + 1) {
             gameStage++; 
             level++;
@@ -174,8 +197,12 @@ function draw() {
           drawRoboty(GAME_SPEED_RESCALED * 0.4);
           shootLongRoboty(GAME_SPEED_RESCALED);
           drawLazyKaze(GAME_SPEED_RESCALED);
+		  apple_pickup.moveX(GAME_SPEED_RESCALED);
+			  shield_pickup.moveX(GAME_SPEED_RESCALED);
           if (score > SCORE.LVL3) {
             gameStage++; 
+			  apple_pickup.reset();
+			  shield_pickup.reset();
           }
           break;
 
@@ -185,6 +212,8 @@ function draw() {
           bossy.moveX(GAME_SPEED_RESCALED * 0.4);
           robotyList[ROBOTY_LIST.ROBOTY].moveX(-GAME_SPEED_RESCALED * 0.4);
           playSound(soundList[SOUND_LIST.ROBOTY] , 0.7); 
+		  apple_pickup.moveX(GAME_SPEED_RESCALED);
+			  shield_pickup.moveX(GAME_SPEED_RESCALED);
           if (score > SCORE.LVL3 + 1) {
             gameStage++; 
             level++;
@@ -197,8 +226,12 @@ function draw() {
           bossy.moveX(GAME_SPEED_RESCALED * 0.03);
           drawBossy(GAME_SPEED_RESCALED * 0.3);
           shootMissileBossy(GAME_SPEED_RESCALED * 0.5, 2000);
+		  apple_pickup.moveX(GAME_SPEED_RESCALED);
+			  shield_pickup.moveX(GAME_SPEED_RESCALED);
           if (score > SCORE.LVL4) {
             gameStage++; 
+			  apple_pickup.reset();
+			  shield_pickup.reset();
           }
           break;
 
@@ -208,6 +241,8 @@ function draw() {
           drawBossy(GAME_SPEED_RESCALED * 0.3);
           shootMissileBossy(GAME_SPEED_RESCALED * 0.5, 1500);
           playSound(soundList[SOUND_LIST.ROBOTY] , 0.7); 
+		  apple_pickup.moveX(GAME_SPEED_RESCALED);
+			  shield_pickup.moveX(GAME_SPEED_RESCALED);
           if (score > SCORE.LVL4 + 1) {
             gameStage++; 
           }
@@ -220,9 +255,13 @@ function draw() {
           drawBossy(GAME_SPEED_RESCALED * 0.3);
           shootMissileBossy(GAME_SPEED_RESCALED * 0.5, 1500);
           shootShortBossy(GAME_SPEED_RESCALED);
+		  apple_pickup.moveX(GAME_SPEED_RESCALED);
+			  shield_pickup.moveX(GAME_SPEED_RESCALED);
           if (score > SCORE.LVL5) {
             level++;
             gameStage++; 
+			  apple_pickup.reset();
+			  shield_pickup.reset();
           }
           break;
 
@@ -233,6 +272,8 @@ function draw() {
             drawBossy(GAME_SPEED_RESCALED * 0.3);
             shootMissileBossy(GAME_SPEED_RESCALED * 0.5, 1500);
             drawLazyKaze(GAME_SPEED_RESCALED);
+			apple_pickup.moveX(GAME_SPEED_RESCALED);
+			  shield_pickup.moveX(GAME_SPEED_RESCALED);
             // if (score > SCORE.LVL5) {
             //   level++;
             //   gameStage++; 
@@ -582,6 +623,23 @@ for(i=0; i < KAZE_LIST.COUNT; i++) {
     }
   }
 }
+
+if (apple_pickup.active && isCollision(apple_pickup, lazyHitBox))
+{
+	apple_pickup.active = false;
+	lazyList[lazySelected].lives = LIVES;
+	
+}
+	
+if (shield_pickup.active && isCollision(shield_pickup, lazyHitBox))
+{
+	shield_pickup.active = false;
+	shield_pickup.last = new Date().getTime();
+	lazyList[lazySelected].shielded = true;
+	
+}
+	
+
 }
 
 function handleSound() {

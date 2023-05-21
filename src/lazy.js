@@ -43,6 +43,7 @@ class Lazy {
         this.exploded = false;
         this.lives = LIVES;
         this.invincibility = false;
+		this.shielded = false;
 
         this.explosion = animList[ANIM_LIST.EXPLOSION];
 
@@ -110,6 +111,10 @@ class Lazy {
     }
 
     hit(sound, impactDirection) {
+		
+		if(this.shielded)
+			return this.lives;
+		
         if(!this.invincibility) {
             background(255, 0, 0);
             forcePlaySound(sound, 0.8);
@@ -234,6 +239,21 @@ class Lazy {
 
     draw() {
         this.img.draw(this.x, this.y,this.width, this.height); // TODO calculate precisely scale
+		
+		//draw shield
+		if(this.shielded)
+		{
+			fill(shield_color)
+			stroke("white")
+			circle(this.x + this.width/2, this.y + this.height/2,this.width)
+			
+			//check shield duration
+			 let now = new Date().getTime();
+             let delta = now - shield_pickup.last;
+                if (delta >= 5000) {
+                    this.shielded = false;
+				}
+		}
     }
 
     select(select) {
